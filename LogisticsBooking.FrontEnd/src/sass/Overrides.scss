@@ -1,0 +1,242 @@
+ /** NAV **/
+
+ .sidebar-dark hr.sidebar-divider {
+   border-top: 0px solid   black;
+ }
+
+ .sidebar-dark .sidebar-heading {
+   color: #818E94;
+ }
+
+ .sidebar-dark .nav-item .nav-link {
+   color: #818E94;
+ }
+
+
+
+ .sidebar-dark .nav-item .nav-link i {
+   color: #818E94;
+ }
+
+ .sidebar-dark .nav-item.active .nav-link i {
+   color: #818E94;
+ }
+
+ .sidebar-dark .nav-item.active .nav-link:hover {
+   color: #FF5A87;
+ }
+
+ .sidebar-dark .nav-item .nav-link:active i, .sidebar-dark .nav-item .nav-link:focus i, .sidebar-dark .nav-item .nav-link:hover i {
+   color: #FF5A87;
+ 
+ }
+
+ .sidebar-dark .nav-item .nav-link i:hover {
+   color: #FF5A87;
+ }
+
+ 
+
+ .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
+   color: #FF5A87;
+ }
+
+
+
+ .sidebar-dark .sidebar-brand {
+   color: #FF5A87;
+ }
+ 
+ .bg-gradient-primary {
+   background-color: #FFFFFF;
+   background-image: none;
+   background-image: none;
+   background-size: cover;
+ }
+
+
+
+
+ .sidebar .sidebar-brand .sidebar-brand-text .toggled {
+   display: inline;
+   color: #FF5A87;
+   font-size: 32px;
+ }
+
+ .sidebar .sidebar-brand .sidebar-brand-text  {
+   display: inline;
+   color: #FF5A87;
+   font-size: 32px;
+ }
+
+
+
+ .sidebar-dark .nav-item.active .nav-link {
+   color: #818E94;
+ }
+
+ .btn-primary {
+   color: white;
+   background-color: #FF5A87;
+   border-color: #FF5A87;
+ }
+
+ .btn-primary:hover {
+   color: #fff;
+   background-color: #FF5A87;
+   border-color: #FF5A87;
+ }
+
+ .badge-danger {
+   color: #fff;
+   background-color: #FF5A87;
+ }
+
+ .sidebar-dark #sidebarToggle {
+     color: #fff;
+   background-color:  #818E94;
+   }
+
+ .sidebar-dark #sidebarToggle::after {
+   background-color:  #818E94;
+   color: #fff;
+ }
+
+ .sidebar-dark.toggled #sidebarToggle::after {
+   color: #fff;
+ }
+
+ .sidebar-dark #sidebarToggle:hover {
+   color: #fff;
+background-color:  #818E94;
+ }
+
+ @media (min-width: 768px) {
+   .sidebar .nav-item .nav-link span {
+     color: #818E94;
+   }
+ }
+
+ @media (min-width: 768px) {
+   .sidebar .sidebar-brand .sidebar-brand-text {
+     display: inline;
+     color: #FF5A87;
+     font-size: 44px;
+   }
+ }
+ @media (min-width: 768px) {
+   .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
+     color: #FF5A87;
+   }
+ }
+
+ @media (min-width: 768px){
+   .sidebar .nav-item .nav-link[data-toggle="collapse"].collapsed::after {
+     content: '\f105';
+     color: #818E94;
+   }
+
+ }
+
+ @media (min-width: 768px) {
+   .sidebar.toggled .sidebar-brand .sidebar-brand-text {
+     display: inline-block;
+     font-size: 32px;
+   }
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ /** CARDS **/
+
+ .card-header {
+   background-color: #F4F7FC;
+
+ }
+
+
+ #wrapper #content-wrapper {
+   background-color: #F4F7FC;
+ }
+
+ .text-primary {
+   color: #2680EB!important;
+ }
+
+
+
+ div.small-width  div.col {
+
+   -ms-flex: 0 0 7%;
+   flex: 0 0 7%;
+ }
+
+ .circle-active {
+   background: #FFE5EC;
+   border-radius: 3.6em;
+   -moz-border-radius: 3.6em;
+   -webkit-border-radius: 3.6em;
+   color: #FF5A87;
+   display: inline-block;
+   border: 1px solid #FFE5EC;
+   line-height: 3.6em;
+   margin-right: 5px;
+   text-align: center;
+   width: 3.6em;
+ }
+
+ .circle {
+   background: white;
+   border-radius: 3.6em;
+   -moz-border-radius: 3.6em;
+   -webkit-border-radius: 3.6em;
+   color: #818E94;
+   display: inline-block;
+
+   border: 1px solid white;
+   line-height: 3.6em;
+   margin-right: 5px;
+   text-align: center;
+   width: 3.6em;
+ }
+
+ .circle-inactive {
+   background: white;
+   border-radius: 3.6em;
+   -moz-border-radius: 3.6em;
+   -webkit-border-radius: 3.6em;
+   color: #818E94;
+   display: inline-block;
+
+   border: 1px solid white;
+   line-height: 3.6em;
+   margin-right: 5px;
+   text-align: center;
+   width: 3.6em;
+ }
+
+
+ .circle-active-1 {
+   background: white;
+   border-radius: 3.6em;
+   -moz-border-radius: 3.6em;
+   -webkit-border-radius: 3.6em;
+   border: 1px solid #FFE5EC;
+   color: #FF5A87;
+   display: inline-block;
+
+   line-height: 3.6em;
+   margin-right: 5px;
+   text-align: center;
+   width: 3.6em;
+ }
+
+
+ .day {
+   color: black;
+   font-weight: bold;
+ }
+ 

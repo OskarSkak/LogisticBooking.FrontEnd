@@ -1,0 +1,203 @@
+
+body {
+    height: 100vh;
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+.module {
+
+    height: 100%;
+    width: 100%;
+    background: url(../Mask@2x.png);
+    background-size: cover;
+}
+.darken {
+    background-image:
+            linear-gradient(
+                    rgba(255, 90, 135, 0.5),
+                    rgba(255, 90, 135, 0.5)
+            ),
+            url(../Mask@2x.png);
+}
+
+
+#outer-row  {
+    height: 100%;
+    margin: 0;
+}
+
+
+.padding-0 {
+    padding: 0px;
+}
+
+.flex-center {
+    display:flex;
+    align-items:center;
+}
+@media ( min-width:768px ) {
+    .sm-flex-center {
+        display:flex;
+        align-items:center;
+    }
+}
+@media ( min-width: 992px ) {
+    .md-flex-center {
+        display:flex;
+        align-items:center;
+    }
+}
+@media ( min-width: 1200px ) {
+    .lg-flex-center {
+        display:flex;
+        align-items:center;
+    }
+}
+
+
+h2 {
+    font-size: 30px;
+    font-family: Nunito;
+    color: #707070;
+    margin-bottom: 2px;
+}
+
+h1 {
+
+
+    font-family: Nunito;
+    font-weight: 900;
+    font-size: 44px;
+    text-align: left;
+    color: #707070;
+
+}
+
+.ml-33 {
+    margin-left: 30%;
+}
+
+
+
+
+.py-6-t {
+    padding-top: 4rem;
+}
+
+.py-6-b {
+    padding-bottom: 4rem;;
+}
+
+
+.float-container {
+    margin: 3px 0px;
+    position: relative;
+
+    background: #fff;
+    filter: drop-shadow(0px 12px 40px rgba(0, 0, 0, 0.08));
+
+}
+.float-container input {
+    border: none;
+    font-size: 16px;
+    outline: 0;
+    padding: 25px 15px 25px;
+    font-family: Nunito;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    color: #707070;
+
+}
+
+
+label {
+    font-size: 16px;
+    position: absolute ;
+    padding: 10px 10px;
+    transform: translate(0, 16px) scale(1);
+    transform-origin: top left;
+    transition: all .1s ease-in-out;
+    font-family: Nunito;
+    font-weight: normal;
+    font-size: 17px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    color: #707070;
+    padding: 0px 8px;
+    margin-left: 10px;
+
+
+}
+
+.float-container .box-active {
+    width: 8px;
+    height: 100%;
+    background: #ff5a87;
+    position: absolute ;
+}
+
+.active label {
+    transform: translate(0, 4px) scale(.75);
+}
+
+.login {
+    font-family: Nunito, serif;
+    font-weight: 900;
+    font-size: 25px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    color: #707070;
+
+}
+
+a:hover {
+    color: #707070;
+    text-decoration: none;
+}
+
+#icon {
+
+    color:#FF5A87;
+    font-weight: 600;
+    margin-left: 10px;
+
+}
+
+p {
+    width: 561px;
+    height: 78px;
+    font-family: Nunito;
+    font-weight: normal;
+    font-size: 20px;
+    text-align: left;
+    color: #707070;
+
+}
+
+
+.m-t-10{
+    margin-top: 10rem;
+}
+
+.m-b-3 {
+    margin-bottom: 3rem;
+}
+
+.m-t-2 {
+    margin-top: 2rem;
+}
+
+
+.container button {
+    background: none;
+
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+}

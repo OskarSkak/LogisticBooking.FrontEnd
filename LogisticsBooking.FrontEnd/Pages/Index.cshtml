@@ -1,0 +1,63 @@
+﻿@page
+@model IndexModel
+@{
+    Layout = "_Layout_NoNavBar";
+}
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+   
+          <link href="@Url.Content("~/css/Login.css")" rel="stylesheet" type="text/css" />
+           
+
+
+    <div class="container-fluid padding-0">
+        <div id="outer-row" class="row ">
+            <div class="col-5 padding-0">
+                <div class="module darken"></div>
+            </div>
+
+            <div class="col-7 ">
+                
+                    
+                
+
+               
+                    <div class="container">
+                        <div class="row m-t-10 justify-content-center ">
+                 
+                            <form method="post">
+                                <button style="font-size: 44px" type="submit" class="btn">Login</button>
+                            </form>
+                            
+                           
+                            
+                        </div>  
+                        
+
+                        
+
+           
+                
+                      
+                      
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+@section scripts
+{
+  <script src="~/js/login.js"></script>
+
+}

@@ -1,0 +1,188 @@
+@page "{id}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.AllSchedules
+
+<head>
+
+
+    <style>
+
+                td.details-control {
+                    text-align:center;
+                    color:forestgreen;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            text-align:center; 
+            color:red;
+        }
+        
+        
+       .container-fluid {
+       width: 60%;
+       }
+       
+       #example_filter {
+       display: flex;
+       justify-content: flex-end;
+       }
+       
+        
+    </style>
+
+</head>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h2 class="text-center">Nat planer</h2>
+            <table style="background-color: white;" class="table table-hover" width="60%">
+                <thead>
+                <tr>
+                      <th>Navn</th>
+                    <th>Aktiv</th>
+                    
+                    <th>Delete</th>
+                    <th>Gør Aktiv</th>
+                    
+                    
+                </tr>
+                </thead>
+                <tbody>
+
+                @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+                {
+                    if (schedule.Shifts == Shift.Night)
+                    {
+                        <tr>
+                            <form id="_@schedule.MasterScheduleStandardId" method="post" >
+                                <td>@schedule.Name</td>
+                                <td>
+
+                                   
+                                    <input type="hidden" asp-for="@schedule.MasterScheduleStandardId" name="id"/>
+                                    <input type="hidden" asp-for="@schedule.Shifts" name="shift"/>
+
+
+                                    @if (schedule.IsActive)
+                                    {
+                                        <input checked="checked" type="radio" name="isActive"/>
+                                    }
+                                    else
+                                    {
+                                        <input type="Radio" name="isActive"/>
+                                    }
+
+                                
+                                </td>
+                                <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn btn-sm btn-primary">Delete</button></td>
+ <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-sm btn-primary">Gør Aktiv</button></td>
+
+                            </form>
+                            
+                        </tr>
+                        
+                          
+                    }
+                }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col">
+            <h2 class="text-center">Dag Planer</h2>
+                <table style="background-color: white;" class="table table-hover" width="60%">
+                    <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Aktiv</th>
+                        <th>Delete</th>
+                        <th>Gør Aktiv</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            
+                    @foreach (var schedule in Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+                    {
+                        if (schedule.Shifts == Shift.Day)
+                        {
+                            <tr>
+                                <form id="_@schedule.MasterScheduleStandardId" method="post">
+                                    <td>@schedule.Name</td>
+                                    <td>
+
+                                   
+                                        <input type="hidden" asp-for="@schedule.MasterScheduleStandardId" name="id"/>
+                                        <input type="hidden" asp-for="@schedule.Shifts" name="shift"/>
+
+
+                                        @if (schedule.IsActive)
+                                        {
+                                            <input checked="checked" type="radio" name="isActive"/>
+                                        }
+                                        else
+                                        {
+                                            <input type="Radio" name="isActive"/>
+                                        }
+
+                                
+                                    </td>
+                                    <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn btn-sm btn-primary">Delete</button></td>
+                                    <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-sm btn-primary">Gør Aktiv</button></td>
+                                </form>
+                            
+                            </tr>
+                            
+                        }
+                    }
+            
+            
+            
+            
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    
+    
+</div>
+
+
+<div id="spin" class="d-none justify-content-center ">
+                <div class="spinner-border " role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
+
+
+@section Scripts{
+
+
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+    {
+        <script>
+          $('#_@schedule.MasterScheduleStandardId').on('change', 'input', function() {
+                 $('#spin').removeClass("d-none");
+               $('#spin').addClass("d-flex");
+               
+               $('#_@schedule.MasterScheduleStandardId').submit();
+                });
+          
+         </script>
+    }
+
+
+}

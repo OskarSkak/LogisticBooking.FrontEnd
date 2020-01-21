@@ -1,0 +1,115 @@
+﻿@page
+@using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.ScheduleOverviewIndexModel
+@{
+}
+
+@if (Model.Message != null)
+ {
+     <div class="alert alert-success">
+         <strong>@Model.Message</strong>
+     </div>
+ }
+
+@if (Model.CompleteMessage != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.CompleteMessage</strong>
+    </div>
+}
+<div class="py-5">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            
+
+            <div class="col-6 ml-5 card-body card text-center flex-fill ">
+
+                <h2 class="m-3">Aktive planer</h2>
+                <div class="row">
+                    
+                    @foreach (var item in  @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+                    {
+                        if (item.Shifts == Shift.Night)
+                        {
+                            <div class="col-6 ">
+                                <h3>Nat</h3>
+                                <a asp-page="MasterScheduleSingle" asp-route-id="@item.MasterScheduleStandardId">
+                                    <p>Nat Plan</p>
+                                    <p>@item.Name</p>
+                                </a>
+
+                            </div>
+                        } else if (item.Shifts == Shift.Day)
+                        {
+                            <div class="col-6">
+                                <h3>Dag</h3>
+                                <a asp-page="MasterScheduleSingle" asp-route-id="@item.MasterScheduleStandardId">
+                                    <p>Dag Plan</p>
+                                    <p>@item.Name</p>
+                                </a>
+                                
+                            </div>
+                        }
+                    }
+                   
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-light text-center">
+                    <div class="card-body p-1">
+                        <h2>
+                            <b>Opret Plan</b>
+                        </h2>
+                        <hr>
+                        <ul class="list-unstyled my-3">
+                            <p>Her kan nye planer oprettes</p>
+                            
+                            <li class="mb-1">
+                                <a asp-page="./CreateNewSchedule" asp-route-id="DAY">Opret ny [DAG: 07-15]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="./CreateNewSchedule" asp-route-id="NIGHT">Opret fra ny [NAT: 22-06]</a>
+                            </li>
+                        </ul>
+                        <p>Bemærk - Tider i en plan behøves ikke begrænses til ovenstående tider, de kan konfigureres under skabelsen af en plan</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card bg-light text-center">
+                    <div class="card-body p-4">
+                        <h2>
+                            <b>Eksisterende Planer</b>
+                        </h2>
+                        <hr>
+                        <ul class="list-unstyled my-3">
+                            <p>Her kan gemte tidsplaner gennemses og det kan vælges hvilke dage de skal gælde for</p>
+                            <li class="mb-1">
+                                <a asp-page="./AllSchedules" asp-route-id="All">Gemte standard planer</a>
+                            </li>
+                           
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+

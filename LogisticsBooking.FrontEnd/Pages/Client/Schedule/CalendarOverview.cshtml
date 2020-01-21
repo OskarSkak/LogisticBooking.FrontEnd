@@ -1,0 +1,418 @@
+@page
+@using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CalendarOverview
+@addTagHelper *, WebOptimizer.Core
+
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.Message</strong> 
+    </div>
+}
+
+
+
+        
+    
+          
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    
+                </div>
+                <div class="col-lg-8">
+
+
+                    <div class=" align-items-center d-flex justify-content-center">
+                        <form class="text-center" method="post" asp-page-handler="Back">
+                            <button type="submit" class="btn btn-nofocus">
+
+                                <i class="fas fa-chevron-left m-4"></i>
+                            </button>
+                        </form>
+
+
+                        <div>
+                            <h1>@Model.CalenderViewModel.CurrentDate.ToString(@"MMM yyyy")</h1>
+                        </div>
+
+                        <form class="text-center" method="post" asp-page-handler="Forward">
+                            <button type="submit" class="btn btn-default">
+
+                                <i class="fas fa-chevron-right m-4"></i>
+                            </button>
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="row mt-5">
+                
+                <div class="col-xl-4  ">
+                    <div class="row mt-4">
+                        <div class="col-xl-12">
+                            <div class="circle-active">
+                                ?
+                            </div>
+                            <span> En eller to planer eksisterer på den dag</span>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-xl-12">
+                            <div class="circle-active-1">
+                                ?
+                            </div>
+                            <span> Der kan ikke bookes på denne dag</span>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-xl-12">
+                            <div class="circle-inactive">
+                                ?
+                            </div>
+                            <span> Ingen farve indikerer at der ikke er nogen plan, men hvis der bookes på denne dag bliver standard planen taget i brug</span>
+                        </div>
+                                            
+                                            
+                    </div>
+                    
+                    
+                </div>
+                <div class="col-xl-8">
+
+
+
+
+                    <div class="container ">
+                        <div class="row mt-4 justify-content-center no-gutters small-width">
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">M</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">T</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">O</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">T</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">F</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">L</div>
+                            </div>
+
+                            <div class="col d-flex justify-content-center">
+                                <div class="circle day">S</div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mt-4 justify-content-center no-gutters small-width">
+                            @for (int i = 0; i < 35; i++)
+                            {
+                                DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+
+                                if (i % 7 == 0 && i > 0)
+                                {
+                                    @:</div><div class="row mt-4 justify-content-center no-gutters small-width">
+                                }
+
+
+                                if (date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month)
+                                {
+
+                                    var schedules = Model.SchedulesListViewModel.Schedules.Where(x => x.ScheduleDay.Equals(date)).ToList();
+
+
+
+
+
+                                    if (schedules.Count !=  0)
+                                    {
+
+                                        if (schedules.Count > 1)
+                                        {
+                                            <div  data-toggle="modal" data-target="#_@schedules[0].ScheduleId@schedules[1].ScheduleId" class=" col d-flex justify-content-center">
+                                                <div class="circle-active">@date.Day</div>
+                                            </div> 
+                                            
+                                        }
+                                        else
+                                        {
+                                            <div  data-toggle="modal" data-target="#_@schedules[0].ScheduleId" class=" col d-flex justify-content-center">
+                                                                                            <div class="circle-active">@date.Day</div>
+                                                                                        </div>
+                                        }
+                                            
+                                               
+                                            
+                                        
+                                        
+                                         
+                                            
+                                        
+                                        
+                                        
+                                    }
+                                    else
+                                    {
+                                        <div class="col d-flex justify-content-center">
+                                            <div class="circle">@date.Day</div>
+                                        </div>
+                                    }
+
+
+
+                                }
+                                else
+                                {
+                                    <div class="col d-flex justify-content-center">
+                                        <div class="circle-inactive">@date.Day</div>
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            
+
+
+        </div>
+        
+
+    </div>
+
+
+
+
+ @for (int i = 0; i < 35; i++)
+ {
+     DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+     
+     
+      if (date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month)
+                                {
+
+                                    var schedules = Model.SchedulesListViewModel.Schedules.Where(x => x.ScheduleDay.Equals(date)).ToList();
+
+
+
+
+
+                                    if (schedules.Count !=  0)
+                                    {
+
+                                        if (schedules.Count > 1)
+                                        {
+                                           
+                                               <div class="modal fade" id="_@schedules[0].ScheduleId@schedules[1].ScheduleId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Planer på dagen @date.ToString("dddd-M")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                                                        <table class="table table-sm">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Tider</th>
+                                                                                <th scope="col">Antal Paller</th>
+                                
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            
+                                    @foreach (var schedule in schedules)
+                                    {
+                                        
+                                        @if (schedule.Shifts == Shift.Day)
+                                        {
+                                            
+                                            foreach (var interval in schedule.Intervals)
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        <div class="d-flex justify-content-lg-around text-left">
+                                                            <div>
+                                                                <span class="float-left">@interval.StartTime.Value.ToString("t")</span>
+                                                            </div>
+                                                            <div>
+                                                                -
+                                                            </div>
+                                                            <div>
+                                                                <span>@interval.EndTime.Value.ToString("t")</span>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+                                                    <td>@interval.BottomPallets</td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <div class="col-lg-6">
+                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
+                                <table class="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Tider</th>
+                                        <th scope="col">Antal Paller</th>
+                                                                                                     
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                                                                                  
+                                    @foreach (var schedule in schedules)
+                                    {
+                                        if (schedule.Shifts == Shift.Night)
+                                        {
+                                            foreach (var interval in schedule.Intervals)
+                                            {
+                                                <tr>
+                                                                                                     
+                                                    <td>
+                                                        <div class="d-flex justify-content-lg-around">
+                                                            <span>@interval.StartTime.Value.ToString("t")</span>
+                                                            - <span>@interval.EndTime.Value.ToString("t")</span>
+                                                        </div>
+                                                                                                       
+                                                    </td>
+                                                    <td>@interval.BottomPallets</td>
+                                                </tr>
+                                                                                                   
+                                            }
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                   
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+                                            
+                                        }
+                                        else
+                                        {
+                                               <div class="modal fade" id="_@schedules[0].ScheduleId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Plan for @schedules[0].Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                       <table class="table table-sm">
+                                         <thead>
+                                         <tr>
+                                             <th scope="col">Tider</th>
+                                             <th scope="col">Antal Paller</th>
+                                                                                      
+                                         </tr>
+                                         </thead>
+                                         
+                                         <tbody>
+                                         
+                                         @foreach (var interval in schedules[0].Intervals)
+                                         {
+                                             <tr>
+                                                                  
+                                                 <td>
+                                                     <div class="d-flex justify-content-lg-around text-left">
+                                                         <div>
+                                                             <span class="float-left">@interval.StartTime.Value.ToString("t")</span>
+                                                         </div>
+                                                         <div>
+                                                             -
+                                                         </div>
+                                                         <div>
+                                                             <span>@interval.EndTime.Value.ToString("t")</span>
+                                                         </div>
+                                                                      
+                                                     </div>
+                                                                    
+                                                 </td>
+                                                 <td>@interval.BottomPallets</td>
+                                             </tr>
+                                                                
+                                              
+                                         } 
+                                         </tbody>
+                                         </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+                                        }
+
+                                    }
+                                    
+
+
+
+                                }
+                                
+                            }
+ 
+
+
+
+
+                
+     

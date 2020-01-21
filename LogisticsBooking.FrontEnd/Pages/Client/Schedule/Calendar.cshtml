@@ -1,0 +1,591 @@
+@page
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.Calendar
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery AntiForgery;
+
+
+    
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-4">
+                    
+            </div>
+            <div class="col-lg-8">
+
+
+                <div class=" align-items-center d-flex justify-content-center">
+                    <form class="text-centerx$">
+                        <button type="submit" class="btn btn-nofocus sendBackAsync">
+
+                            <i class="fas fa-chevron-left m-4"></i>
+                        </button>
+                    </form>
+
+
+                    <div>
+                        <h1>@Model.CalenderViewModel.CurrentDate.ToString(@"MMM yyyy")</h1>
+                    </div>
+
+                    <form class="text-center" >
+                        <button type="submit" class="sendForwardAsync btn btn-default">
+
+                            <i class="fas fa-chevron-right m-4"></i>
+                        </button>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="row mt-5 p-2">
+                
+            <div class="col-xl-5  ">
+                <div class="row mt-4">
+                    <h2>Vælg de datoer planen skal gælde for </h2>
+                </div>
+                    
+                <div class="row justify-content-center mt-4 mt-5">
+                    <button class="btn btn-primary" onclick="test()" >Bekræft</button> 
+                </div>
+                    
+            </div>
+                
+                    
+                    
+            <div class="col-xl-7">
+
+
+
+
+                <div class="container ">
+                    <div class="row mt-4 justify-content-center no-gutters small-width">
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">M</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">T</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">O</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">T</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">F</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">L</div>
+                        </div>
+
+                        <div class="col d-flex justify-content-center">
+                            <div class="circle day">S</div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mt-4 justify-content-center no-gutters small-width">
+                        @for (int i = 0; i < 35; i++)
+                        {
+                            DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+
+                            if (i % 7 == 0 && i > 0)
+                            {
+                                @:</div><div class="row mt-4 justify-content-center no-gutters small-width">
+                            }
+
+
+                            if (date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month)
+                            {
+
+                                var schedules = Model.SchedulesListViewModel.Schedules.Where(x => x.ScheduleDay.Equals(date)).ToList();
+
+
+
+
+
+                                if (schedules.Count !=  0)
+                                {
+
+                                    if (schedules.Count > 1)
+                                    {
+                                        <div  data-toggle="modal" data-target="#_@schedules[0].ScheduleId@schedules[1].ScheduleId" class=" col d-flex justify-content-center">
+                                            <div class="circle-active">@date.Day</div>
+                                        </div> 
+                                            
+                                    }
+                                    else
+                                    {
+                                        <div  data-toggle="modal" data-target="#_@schedules[0].ScheduleId" class=" col d-flex justify-content-center">
+                                            <div class="circle-active">@date.Day</div>
+                                        </div>
+                                    }
+                                            
+                                               
+                                            
+                                        
+                                        
+                                         
+                                            
+                                        
+                                        
+                                        
+                                }
+                                else
+                                {
+                                    <div class="col d-flex justify-content-center">
+                                            
+                                        <div class=" adDay circle">@date.Day<div>
+                                            <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                        </div></div>
+
+                                    </div>
+                                }
+
+
+
+                            }
+                            else
+                            {
+                                <div class="col d-flex justify-content-center">
+                                    <div class=" circle-inactive">@date.Day</div>
+                                </div>
+
+
+
+                            }
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+            
+
+
+    </div>
+        
+
+</div>
+
+
+
+
+
+@for (int i = 0; i < 35; i++)
+ {
+     DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+     
+     
+      if (date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month)
+                                {
+
+                                    var schedules = Model.SchedulesListViewModel.Schedules.Where(x => x.ScheduleDay.Equals(date)).ToList();
+
+
+
+
+
+                                    if (schedules.Count !=  0)
+                                    {
+
+                                        if (schedules.Count > 1)
+                                        {
+                                           
+                                               <div class="modal fade" id="_@schedules[0].ScheduleId@schedules[1].ScheduleId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Planer på dagen @date.ToString("dddd-M")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                                                        <table class="table table-sm">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Tider</th>
+                                                                                <th scope="col">Antal Paller</th>
+                                
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            
+                                    @foreach (var schedule in schedules)
+                                    {
+                                        
+                                        @if (schedule.Shifts == Shift.Day)
+                                        {
+                                            
+                                            foreach (var interval in schedule.Intervals)
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        <div class="d-flex justify-content-lg-around text-left">
+                                                            <div>
+                                                                <span class="float-left">@interval.StartTime.Value.ToString("t")</span>
+                                                            </div>
+                                                            <div>
+                                                                -
+                                                            </div>
+                                                            <div>
+                                                                <span>@interval.EndTime.Value.ToString("t")</span>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+                                                    <td>@interval.BottomPallets</td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <div class="col-lg-6">
+                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
+                                <table class="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Tider</th>
+                                        <th scope="col">Antal Paller</th>
+                                                                                                     
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                                                                                  
+                                    @foreach (var schedule in schedules)
+                                    {
+                                        if (schedule.Shifts == Shift.Night)
+                                        {
+                                            foreach (var interval in schedule.Intervals)
+                                            {
+                                                <tr>
+                                                                                                     
+                                                    <td>
+                                                        <div class="d-flex justify-content-lg-around">
+                                                            <span>@interval.StartTime.Value.ToString("t")</span>
+                                                            - <span>@interval.EndTime.Value.ToString("t")</span>
+                                                        </div>
+                                                                                                       
+                                                    </td>
+                                                    <td>@interval.BottomPallets</td>
+                                                </tr>
+                                                                                                   
+                                            }
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                   
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+                                            
+                                        }
+                                        else
+                                        {
+                                               <div class="modal fade" id="_@schedules[0].ScheduleId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Plan for @schedules[0].Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                       <table class="table table-sm">
+                                         <thead>
+                                         <tr>
+                                             <th scope="col">Tider</th>
+                                             <th scope="col">Antal Paller</th>
+                                                                                      
+                                         </tr>
+                                         </thead>
+                                         
+                                         <tbody>
+                                         
+                                         @foreach (var interval in schedules[0].Intervals)
+                                         {
+                                             <tr>
+                                                                  
+                                                 <td>
+                                                     <div class="d-flex justify-content-lg-around text-left">
+                                                         <div>
+                                                             <span class="float-left">@interval.StartTime.Value.ToString("t")</span>
+                                                         </div>
+                                                         <div>
+                                                             -
+                                                         </div>
+                                                         <div>
+                                                             <span>@interval.EndTime.Value.ToString("t")</span>
+                                                         </div>
+                                                                      
+                                                     </div>
+                                                                    
+                                                 </td>
+                                                 <td>@interval.BottomPallets</td>
+                                             </tr>
+                                                                
+                                              
+                                         } 
+                                         </tbody>
+                                         </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+                                        }
+
+                                    }
+                                    
+
+
+
+                                }
+                                
+                            }
+ 
+
+
+
+
+                
+     
+@section Scripts {
+    
+    
+   
+
+    
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+
+    
+    <script>
+var token = $('input[name="__RequestVerificationToken"]').val();
+
+var headers = {};
+
+headers['__RequestVerificationToken'] = token;
+
+
+var listOfDates = new Array(35);
+
+
+function codeAddress() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('circle-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+    });
+}
+window.onload = codeAddress;
+
+
+
+$(".adDay").click(function() {
+    if ($(this).hasClass("circle")) {
+        $(this).removeClass("circle").addClass("circle-chosen");
+
+        
+    } else if ($(this).hasClass("circle-chosen")) {
+
+        $(this).removeClass("circle-chosen").addClass("circle");
+
+
+
+         document.querySelectorAll('*').forEach(function(node) {
+                if (node.classList.contains('circle-chosen')) {
+                    console.log("kdnk")
+                    var f = node.getElementsByClassName("date").item(0).value;
+                    console.log(f)
+                }
+            });
+        /*
+        function include(arr,obj) {
+            return (arr.indexOf(obj) != -1);
+        }
+        var a = include(listOfDates , f);
+        var index = listOfDates.indexOf(a);
+        if (index > -1) {
+        listOfDates.splice(index, 1);
+        }
+        console.log(listOfDates);
+        
+         */
+    }
+
+});
+
+
+
+
+$(".sendBackAsync").on('click',function() {
+    listOfDates = [];
+    var currentLocation = window.location;
+    console.log(currentLocation.href + '?handler=back');
+    test1();
+    $.ajax({
+        type: "POST",
+        url: currentLocation.href+"?handler=back",
+        beforeSend: function(xhr) {
+           xhr.setRequestHeader('RequestVerificationToken', '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken');
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            location.reload();
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            location.reload();
+
+        }
+    });
+
+});
+
+
+$(".sendForwardAsync").on('click' ,function() {
+    listOfDates = [];
+    test1();
+    var currentLocation = window.location;
+    
+    $.ajax({
+        type: "POST",
+
+        url: currentLocation.href+"?handler=Forward",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('RequestVerificationToken', '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken');
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            location.reload();
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            location.reload();
+
+        }
+    });
+
+});
+
+
+
+function feed() {
+    var currentLocation = window.location;
+    $.ajax({
+        type: "POST",
+
+        url: currentLocation.href+"?handler=Confirm",
+        beforeSend: function(xhr) {
+           xhr.setRequestHeader('RequestVerificationToken', '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken');
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        }
+    });
+
+}
+
+function test() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('circle-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+
+    });
+    feed();
+
+
+
+}
+
+function test1() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('circle-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            console.log(f)
+            listOfDates.push(f);
+        }
+
+    });
+
+
+
+
+}
+    </script>
+
+
+}
+
+
+
+

@@ -1,0 +1,37 @@
+﻿@page
+@model LogisticsBooking.FrontEnd.Pages.Client.Suppliers.Supplier_CreateModel
+@{
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Ny Kunde</h1>
+                <p class="mb-3">Formular til at oprette kunder</p>
+                <form method="post" class="text-left">
+                    <div class="form-group">
+                        <label for="form16">Kundenavn</label> <input type="text" class="form-control" id="form16" placeholder="Netto" name="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="form17">Kunde Nr</label> <input type="text" class="form-control" id="form17" placeholder="40458745874" name="Telephone">
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Kontakt</label> <input type="email" class="form-control" id="form18" placeholder="Netto@netto.dk" name="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form19">Leveringstidspunkt start</label> <input type="time" class="form-control" id="form19" name="DeliveryStart">
+                    </div>
+                    <div class="form-group">
+                        <label for="form20">Leveringstidspunkt Slut</label> <input type="time" class="form-control" id="form20" name="DeliveryEnd">
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Opret</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

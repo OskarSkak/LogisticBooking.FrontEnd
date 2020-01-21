@@ -1,0 +1,127 @@
+﻿@page "{id}"
+@model LogisticsBooking.FrontEnd.Pages.Transporter.ReservedOrdersIndexModel
+@{
+    Layout = "_Layout_Transporter";
+}
+<style>
+    #wrapper {
+        text-align: center;
+    }
+    #yourdiv {
+        display: inline-block;
+    }
+</style>
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Booking fra @Model.Booking.TransporterName</h1>
+                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                <form method="post" class="text-left">
+                    <div class="form-group"> <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookTime"> </div>
+                    <div class="form-group"> <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets"> </div>
+                    <div class="form-group"> <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="ViewPort"> </div>
+                    <div class="form-group"> <label for="form18" style="width: 12em">Faktisk ankomst</label> 
+                        <input type="number" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 2.5em" max="23" min="0" required /> 
+                        : <input type="number" asp-for="@Model.ArrivalMinute" name="ActualArrivalMinute" style="width: 2.5em" max="59" min="0" required />
+                    </div>
+                    <div class="form-group"><label for="form18" style="width: 12em">Start Læsning</label> 
+                        <input type="number" asp-for="@Model.startHour" name="startHour" style="width: 2.5em" max="23" min="0" required /> 
+                        : <input type="number" asp-for="@Model.startMinute" name="startMinute" style="width: 2.5em" max="59" min="0" required />
+                    </div>
+                    <div class="form-group"><label for="form18" style="width: 12em">Slut Læsning</label> 
+                        <input type="number" asp-for="@Model.endHour" name="endHour" style="width: 2.5em" max="23" min="0" required /> 
+                        : <input type="number" asp-for="@Model.endMinute" name="endMinute" style="width: 2.5em" max="59" min="0" required />
+                    </div>
+                    <input asp-for="Booking.EndLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" value="Opdater"/>
+                    <a class="trigger_popup_fricc btn btn-primary btn-floating">Slet</a>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="wrapper">
+    <div id="yourdiv">
+        <h2 style="position: center">Ordrer på denne booking</h2>
+    </div>
+</div>
+
+
+<div class="hover_bkgr_fricc centered">
+    <span class="helper"></span>
+
+    <div>
+        <div class="popupCloseButton">X</div>
+        <form asp-page-handler="delete" method="post">
+            <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            <button class="btn btn-primary">Bekræft</button>
+        </form>
+    </div>
+
+</div>
+
+
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group" style="">
+                    @if(!Model.Booking.OrdersListViewModel.Any()){
+                        foreach (var order in @Model.Booking.OrdersListViewModel)
+                        {
+                            <a asp-page="./Booking/ReservedOrderSingle" asp-route-id="@order.OrderId" class="list-group-item list-group-item-action display-spacebetween">
+                                <div>Bundpaller: @order.BottomPallets</div>
+                                <div>Id: @order.ExternalId</div>
+                                <div>Leverandør: @order.SupplierViewModel.Name</div>
+                                <div>Samlet antal paller: @order.TotalPallets</div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
+}

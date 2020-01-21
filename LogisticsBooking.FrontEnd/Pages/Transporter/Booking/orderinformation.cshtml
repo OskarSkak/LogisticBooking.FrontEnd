@@ -1,0 +1,386 @@
+@page
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.orderinformation
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<style xmlns="http://www.w3.org/1999/html">
+.table thead th {
+border-top: none;
+border-bottom: 1px solid #dee2e6;
+}
+</style>
+
+
+@if (Model.ShowMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.Message</strong>
+    </div>
+}
+@if (Model.ShowOrderMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.OrderMessage</strong>
+    </div>
+}
+
+<div class="py-1" style="">
+    <div class="container">
+        <div class="md-stepper-horizontal blue">
+            <div class="md-step active ">
+                <div class="md-step-circle">
+                    <span></span><i class="fas fa-check"></i>
+                </div>
+                <div class="md-step-title">Leveringsdag</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+            </div>
+            <div class="md-step active ">
+                <div class="md-step-circle">
+                    <span></span><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i>
+                </div>
+                <div class="md-step-title">Opret Ordrer</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+            </div>
+            <div class="md-step ">
+                <div class="md-step-circle">
+                    <span>3</span>
+                </div>
+                <div class="md-step-title">Leveringstidspunkt</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+            </div>
+            <div class="md-step">
+                <div class="md-step-circle">
+                    <span>4</span>
+                </div>
+                <div class="md-step-title">Gennemført</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="py-4 m-4">
+    <div class="container card">
+        <div class="row">
+            <div class="col">
+                <div class="py-4">
+                    <div>
+                        <h2 class="">Booking Oversigt</h2>
+                        <small class="d-block">Leveringsdag @Model.BookingViewModel.BookingTime.ToString("d MMMM") </small>
+                        <small class="d-block">Booking ID<strong> @Model.BookingViewModel.ExternalId </strong> </small>
+                        @if (@Model.BookingViewModel.PalletsCurrentlyOnBooking > @Model.BookingViewModel.TotalPallets)
+                        {
+                            <small class="text-danger">Paller @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
+                        }
+                        else
+                        {
+                            <small>Paller @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-center">
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-end m-3 ">
+                    <button type="button" class="btn btn-lg btn-primary" data-toggle="modal"
+                            data-target="#exampleModal">
+                        New Order
+                    </button>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <table class="table table-hover ">
+                <thead>
+                <tr>
+                    <th scope="col">Ordre ID</th>
+                    <th scope="col">Ordre Nummer</th>
+                    <th scope="col">Leverandør</th>
+                    <th scope="col">Bundpaller</th>
+                    <th scope="col">Paller i alt</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                
+                @if (Model.BookingViewModel.OrdersListViewModel != null)
+                {
+                    foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrdersListViewModel)
+                    {
+                        <tr>
+                            <th scope="row">@orderViewModel.ExternalId</th>
+                            <td >@orderViewModel.OrderNumber</td>
+                            <td>@orderViewModel.SupplierViewModel.Name</td>
+                            <td>@orderViewModel.BottomPallets</td>
+                            <td>@orderViewModel.TotalPallets</td>
+                            <td class="d-flex">
+                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-primary">Edit</button>
+                            
+                                <form method="post">
+                                    <input type="hidden" asp-for="@orderViewModel.ExternalId"/>
+                                    <button asp-page-handler="Delete" class="btn btn-danger">Delete</button>
+                              
+                                </form>
+                            
+
+                            </td>
+                        </tr>
+                    } 
+                }
+                
+
+                </tbody>
+            </table>
+        </div>
+        @if (Model.BookingViewModel.PalletsRemaining == 0)
+        {
+            <div class="row d-flex justify-content-center">
+                <form method="get">
+                    <button type="submit" asp-page="/Transporter/Booking/select_time" class="btn btn-success">Bekræft Booking</button>
+                </form>
+            </div>
+        }
+        else
+        {
+        }
+
+    </div>
+    @if (!Model.BookingViewModel.IsBookingAllowed)
+    {
+    }
+
+</div>
+
+
+<div class="modal bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <div class="container-fluid">
+
+
+                        <div class="input-group mt-3">
+                            <label class="w-100">Leverandør</label>
+                            <select class="form-control" asp-for="OrderViewModel.SupplierViewModel.SupplierId" asp-items="@Model.Suppliers"></select>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="input-group mt-3">
+                            <label class="w-100">Bundpaller</label>
+                            <input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="Antal Paller">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OrderViewModel.BottomPallets" class="text-danger small"></span>
+
+
+                        <div class="input-group mt-3">
+                            <label class="w-100">Pallern totalt</label>
+                            <input asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OrderViewModel.TotalPallets" class="text-danger small"></span>
+
+
+                        <div class="input-group mt-3">
+                            <label class="w-100">Ordre referencenummer </label>
+                            <input asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+
+                            </div>
+                        </div>
+                        <span asp-validation-for="OrderViewModel.OrderNumber" class="text-danger small"></span>
+
+
+                        <div class="input-group mt-3">
+                            <label class="w-100">Kommentar</label>
+                            <textarea  asp-for="OrderViewModel.Comment" class="form-control"></textarea>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OrderViewModel.Comment" class="text-danger small"></span>
+
+
+                        <div class="input-group mt-3 mb-3">
+                            <label class="w-100">Type</label>
+                            <select class="form-control" asp-for="OrderViewModel.InOut">
+                                <option value="Ind">Ind</option> <option value="Ud">Ud</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <i class="fas fa-question"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button asp-page-handler="CreateOrder" type="submit" class="btn btn-success">Tilføj ordre</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.BookingViewModel.OrdersListViewModel != null)
+{
+foreach (var order in Model.BookingViewModel.OrdersListViewModel)
+{
+    <div class="modal bd-example-modal-lg" id="_@order.ExternalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="container-fluid">
+
+                            <div class="input-group mt-3">
+                                <label class="w-100">Leverandør</label>
+                                <select class="form-control" asp-for="OrderViewModel.SupplierViewModel.SupplierId" asp-items="@Model.Suppliers"></select>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Leverandør" data-content="Angiv leverandør">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="input-group mt-3">
+                                <label class="w-100">Bundpaller</label>
+                                <input value="@order.BottomPallets" asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="Antal Paller">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på Ordren. Max antal paller er 33">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="OrderViewModel.BottomPallets" class="text-danger small"></span>
+
+
+                            <div class="input-group mt-3">
+                                <label class="w-100">Pallern totalt</label>
+                                <input value="@order.TotalPallets" asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Paller i Alt" data-content="Angiv hvor mange paller der er ialt på ordren. Én bundpalle plads kan godt indeholde flere paller">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="OrderViewModel.TotalPallets" class="text-danger small"></span>
+
+
+                            <div class="input-group mt-3">
+                                <label class="w-100">Ordre referencenummer </label>
+                                <input value="@order.OrderNumber" asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Ordrereference" data-content="Angiv venligst ordrereferencenummer til ordren">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <span asp-validation-for="OrderViewModel.OrderNumber" class="text-danger small"></span>
+
+
+                            <div class="input-group mt-3">
+                                <label class="w-100">Kommentar</label>
+                                <textarea  name="comment" id="comment"  class="form-control">@order.Comment </textarea>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Kommentar" data-content="Angiv en kommentar til ordren. Dette er valgfrit">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="OrderViewModel.Comment" class="text-danger small"></span>
+
+
+                            <div class="input-group mt-3 mb-3">
+                                <label class="w-100">Type</label>
+                                <select class="form-control" asp-for="OrderViewModel.InOut">
+                                    <option value="Ind">Ind</option> <option value="Ud">Ud</option>
+                                </select>
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" data-toggle="popover" title="Ind eller ud" data-content="Angiv om dette er en ordre der skal leveres (ind) eller afhentes (ud)">
+                                        <i class="fas fa-question"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <input type="hidden" value="@order.ExternalId" asp-for="OrderViewModel.ExternalId"/>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button asp-page-handler="EditOrder" type="submit" class="btn btn-success">Opdate order</button>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+}
+
+
+
+

@@ -1,0 +1,70 @@
+
+.border-days {
+    border-style: solid;
+    border-width: .6px;
+    border-color: white
+}
+
+.mt-2 {
+    margin: 0px;
+    
+}
+.col-lg {
+    padding-right: 0px;
+    padding-left: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    max-width: 14%;
+}
+
+.color-top {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: cornflowerblue;
+    height: 2em;
+    border-bottom: solid .8px; 
+    
+}
+
+.content-color {
+    background-color: #6495ed40 ;
+    height: 5em;
+    
+}
+
+.booked-color {
+    background-color: #00000082;
+    height: 5em;
+
+}
+
+.font-weight-700 {
+    font-weight: 700;
+} 
+
+
+.container-fluid {
+    width: 80%;
+}
+
+.arrow-size {
+    font-size: 24px;
+}
+
+.date-size {
+    font-weight: 400;
+    font-size: 23px;
+}
+
+.grow { transition: all .1s ease-in-out; }
+.grow:hover { transform: scale(1.1); }
+
+.ok {
+    background-color: #00cc2e73;
+    height: 5em;
+}
+
+.before-current-date {
+    background-color: #cccccc;
+    height: 5em;
+}

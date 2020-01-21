@@ -1,0 +1,99 @@
+﻿@page "{id}"
+@model LogisticsBooking.FrontEnd.Pages.Client.Suppliers.Supplier_SingleModel
+@{
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Eksisterende kunde</h1>
+                <p class="mb-3">Opdater informationer ved at udskifte de genererede værdier i felterne under</p>
+                <form method="post" class="text-left">
+                    <div class="form-group">
+                        <label for="form16">Kundenavn</label> <input asp-for="@Model.SupplierViewModel.Name" type="text" class="form-control"  >
+                        <span asp-validation-for="SupplierViewModel.Name"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form18">Kontakt</label> <input asp-for="@Model.SupplierViewModel.Email" type="email" class="form-control"  >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form19">Leveringstidspunkt start</label> <input asp-for="@Model.SupplierViewModel.DeliveryStart" type="time" class="form-control"  >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="@Model.SupplierViewModel.DeliveryEnd" type="time" class="form-control">
+                    </div>
+                        <input type="hidden" asp-for="@Model.SupplierViewModel.SupplierId"/>
+
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                </form>
+                <button data-toggle="modal" data-target="#popup" class="btn btn-primary">Slet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-page-handler="delete" method="post">
+                    <button type="submit" class="btn btn-primary">Bekræft</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
+}

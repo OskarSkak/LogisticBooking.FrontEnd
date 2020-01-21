@@ -1,0 +1,24 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.Bookings
+
+@{
+    Layout = "_Layout_Transporter";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col card m-5">
+            <a asp-page="CurrentBookings">
+                <h2 class="text-center">Nuværende Bookninger</h2>
+            </a>
+        </div>
+        
+        <div class="col card m-5">
+            <a asp-page="OldBookings">
+            <h2 class="text-center">Tidligere Bookninger</h2>
+            </a>
+        </div>
+        
+    </div>
+</div>

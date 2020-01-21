@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LogisticBooking</title>
+
+    <link rel="stylesheet" asp-append-version="true" href="~/dist/bundle.css" />
+     <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+    
+
+
+        <environment include="Development"></environment>
+</head>
+
+<body class="">
+
+    
+
+<nav class="navbar navbar-expand-md navbar-dark bg-light sticky-top shadow p-3 mb-5">
+    <div class="navbar-collapse collapse w-25 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link text-primary font-weight-bold" href="#"><h2>LT</h2></a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        
+        
+        
+        <a  asp-page="/Transporter/Booking/BookOrder" class="p-2 text-dark ">Opret Booking</a> 
+                <a asp-page="/Transporter/Bookings" class="p-2 text-dark">Bookinger</a> 
+                <a asp-page="/" class="p-2 text-dark">Indstillinger</a>
+
+
+    </div>
+    <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item">
+                <div class="dropdown">
+                    @if (User.Claims.FirstOrDefault(x => x.Type == "sub") != null)
+                    {
+                        @await Component.InvokeAsync("User")
+                    }
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" asp-page="/Client/Settings/SettingsOverview">Indstillinger</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 ">Log Ud</a>
+                    </div>
+                </div>
+               
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+@RenderBody()
+
+
+<script src="~/dist/bundle.js"></script>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

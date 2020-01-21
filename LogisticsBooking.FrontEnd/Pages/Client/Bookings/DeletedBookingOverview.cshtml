@@ -1,0 +1,88 @@
+﻿@page "{id?}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@model LogisticsBooking.FrontEnd.Pages.Client.Bookings.DeletedBookingOverviewModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .no-padding-marging {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .div1 {
+        display: inline-block;
+    }
+
+    .div2 {
+        display: inline-block;
+    }
+    .div3 {
+        display: inline-block;
+    }
+</style>
+
+<div class="container">
+    <div style="width:100%; margin:0 auto;">
+        <table id="example" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Bookings</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var booking in @Model.BookingsListViewModel.DeletedBookings)
+            {
+                <tr class="no-padding-marging">
+                    <td>
+                        <div class="list-group" style="">
+                            <a asp-page="./BookingSingle" asp-route-id="@booking.InternalId" class="list-group-item d-flex justify-content-between ">
+                                <div>@booking.BookingTime</div>
+                                <div>@booking.ExternalId</div>
+                                <div>@booking.TransporterName</div>
+                                <div>Paller: @booking.TotalPallets</div>
+                                <div>
+                                    <div class="div1">
+                                        <form asp-page-handler="delete" method="post" > 
+                                            <button type="submit" name="InternalIdView" value="@booking.InternalId" class="btn btn-primary"><i class="far fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="div2">
+                                        <form asp-page-handler="update" method="post"> 
+                                            <button type="submit" name="InternalIdView" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="div3">
+                                        <form asp-page-handler="goTo" method="post">
+                                            <button type="submit" name="InternalIdView" value="@booking.InternalId" class="btn btn-primary"><i class="fas fa-angle-right"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+}

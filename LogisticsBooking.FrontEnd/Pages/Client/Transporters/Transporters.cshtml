@@ -1,0 +1,61 @@
+﻿@page
+@using LogisticsBooking.FrontEnd.Pages.Client.Bookings
+@using LogisticsBooking.FrontEnd.Services
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@model LogisticsBooking.FrontEnd.Pages.Client.TransportersModel
+@inject IStringLocalizer<BookingOverviewModel> localizer
+@inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
+@inject CommonLocalizationService CommonLocalizationService
+@{
+}
+
+@if (Model.ShowResponseMessage)
+{
+    <div class="alert alert-success">
+        <strong>@Model.ResponseMessage</strong> 
+    </div>
+}
+
+<div class="text-center">
+            <h1 class="display-4">@CommonLocalizationService.Get("Hello")]</h1>
+            <p>@htmlLocalizer["Learn"]</p>
+        </div>
+
+<div class="py-5 text-center">
+  
+        <div class="container">
+            <div class="row">
+                <div class="mx-auto col-lg-5 col-md-7 col-10">
+                    <h1>Transportører</h1>
+                    <p class="mb-3">Klik i listen for at redigere en transportør</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mx-auto col-lg-5 col-md-7 col-10">
+                   <!-- <a asp-page="Transporter_Create"><button class="btn btn-primary btn-floating">Opret Transportør</button></a> -->
+                </div>
+            </div>
+        </div>
+   
+    
+</div>
+
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group" style="">
+                    @foreach(var Transporter in Model.Transporters)
+                    {
+                       
+                        <text>
+                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.TransporterId" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
+                        </text>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

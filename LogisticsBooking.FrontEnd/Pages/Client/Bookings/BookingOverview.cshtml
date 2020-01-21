@@ -1,0 +1,272 @@
+﻿@page "{id?}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.Services
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<BookingOverviewModel> localizer
+@inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
+@model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
+
+
+
+        <style>
+                td.details-control {
+                    text-align:center;
+                    color:forestgreen;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            text-align:center; 
+            color:red;
+        }
+        
+        
+       .container-fluid {
+       width: 90%;
+       }
+       
+       #example_filter {
+       display: flex;
+       justify-content: flex-end;
+       }
+       
+        
+    </style>
+
+<body>
+
+
+<div class="container">
+    <div class="row dis">
+      
+        <div class="col">
+            <form asp-page-handler="ExportExcel" method="post">
+                <button class="btn btn-primary">    
+                    <span>Export to excel</span>
+                </button>   
+            </form>
+      
+       
+  </div>
+       
+
+    </div>
+</div>
+
+
+<form method="post" asp-page-handler="Update">
+
+    <table style="background-color: white;" id="example" class="table" width="100%" >
+        <thead>
+        <tr>
+            <th> </th>
+            <th class="bootbox-alert">Dato</th>
+            <th>ID</th>
+            <th>Paller</th>
+            <th>Navn</th>
+            <th>Kontakt</th>
+            <th>Port</th>
+            <th>Faktisk<br/>Ankomst</th>
+            <th>Start<br/>Læsning</th>
+            <th>Slut<br/>Læsning</th>
+            <th>Update</th>
+        
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+        </tbody>
+   
+
+    </table>
+</form>
+
+
+</body>
+
+
+@section Scripts{
+
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    
+
+    <script>
+        
+        $(function () {
+       var table = $('#example').DataTable( {
+           "processing": true,
+           "serverSide": false,
+               "ajax": {
+                               "url": "BookingOverview?handler=test",
+                               "type": "GET",
+                               "datatype": "application/json",
+                               "dataSrc": "bookings",
+                               
+                           },
+                           
+               "columns": [
+                   {
+                                        "className": 'details-control',
+                                        "orderable": false,
+                                        "data": "internalId",
+                                        "defaultContent": '',
+                                        "render": function (data) {
+                                            return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                                        },
+                                        width:"15px"
+                                    },
+                   { 
+                       "data": "bookingTime" , render: function(data ) {
+                           return moment(data).format("dddd DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                       }
+                   },
+                   { "data": "externalId" },
+                  
+                   { "data": "totalPallets" },
+                   { "data": "transporterName" },
+                   { "data": "email" },
+                   {"data" : "port"},
+                   {"data" : "actualArrival" , render: function(data){
+                        return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                   } },
+                                                                  
+                   {"data" : "startLoading" , render: function(data){
+                                                                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                                                               }},
+                   {"data" : "endLoading" , render: function(data){
+                                                                  return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                                                             }},
+                    {"data" : null , render: function(data){
+                                                                  return  '<Button  class=" SubmitButton btn btn-primary"  type="submit" >Updater</button> </form> '
+                                                              }},
+                   
+                   
+               ]
+           } );
+       
+      $('#SubmitButton').on('click', function() {
+              var data = table.$('input, select').serialize();
+              alert(
+                  "The following data would have been submitted to the server: \n\n"+
+                  data.substr( 0, 120 )+'...'
+              );
+              return false;
+          } );
+            
+    // Add event listener for opening and closing details
+         $('#example tbody').on('click', 'td.details-control', function () {
+             var tr = $(this).closest('tr');
+             var tdi = tr.find("i.fa");
+             var row = table.row(tr);
+             if (row.child.isShown()) {
+                 // This row is already open - close it
+                 row.child.hide();
+                 tr.removeClass('shown');
+                 tdi.first().removeClass('fas fa-caret-up');
+                 tdi.first().addClass('fas fa-caret-down');
+             }
+             else {
+                 // Open this row
+                 row.child(format(row.data())).show();
+                 tr.addClass('shown');
+                 tdi.first().removeClass('fas fa-caret-down');
+                 tdi.first().addClass('fas fa-caret-up');
+             }
+         });
+
+         table.on("user-select", function (e, dt, type, cell, originalEvent) {
+             if ($(cell.node()).hasClass("details-control")) {
+                 e.preventDefault();
+             }
+         });
+         
+    } );
+   
+        function toggle(className) {
+            var x = '.' + className;
+            if ($(x).is(":hidden")) {
+                show(className)
+            } else {
+                hide(className)
+            }
+        }
+  
+ 
+        function hide(className) {
+            var x = '.' + className;
+            $(x).hide();
+        }
+   
+
+
+        function show(className) {
+            var x = '.' + className;
+            $(x).show();
+    }
+
+      
+    function format(d){
+            console.log(d.ordersListViewModel.length);
+            var table = "";
+            for(var i=0; i<d.ordersListViewModel.length;i++) {
+                table += '<table cellpadding="5" class="table table-hover table-sm " cellspacing="0" border="0" style="background-color: #f8f9fa; width: 100%; padding-left:50px;">' +
+                                                              
+                                                              '<thead class="thead-dark">' + 
+                                                              '<tr>' + 
+                                                              '<td> ID </td>' + 
+                                                               '<td> Kunde  </td>' +
+                                                                  '<td> Kunde tlf  </td>' +
+                                                                '<td> Total pallets </td>' +
+                                                                '<td> Bottom Pallets </td>' +
+                                                                '<td> Comment </td>' +
+                                                                '</tr>' + 
+                                                                '</thead>' + 
+                                                                '<tbody>' + 
+                                                              '<tr>' + 
+                                                                '<td>'+ d.ordersListViewModel[i].externalId +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.name +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.telephone +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].totalPallets +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].bottomPallets+' </td>' +    
+                                                                     '<td style="max-width: 80px" ">'+ d.ordersListViewModel[i].comment+' </td>' +    
+                                                              '</tr>' +
+                                                              '</tbody>' + 
+                                                             
+                                                          '</table>';  
+            }
+        
+       return  table;
+            
+             // `d` is the original data object for the row
+            
+        }
+    
+ 
+        
+        $('#SubmitButton').on('click', function () {
+            console.log( "kdnofkn" );
+        });
+        
+$('.SubmitButton').on('click',function(e) {
+    console.log("Test");
+    var table = $('#example').DataTable();
+    e.preventDefault();
+    var data = table.$('input').serialize();
+    $.ajax({
+    url : "BookingOverview?handler=Update",
+    data : {model : data},
+    success : function(data) {
+        console.log("server resp" + data)
+    }
+    });
+});
+        
+    
+    </script>
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Hello"   xml:space="preserve">
+    <value>Hej</value>
+  </data>
+    <data name="Supplier"   xml:space="preserve">
+    <value>Kunde</value>
+  </data>
+    <data name="Suppliers"   xml:space="preserve">
+    <value>Kunder</value>
+  </data>
+    <data name="Transporter"   xml:space="preserve">
+    <value>Transportør</value>
+  </data>
+    <data name="Transporters"   xml:space="preserve">
+    <value>Transportører</value>
+  </data>
+    <data name="Order Overview"   xml:space="preserve">
+    <value>Ordre Oversigt</value>
+  </data>
+    <data name="Slot Times"   xml:space="preserve">
+    <value>Slot Tider</value>
+  </data>
+    <data name="Administrate Orders"   xml:space="preserve">
+    <value>Administrer Ordrer</value>
+  </data>
+    <data name="Settings"   xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+    <data name="Logout" xml:space="preserve">
+    <value>Log ud</value>
+  </data>
+    <data name="Name Required"   xml:space="preserve">
+    <value>Navn er nødvendigt</value>
+  </data>
+    Indstillinger
+</root>

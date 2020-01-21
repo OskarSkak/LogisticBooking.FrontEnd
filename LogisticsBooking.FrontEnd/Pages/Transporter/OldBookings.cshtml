@@ -1,0 +1,40 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.OldBookings
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group" style="">
+                    @if(Model.BookingsListViewModel.Bookings != null){
+                        foreach (var interval in Model.IntervalViewModels)
+                        {
+                            <h2>@interval.StartTime</h2>
+                            foreach (var booking in @Model.BookingsListViewModel.Bookings)
+                            {
+                                if (booking.Interval.IntervalId.Equals(interval.IntervalId))
+                                {
+                                    <a asp-page="./ReservedOrders" asp-route-id="@booking.InternalId" class="list-group-item list-group-item-action">
+                                    
+                                        <div class="row">
+                                            <div class="col-md"> @booking.BookingTime.ToString("D")</div>
+                                            <div class="col-md">Id: @booking.ExternalId</div>
+                                            <div class="col-md-auto min-width-8">Bundpaller: @booking.TotalPallets</div>
+                                        </div>
+                                
+                                
+                                    </a>
+                                }
+                               
+                            } 
+                        }
+                        
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

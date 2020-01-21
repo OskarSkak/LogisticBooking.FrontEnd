@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LogisticBooking</title>
+
+    <link rel="stylesheet" asp-append-version="true" href="~/dist/bundle.css" />
+         <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+        
+</head>
+<body class="border-bottom">
+
+
+    @RenderBody()
+    <script src="~/dist/bundle.js"></script>
+    
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

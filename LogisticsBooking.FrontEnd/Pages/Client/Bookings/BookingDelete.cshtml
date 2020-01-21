@@ -1,0 +1,55 @@
+﻿@page "{id}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
+@model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingDeleteModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Booking fra: @Model.Booking.TransporterName</h1>
+                <p class="mb-3">Du er ved at slette den følgende bookning. Dette er en permanent handling. Tryk 'Bekræft' for at gennemføre</p>
+                <form method="post" class="text-left">
+                    <div class="form-group">
+                        <label for="form18">Email</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.Email</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Port</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.Port</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Faktisk Ankomst</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.ActualArrival</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Tidspunkt</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.BookingTime</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Slut læsning</label>
+                        <div class="list-group-item  display-spacebetween">@Model.Booking.EndLoading</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Start læsning</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.StartLoading</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Totalt antal paller</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.TotalPallets</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Transportør navn</label>
+                        <div class="list-group-item display-spacebetween">@Model.Booking.TransporterName</div>
+                    </div>
+                    <input asp-for="Booking.InternalId" type="hidden" class="form-control" id="form18" name="id" value="@Model.Booking.InternalId">
+                    <input type="submit" asp-page-handler="Delete" class="btn btn-primary" value="Bekræft"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
