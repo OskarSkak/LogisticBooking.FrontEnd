@@ -42,7 +42,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             
             
-            SchedulesListViewModel = await _scheduleDataService.GetSchedules();
+            //SchedulesListViewModel = await _scheduleDataService.GetSchedules();
 
             if (SchedulesListViewModel == null)
             {

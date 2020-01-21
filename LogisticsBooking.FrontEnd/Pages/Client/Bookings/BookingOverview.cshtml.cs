@@ -40,15 +40,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         
         
-        public async void OnGet()
+        public async Task OnGet()
         {
             
             _logger.LogInformation(_localizer["Hello"]);
             _logger.LogInformation(_localizer["Hello"].SearchedLocation);
 
 
-            var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            Console.WriteLine(Subjectid);
+            //var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            //Console.WriteLine(Subjectid);
             
             var id = "7";
             var numberOfDays = 0;
@@ -59,9 +59,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             if (numberOfDays != 0)
             {
-                BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
-                        DateTime.Now.AddDays(numberOfDays))
-                    .Result;
+                BookingsListViewModel = await  bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
+                        DateTime.Now.AddDays(numberOfDays)) 
+                    ;
             }
             else
             {

@@ -101,18 +101,7 @@ namespace LogisticsBooking.FrontEnd
             var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
             
-            services.AddSwaggerGen(c =>
-            {
-                c.AddSecurityDefinition("Management.API Auth", new OAuth2Scheme
-                {
-                    Type = "oauth2",
-                    Flow = "application",
-                    Description = "This API uses the Management.API login Oauth2 Client Credentials flow",
-                    TokenUrl = "https://qa-auth-management-identity.azurewebsite.net/connect/token",
-                    Scopes = new Dictionary<string, string> { { "scope.fullacces", "Acces to all api-endpoints" } }
-                });
-                c.SwaggerDoc("v1", new Info { Title = "Management Backend", Version = "v1", Description = "Management API for use with prior agreement" });
-            });
+           
             
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
             
@@ -276,6 +265,7 @@ namespace LogisticsBooking.FrontEnd
            
 
             loggerFactory.AddSerilog();
+            /*
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -283,11 +273,9 @@ namespace LogisticsBooking.FrontEnd
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
 
-             app.UseSwaggerUI(c =>
-                        {
-                            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
-                        });
+            
             app.UseForwardedHeaders(fordwardedHeaderOptions);
+            */
             app.UseCors("MyPolicy");
             app.UseSession();
             //
@@ -308,8 +296,9 @@ namespace LogisticsBooking.FrontEnd
             app.UseCookiePolicy();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(localizationOptions);
+            /*
             app.UseRouter(routes =>
-            {
+            {/*
                 routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
                 {
                     subApp.UseRequestLocalization(localizationOptions);
@@ -321,7 +310,10 @@ namespace LogisticsBooking.FrontEnd
                             template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
                     });
                 });
+                
             });
+        */
+            app.UseMvc();
         }
     }
 }
