@@ -14,9 +14,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
 {
     public class OldBookings : PageModel
     {
-        private readonly IBookingDataService _bookingDataService;
-        private readonly ITransporterDataService _transporterDataService;
-        private readonly IIntervalDataService _intervalDataService;
+        
+        private readonly ITransporterBookingsDataService _transporterBookingsDataService;
         private readonly IUserUtility _userUtility;
         
         [BindProperty] 
@@ -24,34 +23,29 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
         
         public List<IntervalViewModel> IntervalViewModels { get; set; }
 
-        public OldBookings(IBookingDataService bookingDataService , ITransporterDataService transporterDataService, IIntervalDataService intervalDataService , IUserUtility userUtility)
+        public OldBookings(ITransporterBookingsDataService transporterBookingsDataService ,  IUserUtility userUtility)
         {
-            _bookingDataService = bookingDataService;
-            _transporterDataService = transporterDataService;
-            _intervalDataService = intervalDataService;
+           
+            _transporterBookingsDataService = transporterBookingsDataService;
             _userUtility = userUtility;
         }
-        public async Task<IActionResult> OnGet()
+        public void OnGet()
         {
-            
-            
+           
+        }
 
-            var loggedIn = await _transporterDataService.GetTransporterById(_userUtility.GetCurrentUserId());
-            
-            var allBookings = await _bookingDataService.GetBookings();
-            var intervalViewModels = new List<IntervalViewModel>();
-            BookingsListViewModel = new BookingsListViewModel();
-            foreach (var booking in allBookings.Bookings)
-            {
-                if (booking.TransporterId == loggedIn.TransporterId)
-                {
-                    BookingsListViewModel.Bookings.Add(booking);
-                    intervalViewModels.Add(booking.Interval);
-                }
-            }
+        public async Task<JsonResult> OnGetOldBookings()
+        {
+            var loggedIn =  _userUtility.GetCurrentUserId();
 
-            IntervalViewModels = intervalViewModels.DistinctBy(x => x.IntervalId).ToList();
-            return Page();
+
+
+
+
+            var result = await _transporterBookingsDataService.GetOldBookingsByTransporter(loggedIn);
+            
+            var json = new JsonResult(result);
+            return json;
         }
     }
 }

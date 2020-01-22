@@ -80,16 +80,17 @@
                                                      <input type="hidden"/>
                                                      <input type="hidden" name="interval" value="@interval.IntervalId">
 
-                                                     <div class="">@interval.StartTime.Value.DayOfWeek.ToString("G") - @interval.StartTime.Value.ToString("MM/dd") </div>
+                                                     <div class="">@interval.StartTime.Value.DayOfWeek.ToString("G")   </div>
+                                                 </div>
+                                                 
+                                                 <div class="col">
+                                                     <div>@interval.StartTime.Value.ToString("MM/dd")</div>
                                                  </div>
                                                  <div class="col">
                                                                                                       <div class="">@interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t") </div>
 
                                                  </div>
-                                                 <div class="col">
-                                                                                                    <div class=""> Ledige paller : @interval.RemainingPallets</div>
-  
-                                                 </div>
+                                                 
                                                  
 
 

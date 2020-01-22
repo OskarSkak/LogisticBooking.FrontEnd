@@ -97,7 +97,7 @@ border-bottom: 1px solid #dee2e6;
             </div>
             <div class="col">
                 <div class="d-flex justify-content-end m-3 ">
-                    <button type="button" class="btn btn-lg btn-primary" data-toggle="modal"
+                    <button type="button" class="btn btn-lg btn-success" data-toggle="modal"
                             data-target="#exampleModal">
                         New Order
                     </button>
@@ -135,11 +135,11 @@ border-bottom: 1px solid #dee2e6;
                             <td>@orderViewModel.BottomPallets</td>
                             <td>@orderViewModel.TotalPallets</td>
                             <td class="d-flex">
-                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-primary">Edit</button>
+                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-secondary">Edit</button>
                             
                                 <form method="post">
                                     <input type="hidden" asp-for="@orderViewModel.ExternalId"/>
-                                    <button asp-page-handler="Delete" class="btn btn-danger">Delete</button>
+                                    <button asp-page-handler="Delete" class="ml-3 btn btn-primary">Delete</button>
                               
                                 </form>
                             

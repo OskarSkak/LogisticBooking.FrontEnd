@@ -47,9 +47,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 TotalPallets = ViewTotalPallets
             };
 
-            var result = await _orderDataService.UpdateOrder(order);
+            //var result = await _orderDataService.UpdateOrder(order);
 
-            if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
+           // if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
             
             return new RedirectToPageResult("../ReservedBookings");
         }

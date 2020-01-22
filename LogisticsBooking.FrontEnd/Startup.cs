@@ -174,16 +174,11 @@ namespace LogisticsBooking.FrontEnd
                 options.DefaultRequestCulture = new RequestCulture("da");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
                 
             });
             
-            services.AddDbContext<ILogisticBookingApiDatabase , ApiDbContext>(options =>
-            {
-
-                
-                options.UseSqlServer(
-                    "Server=tcp:logistictech.database.windows.net,1433;Initial Catalog=backendDb;Persist Security Info=False;User ID=logistictech@logistictech;Password=casperOskar15;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", assembly => assembly.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName));
-            });
+          
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
             services.AddTransient<ITransporterDataService, TransporterDataService>();
@@ -197,7 +192,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
             services.AddTransient<IDeletedBookingDataService, DeletedBookingDataService>();
 
-            
+            services.AddTransient<ITransporterBookingsDataService, TransporterBookingsDataService>();
             services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
             services.AddTransient<IDashboardDataService, DashboardDataservice>();
             services.AddSingleton<CommonLocalizationService>();

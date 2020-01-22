@@ -20,7 +20,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
     public class Dashboard : PageModel
     {
         private readonly IMasterScheduleDataService _masterScheduleDataService;
-        private readonly ILogisticBookingApiDatabase _logisticBookingApiDatabase;
         private readonly IMapper _mapper;
         private readonly IDashboardDataService _dashboardDataService;
 
@@ -30,69 +29,35 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
 
         [BindProperty]
         public DashboardViewModel DashboardViewModel { get; set; }
+        
+        [BindProperty]
+        public int ShowPercent { get; set; }
 
-        public Dashboard( ILogisticBookingApiDatabase logisticBookingApiDatabase , IMapper mapper)
+        public Dashboard(IDashboardDataService dashboardDataService , IMasterScheduleDataService masterScheduleDataService)
         {
+            _dashboardDataService = dashboardDataService;
+            _masterScheduleDataService = masterScheduleDataService;
+
            
-            _logisticBookingApiDatabase = logisticBookingApiDatabase;
-            _mapper = mapper;
         }
         
-        public void OnGet()
+        public async Task OnGet()
         {
+            
+            var result = await _masterScheduleDataService.GetActiveMasterSchedule();
 
-            /*
-            var result = await GetActiveMasterSchedule();
-
+            
             MasterSchedulesStandardViewModel = CreateMasterSchedules(result);
 
-            DashboardViewModel = await GetDashboard();
-            */
+            DashboardViewModel = await _dashboardDataService.GetDashboard();
+
+            var day = new TimeSpan(24, 0, 0);
+            var percent =  (double) DashboardViewModel.TimeToNextDelivery.Ticks / (double) day.Ticks ;
+            var d = 1 - percent;
+            ShowPercent = (int) (d * 100);
+            Console.WriteLine(ShowPercent);
         }
-
-        public async Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule()
-        {
-            var activeMasterSchedule =
-                await _logisticBookingApiDatabase.MasterScheduleStandards.Include(e => e.MasterIntervalStandards).Where(e => e.IsActive).ToListAsync();
-            
-
-            return new MasterSchedulesStandardViewModel
-            {
-                MasterScheduleStandardViewModels = _mapper.Map<List<MasterScheduleStandardViewModel>>(activeMasterSchedule)
-            };
-        }
-
-
-        public async Task<DashboardViewModel> GetDashboard()
-        {
-            DashboardViewModel dashboardViewModel = new DashboardViewModel();
-            
-            var bookings =
-                _logisticBookingApiDatabase.Bookings.Include(e => e.Interval).Where(e => e.BookingTime.Value.Date == DateTime.Today.Date).ToList();
-            dashboardViewModel.TotalBookings = bookings.Count;
-            dashboardViewModel.BookingsLeft = bookings.Count;
-            dashboardViewModel.TimeToNextDelivery = TimeSpan.FromHours(10000);
-            foreach (var booking in bookings)
-            {
-                if (booking.Interval.EndTime.Value < DateTime.Now)
-                {
-                    dashboardViewModel.BookingsLeft--;
-                }
-                var timeToNextDelivery = booking.Interval.StartTime.Value.Subtract(DateTime.Now);
-                
-                if (dashboardViewModel.TimeToNextDelivery >= timeToNextDelivery && timeToNextDelivery.Ticks > 0)
-                {
-                    dashboardViewModel.TimeToNextDelivery = timeToNextDelivery;
-                }
-
-                
-                
-            }
-
-            
-            return dashboardViewModel;
-
-        }
+        
 
         private MasterSchedulesStandardViewModel CreateMasterSchedules(MasterSchedulesStandardViewModel masterSchedulesStandardViewModel)
         {
@@ -110,9 +75,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
                 }
                 else
                 {
-                    NightInterval = masterScheduleStandardView.MasterIntervalStandardViewModels.OrderByDescending(e => e.StartTime)
-                        .ToList();
-
+                    foreach (var interval in masterScheduleStandardView.MasterIntervalStandardViewModels)
+                    {
+                        if (interval.StartTime.Value.Hour < 16)
+                        {
+                            interval.StartTime = new DateTime(interval.StartTime.Value.Year , interval.StartTime.Value.Month , interval.StartTime.Value.Day+1, interval.StartTime.Value.Hour , interval.StartTime.Value.Minute, interval.StartTime.Value.Second);
+                            
+                            
+                        }
+                        
+                    }
+                    
+                    NightInterval = masterScheduleStandardView.MasterIntervalStandardViewModels.OrderBy(c=> c.StartTime.Value.Date)
+                        .ThenBy(c=> c.StartTime.Value.TimeOfDay).ToList();
+                    
                     masterScheduleStandardView.MasterIntervalStandardViewModels = NightInterval;
                 }
 

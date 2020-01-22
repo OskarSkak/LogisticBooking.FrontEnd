@@ -42,6 +42,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         
         public async Task OnGet()
         {
+
+            
             
             _logger.LogInformation(_localizer["Hello"]);
             _logger.LogInformation(_localizer["Hello"].SearchedLocation);
@@ -49,7 +51,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             //var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             //Console.WriteLine(Subjectid);
-            
+            /*
             var id = "7";
             var numberOfDays = 0;
             if (id != null) numberOfDays = int.Parse(id);
@@ -91,7 +93,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                             BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
                 }
             }
-        }
+            */
+            
+                    }
 
         public async Task<IActionResult> OnPostUpdate(List<DateTime> dateTo, List<TimeSpan> actualArrival, List<TimeSpan> startLoading,
             List<TimeSpan> endLoading, List<string> id)
@@ -214,20 +218,79 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             };
         }
 
-        public async Task<IActionResult> OnGetTest()
+        public async Task<IActionResult> OnGetToday()
         {
-            var bookings = await bookingDataService.GetBookings();
+            var bookings = await bookingDataService.GetBookingsInbetweenDates(DateTime.Today  , DateTime.Today);
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetTomorrow()
+        {
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today.AddDays(1),
+                    DateTime.Today.AddDays(1));
 
             var json = new JsonResult(bookings);
 
             return json;
         }
 
-        public async Task<IActionResult> OnPostTest(string end)
+        public async Task<IActionResult> OnGetYesterday()
         {
-            Console.WriteLine();
-            return Page();
-            
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today.AddDays(-1),
+                    DateTime.Today.AddDays(-1));
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetLastWeek()
+        {
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today.AddDays(-7),
+                    DateTime.Today);
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetLastMonth()
+        {
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today.AddDays(-30),
+                    DateTime.Today);
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetNextWeek()
+        {
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today,
+                    DateTime.Today.AddDays(7));
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetNextMonth()
+        {
+            var bookings =
+                await bookingDataService.GetBookingsInbetweenDates(DateTime.Today,
+                    DateTime.Today.AddDays(30));
+
+            var json = new JsonResult(bookings);
+
+            return json;
         }
     }
 }

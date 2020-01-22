@@ -17,7 +17,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
 {
     public class SuppliersModel : PageModel
     {
-        private readonly ILogisticBookingApiDatabase _logisticBookingApiDatabase;
         private readonly IMapper _mapper;
         private readonly ISupplierDataService _supplierDataService;
         
@@ -30,23 +29,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         
         public bool ShowResponseMessage  => !String.IsNullOrEmpty(ResponseMessage);
 
-        public SuppliersModel(ILogisticBookingApiDatabase logisticBookingApiDatabase , IMapper mapper)
+        public SuppliersModel( IMapper mapper , ISupplierDataService supplierDataService)
         {
-            _logisticBookingApiDatabase = logisticBookingApiDatabase;
             _mapper = mapper;
+            _supplierDataService = supplierDataService;
         }
         
-        public async Task<IActionResult> OnGet()
+        public async Task OnGet()
         {
-            var suppliers = await _logisticBookingApiDatabase.Suppliers
-                .ProjectTo<SupplierViewModel>(_mapper.ConfigurationProvider).ToListAsync();
-            
-            SuppliersListView =  new SuppliersListViewModel
-            {
-                Suppliers = suppliers
-            };
-           
-            return Page();
+
+            SuppliersListView = await _supplierDataService.ListSuppliers(0, 0);
         }
 
         public async Task OnGetUser()

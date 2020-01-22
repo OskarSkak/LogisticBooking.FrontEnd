@@ -18,7 +18,7 @@ namespace LogisticsBooking.FrontEnd.Services
         
         public Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
         {
-            var defaultCulture = "en";
+            var defaultCulture = "da";
 
             var path = httpContext.Request.Path;
 

@@ -1,24 +1,223 @@
 @page
-@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.Bookings
-
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Bookings
 @{
     Layout = "_Layout_Transporter";
 }
 
+<div class="container-fluid">
 
-<div class="container">
-    <div class="row">
-        <div class="col card m-5">
-            <a asp-page="CurrentBookings">
-                <h2 class="text-center">Nuværende Bookninger</h2>
-            </a>
-        </div>
-        
-        <div class="col card m-5">
-            <a asp-page="OldBookings">
-            <h2 class="text-center">Tidligere Bookninger</h2>
-            </a>
-        </div>
+    <div class="d-sm-flex align-items-center justify-content-end mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
+            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
+        </form>
+            
+    
         
     </div>
+
+
+    
+    
+    
+    
+    <div class="row-xl-12 mt-4">
+            
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Booking Overview</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                        
+
+                    <table id="example" class="table" width="100%">
+                        <thead>
+                        <tr>
+                            <th> </th>
+                            <th class="bootbox-alert">Dato</th>
+                            <th>ID</th>
+                            <th>Paller</th>
+                            <th>Port</th>
+                            <th>AnkomstTid</th>
+                                   
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                        </tbody>
+
+
+                    </table>
+
+                       
+                </div>
+            </div>
+        </div>
+            
+        
+         
+    </div>
+    
 </div>
+
+@section Scripts
+{
+    
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script>
+        $(function () {
+       var table = $('#example').DataTable( {
+           "processing": true,
+           "serverSide": false,
+               "ajax": {
+                               "url": "Bookings?handler=Bookings",
+                               "type": "GET",
+                               "datatype": "application/json",
+                               "dataSrc": "bookings",
+                               
+                           },
+                           
+               "columns": [
+                   {
+                                        "className": 'details-control',
+                                        "orderable": false,
+                                        "data": "internalId",
+                                        "defaultContent": '',
+                                        "render": function (data) {
+                                            return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                                        },
+                                        width:"15px"
+                                    },
+                   { 
+                       "data": "bookingTime" , render: function(data ) {
+                           return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                       },
+                       width:"70px"
+                   },
+                   { "data": "externalId" },
+                  
+                   { "data": "totalPallets" },
+                   {"data" : "port"},
+                   {"data" : "interval.startTime" , render: function(data) {
+                       return moment(data).format("HH:mm")
+                   }}
+                   
+                   
+               ]
+           } )
+        
+        
+         $('#example tbody').on('click', 'td.details-control', function () {
+                             console.log("hej")
+                             var tr = $(this).closest('tr');
+                             var tdi = tr.find("i.fa");
+                             var row = table.row(tr);
+                             console.log(row.data())
+                             if (row.child.isShown()) {
+                                 // This row is already open - close it
+                                 row.child.hide();
+                                 tr.removeClass('shown');
+                                 tdi.first().removeClass('fas fa-caret-up');
+                                 tdi.first().addClass('fas fa-caret-down');
+                             }
+                             else {
+                                 // Open this row
+                                 row.child(format(row.data())).show();
+                                 tr.addClass('shown');
+                                 tdi.first().removeClass('fas fa-caret-down');
+                                 tdi.first().addClass('fas fa-caret-up');
+                             }
+                         });
+               
+                  table.on("user-select", function (e, dt, type, cell, originalEvent) {
+                              if ($(cell.node()).hasClass("details-control")) {
+                                  e.preventDefault();
+                              }
+                          });
+                          
+                  
+        
+        
+        });
+        
+        
+                
+        function toggle(className) {
+            var x = '.' + className;
+            if ($(x).is(":hidden")) {
+                show(className)
+            } else {
+                hide(className)
+            }
+        }
+  
+ 
+        function hide(className) {
+            var x = '.' + className;
+            $(x).hide();
+        }
+   
+
+
+        function show(className) {
+            var x = '.' + className;
+            $(x).show();
+    }
+    
+ 
+
+      
+    function format(d){
+            console.log(d)
+            console.log(d.ordersListViewModel.length);
+            var table = "";
+            for(var i=0; i<d.ordersListViewModel.length;i++) {
+                table += '<table cellpadding="5" class="table table-hover table-sm " cellspacing="0" border="0" style="background-color: #f8f9fa; width: 100%; padding-left:50px;">' +
+                                                              
+                                                              '<thead class="thead-dark">' + 
+                                                              '<tr>' + 
+                                                              '<td> ID </td>' + 
+                                                               '<td> Kunde  </td>' +
+                                                                  '<td> Kunde tlf  </td>' +
+                                                                '<td> Total pallets </td>' +
+                                                                '<td> Bottom Pallets </td>' +
+                                                                '<td> Comment </td>' +
+                                                                '</tr>' + 
+                                                                '</thead>' + 
+                                                                '<tbody>' + 
+                                                              '<tr>' + 
+                                                                '<td>'+ d.ordersListViewModel[i].externalId +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.name +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.telephone +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].totalPallets +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].bottomPallets+' </td>' +    
+                                                                     '<td style="max-width: 80px" ">'+ d.ordersListViewModel[i].comment+' </td>' +    
+                                                              '</tr>' +
+                                                              '</tbody>' + 
+                                                             
+                                                          '</table>';  
+            }
+        
+       return  table;
+            
+             // `d` is the original data object for the row
+            
+        }
+    
+ 
+        
+        
+           
+           </script>
+    
+}
+
+       

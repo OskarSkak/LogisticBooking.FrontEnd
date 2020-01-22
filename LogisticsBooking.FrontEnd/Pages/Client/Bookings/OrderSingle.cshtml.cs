@@ -20,21 +20,28 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         private IOrderDataService _orderDataService;
         [BindProperty] public OrderViewModel OrderViewModel { get; set; }
         
+        [BindProperty]
+        public Guid BookingId { get; set; }
+        
+        [TempData]
+        public String Message { get; set; }
+
+        
         public OrderSingleModel(IOrderDataService orderDataService)
         {
             _orderDataService = orderDataService;
         }
 
-        public async Task OnGetAsync(string id)
+        public async Task OnGetAsync(string id , string bookingId)
         {
             OrderViewModel = await _orderDataService.GetOrderById(Guid.Parse(id));
-            var la = "";
+            BookingId = Guid.Parse(bookingId);
         }
 
         public async Task<IActionResult> OnPostUpdate(string ViewComment, string ViewCustomerNumber, string ViewOrderNumber, 
-            int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id, int ViewTotalPallets)
+            int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id, int ViewTotalPallets , string bookingId)
         {
-            var order = new OrderViewModel
+            var order = new UpdateOrderCommand
             {
                 Comment = ViewComment, 
                 CustomerNumber = ViewCustomerNumber, 
@@ -51,14 +58,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
             
-            return new RedirectToPageResult("BookingOverviewAdmin");
+            Message = "Ordren er opdateret korrekt";
+            return new RedirectToPageResult("BookingSingle" , new {id = bookingId});
         }
 
-        public async Task<IActionResult> OnPostDelete(string id)
+        public async Task<IActionResult> OnPostDelete(string id , string bookingId)
         {
             var result = await _orderDataService.DeleteOrder(Guid.Parse(id));
-
-            return new RedirectToPageResult("BookingOverviewAdmin");
+            Message = "Ordren er slettet";
+            return new RedirectToPageResult("BookingSingle" , new {id = bookingId});
         }
         
 

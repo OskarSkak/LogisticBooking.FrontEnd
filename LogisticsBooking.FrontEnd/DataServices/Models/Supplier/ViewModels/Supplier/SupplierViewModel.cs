@@ -5,7 +5,7 @@ using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
 {
-    public class SupplierViewModel : IHaveCustomMapping
+    public class SupplierViewModel
     {
         public string Email { get; set; }
         public int Telephone { get; set; }
@@ -16,9 +16,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
         // Leverings vindue for kunden
         public DateTime DeliveryStart { get; set; }
         public DateTime DeliveryEnd { get; set; }
-        public void CreateMappings(Profile configuration)
-        {
-            configuration.CreateMap<LogisticBooking.API.Domain.Entities.Supplier, SupplierViewModel>();
-        }
+        
     }
 }

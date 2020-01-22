@@ -50,6 +50,92 @@
   </data>
     <data name="Name Required"   xml:space="preserve">
     <value>Navn er nødvendigt</value>
+    </data>
+    <data name="number of deliveries"   xml:space="preserve">
+    <value>Antal leveringer</value>
   </data>
-    Indstillinger
+    <data name="deliveries left"   xml:space="preserve">
+    <value>Leveringer tilbage</value>
+  </data>
+
+    <data name="Time until next delivery"   xml:space="preserve">
+    <value>Tid til næste levering</value>
+  </data>
+
+    <data name="delayed trips"   xml:space="preserve">
+    <value>Forsinkede turer</value>
+  </data>
+
+
+    <data name="Standard plans"   xml:space="preserve">
+    <value>Standard planer</value>
+  </data>
+
+    <data name="Standard day plan"   xml:space="preserve">
+    <value>Standard dag plan</value>
+  </data>
+
+    <data name="Times"   xml:space="preserve">
+    <value>Tider</value>
+  </data>
+
+
+    <data name="Number of pallets"   xml:space="preserve">
+    <value>Antal Paller</value>
+  </data>
+
+
+    <data name="Standard night plan"   xml:space="preserve">
+    <value>Standard nat plan</value>
+  </data>
+
+
+    <data name="slot"   xml:space="preserve">
+    <value>Standard nat plan</value>
+  </data>
+
+
+    <data name="Plans"   xml:space="preserve">
+    <value>planer</value>
+  </data>
+
+    <data name="Active plans"   xml:space="preserve">
+    <value>Aktive planer</value>
+  </data>
+
+    <data name="Calendar overview"   xml:space="preserve">
+    <value>Kalender oversigt</value>
+  </data>
+
+    <data name="Saved plans"   xml:space="preserve">
+    <value>Gemte planer</value>
+  </data>
+
+    <data name="Create night plan"   xml:space="preserve">
+    <value>Opret Nat Plan</value>
+  </data>
+
+
+    <data name="Create day plan"   xml:space="preserve">
+    <value>Opret dags plan</value>
+  </data>
+
+
+    <data name="Booking overview"   xml:space="preserve">
+    <value>Booking oversigt</value>
+  </data>
+
+    <data name="Administrate orders"   xml:space="preserve">
+    <value>Administrer Ordrer</value>
+  </data>
+
+
+    <data name="Bookings"   xml:space="preserve">
+    <value>Bookinger</value>
+  </data>
+  <data name="Customers"   xml:space="preserve">
+    <value>Kunder</value>
+  </data>
+
+    
 </root>

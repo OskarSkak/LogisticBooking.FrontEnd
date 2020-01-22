@@ -30,6 +30,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public int EndMinute { get; set; }
         [BindProperty] public int EndHour { get; set; }
         
+        [TempData]
+        public String Message { get; set; }
+
+        public bool MessegeIsSet => !String.IsNullOrEmpty(Message);
+        
         public BookingSingleModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
@@ -64,7 +69,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             int endHour, int endMinute, Guid ViewBookingId)
         {
             
-            var booking = new BookingViewModel()
+            var booking = new UpdateBookingCommand()
             {
                 BookingTime = ViewBookTime, 
                 TotalPallets = ViewPallets, 
@@ -75,30 +80,18 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 InternalId = ViewBookingId
             };
 
-            var result = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(booking));
-            
-            if(result.IsSuccesfull) return new RedirectToPageResult("BookingOverViewAdmin");
+            var result = await bookingDataService.UpdateBooking(booking);
+
+            if (result.IsSuccesfull)
+            {
+                Message = "Bookingen er opdateret korrekt";
+                return new RedirectToPageResult("BookingSingle" , new {id = ViewBookingId});
+            }
 
             return new RedirectToPageResult("Error");
         }
         
-        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
-        {
-            return new UpdateBookingCommand
-            {
-                Email = bookingToUpdate.Email,
-                Port = bookingToUpdate.Port,
-                ActualArrival = bookingToUpdate.ActualArrival,
-                BookingTime = bookingToUpdate.ActualArrival,
-                EndLoading = bookingToUpdate.ActualArrival,
-                ExternalId = bookingToUpdate.ExternalId,
-                InternalId = bookingToUpdate.InternalId,
-                StartLoading = bookingToUpdate.StartLoading,
-                TotalPallets = bookingToUpdate.TotalPallets,
-                TransporterId = bookingToUpdate.TransporterId,
-                TransporterName = bookingToUpdate.TransporterName
-            };
-        }
+        
     }
     
 }

@@ -18,7 +18,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
     public class CalendarOverview : PageModel
     {
-        private readonly ILogisticBookingApiDatabase _logisticBookingApiDatabase;
         private readonly IMapper _mapper;
         private readonly IScheduleDataService _scheduleDataService;
 
@@ -30,26 +29,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [TempData]
         public String Message { get; set; }
         
-        public CalendarOverview(ILogisticBookingApiDatabase logisticBookingApiDatabase , IMapper mapper)
+        public CalendarOverview(IScheduleDataService scheduleDataService , IMapper mapper)
         {
-            _logisticBookingApiDatabase = logisticBookingApiDatabase;
+     
+            _scheduleDataService = scheduleDataService;
             _mapper = mapper;
         }
         
         
         public async Task OnGet()
         {
-        
-        var result = await _logisticBookingApiDatabase.Schedules
-            .ToListAsync();
 
 
-        var model = new SchedulesListViewModel
-        {
-            Schedules = _mapper.Map<List<ScheduleViewModel>>(result)
-        };
 
-         SchedulesListViewModel = model;
+            SchedulesListViewModel = await _scheduleDataService.GetSchedules();
             
             var calender =  HttpContext.Session.GetObject<CalenderViewModel>("key");
 

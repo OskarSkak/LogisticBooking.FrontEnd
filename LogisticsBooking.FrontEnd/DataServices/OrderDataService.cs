@@ -40,11 +40,11 @@ namespace LogisticsBooking.FrontEnd.DataServices.Utilities
             return await TryReadAsync<OrderViewModel>(result);
         }
 
-        public async Task<Response> UpdateOrder(OrderViewModel order)
+        public async Task<Response> UpdateOrder(UpdateOrderCommand order)
         {
-            var endpoint = baseurl + order.OrderId;   
+            var endpoint = baseurl;   
         
-            var response = await PutAsync<OrderViewModel>(endpoint, order);
+            var response = await PutAsync<UpdateOrderCommand>(endpoint, order);
 
             if (!response.IsSuccessStatusCode)
             {

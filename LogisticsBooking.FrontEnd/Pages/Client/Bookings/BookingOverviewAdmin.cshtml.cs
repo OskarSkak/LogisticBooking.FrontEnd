@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
-    public class BookingOvervieAdminwModel : PageModel
+    public class BookingOverviewAdminModel : PageModel
     {
         private readonly IBookingDataService _bookingDataService;
 
@@ -24,36 +24,41 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } 
 
 
-        public BookingOvervieAdminwModel(IBookingDataService bookingDataService)
+        public BookingOverviewAdminModel(IBookingDataService bookingDataService)
         {
             _bookingDataService = bookingDataService;
             
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public  void OnGetAsync()
         {
 
-            BookingsListViewModel = await _bookingDataService.GetBookings();
-            
-            
-            foreach (var booking in BookingsListViewModel.Bookings)
-            {
-                if (String.IsNullOrWhiteSpace(booking.TransporterName)) booking.TransporterName = "N/A";
-                if (String.IsNullOrWhiteSpace(booking.Email)) booking.Email = "N/A";
+          
+        }
+        
+        public async Task<IActionResult> OnGetToday()
+        {
+            var bookings = await _bookingDataService.GetBookingsInbetweenDates(DateTime.Today  , DateTime.Today);
 
-                booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
-                booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
-                booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
+            var json = new JsonResult(bookings);
 
-                foreach (var order in booking.OrdersListViewModel)
-                {
-                    if (String.IsNullOrWhiteSpace(order.CustomerNumber)) order.CustomerNumber = "N/A";
-                    if (String.IsNullOrWhiteSpace(order.OrderNumber)) order.OrderNumber = "N/A";
-                    if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
-                }
-            }
+            return json;
+        }
 
-            return Page();
+        public async Task<IActionResult> OnGetAll()
+        {
+            var bookings =
+                await _bookingDataService.GetBookings();
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+
+        public async Task<IActionResult> OnGetEdit(string id)
+        {
+            Console.WriteLine(id);
+            return new RedirectToPageResult("BookingSingle", new {id = id});
         }
     }
 }

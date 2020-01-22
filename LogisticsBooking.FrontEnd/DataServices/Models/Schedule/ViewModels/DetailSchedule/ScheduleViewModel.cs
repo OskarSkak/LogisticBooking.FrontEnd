@@ -13,7 +13,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
     }
 
     
-    public class ScheduleViewModel : IHaveCustomMapping
+    public class ScheduleViewModel 
     {
         public ScheduleViewModel()
         {
@@ -32,10 +32,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
         public bool IsStandard { get; set; }
 
 
-        public void CreateMappings(Profile configuration)
-        {
-            configuration.CreateMap<LogisticBooking.API.Domain.Entities.Schedule, ScheduleViewModel>();
-            configuration.CreateMap<ScheduleViewModel, LogisticBooking.API.Domain.Entities.Schedule>();
-        }
+     
     }
 }

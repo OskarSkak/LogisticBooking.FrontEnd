@@ -12,7 +12,9 @@ module.exports = (env, argv) => {
     return {
         mode: argv.mode === "production" ? "production" : "development",
         entry: {'style' : './src/sass/app.scss',
-             'dd' : './src/index.js'},
+             'dd' : './src/index.js',
+            'datableCustom' : './src/datatableCustom.js'
+        },
         output: {
             filename: '[name]' + '.js',
             path: path.resolve(__dirname, dirName)

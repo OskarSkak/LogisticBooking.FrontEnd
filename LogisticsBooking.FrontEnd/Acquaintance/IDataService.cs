@@ -58,7 +58,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> CreateOrder(OrderViewModel order);
         Task<List<OrderViewModel>> GetOrders();
         Task<OrderViewModel> GetOrderById(Guid id);
-        Task<Response> UpdateOrder(OrderViewModel order);
+        Task<Response> UpdateOrder(UpdateOrderCommand order);
         Task<Response> DeleteOrder(Guid id);
     }
 
@@ -127,5 +127,11 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IDashboardDataService
     {
         Task<DashboardViewModel> GetDashboard();
+    }
+
+    public interface ITransporterBookingsDataService
+    {
+        Task<BookingsListViewModel> GetOldBookingsByTransporter(Guid TransporterId);
+        Task<BookingsListViewModel> GetBookingsByTransporter(Guid TransporterId);
     }
 }

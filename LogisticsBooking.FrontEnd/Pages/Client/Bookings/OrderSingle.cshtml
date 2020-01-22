@@ -5,36 +5,54 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="py-5 text-center">
-    <div class="container">
-        <div class="row">
-            <div class="mx-auto col-lg-6 col-10">
-                <h1>Ordre fra @Model.OrderViewModel.SupplierViewModel.Name</h1>
-                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
-                <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form18">Kommentar</label> <input asp-for="OrderViewModel.Comment" class="form-control" id="form18" name="ViewComment"> </div>
-                    <div class="form-group"> <label for="form18">Kunde nr</label> <input asp-for="OrderViewModel.CustomerNumber" class="form-control" id="form18" name="ViewCustomerNumber"> </div>
-                    <div class="form-group"> <label for="form18">Ordre nr</label> <input asp-for="OrderViewModel.OrderNumber" class="form-control" id="form18" name="ViewOrderNumber"> </div>
-                    <div class="form-group"> <label for="form18">Vare nr</label> <input asp-for="OrderViewModel.WareNumber" class="form-control" id="form18" name="ViewWareNumber"> </div>
-                    <div class="form-group"> <label for="form18">Antal bundpaller</label> <input asp-for="OrderViewModel.BottomPallets"  class="form-control" id="form18" name="ViewBottomPallets"> </div>
-                    <div class="form-group"> <label for="form18">Ordre id</label> <input asp-for="OrderViewModel.ExternalId" class="form-control" id="form18" name="ViewExternalId"> </div>
-                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="OrderViewModel.TotalPallets"  class="form-control" id="form18" name="ViewTotalPallets"> </div>
-                    <div class="form-group"> <label for="form18">Total Ind/Ud</label> <input asp-for="OrderViewModel.InOut"  class="form-control" id="form18" name="ViewInOut"> </div>
-                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="OrderViewModel.OrderId" type="hidden"  class="form-control" id="form18" name="id" value="@Model.OrderViewModel.OrderId"> </div>
-                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    <a class="btn btn-danger"  data-toggle="modal" data-target="#opret">Slet</a>
-                </form>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2"></div>
+        <div class="col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Booking</h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                                    <form method="post" class="text-left">
+                                        <div class="form-group"> <label for="form18">Kommentar</label> <input asp-for="OrderViewModel.Comment" class="form-control" id="form18" name="ViewComment"> </div>
+                                        <div class="form-group"> <label for="form18">Kunde nr</label> <input asp-for="OrderViewModel.CustomerNumber" class="form-control" id="form18" name="ViewCustomerNumber"> </div>
+                                        <div class="form-group"> <label for="form18">Ordre nr</label> <input asp-for="OrderViewModel.OrderNumber" class="form-control" id="form18" name="ViewOrderNumber"> </div>
+                                        <div class="form-group"> <label for="form18">Vare nr</label> <input asp-for="OrderViewModel.WareNumber" class="form-control" id="form18" name="ViewWareNumber"> </div>
+                                        <div class="form-group"> <label for="form18">Antal bundpaller</label> <input asp-for="OrderViewModel.BottomPallets"  class="form-control" id="form18" name="ViewBottomPallets"> </div>
+                                        <div class="form-group"> <label for="form18">Ordre id</label> <input asp-for="OrderViewModel.ExternalId" class="form-control" id="form18" name="ViewExternalId"> </div>
+                                        <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="OrderViewModel.TotalPallets"  class="form-control" id="form18" name="ViewTotalPallets"> </div>
+                                        <div class="form-group"> <label for="form18">Total Ind/Ud</label> <input asp-for="OrderViewModel.InOut"  class="form-control" id="form18" name="ViewInOut"> </div>
+                                        <div class="form-group"> <label for="form18"></label> <input asp-for="OrderViewModel.OrderId" type="hidden"  class="form-control" id="form18" name="id" value="@Model.OrderViewModel.OrderId"> </div>
+                                        <div class="row d-flex justify-content-end">
+                                        <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" Opdater value="Opdater">Opdater</button>
+                                        <div class="btn btn-lg btn-danger m-2"  data-toggle="modal" data-target="#opret">Slet</div>
+                                        </div>
+                                        <input type="hidden" name="bookingId" value="@Model.BookingId"/>
+                                    </form>
+
+
+                </div>
             </div>
         </div>
+
+
+        <div class="col-xl-2"></div>
+
     </div>
 </div>
+
+
+
 
 
 <div class="modal fade" id="opret" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Opret plan</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Order</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -44,8 +62,9 @@
       </div>
         <div class="modal-footer">
              <form asp-page-handler="delete" method="post">
+<input type="hidden" name="bookingId" value="@Model.BookingId"/>
                        <button class="btn btn-danger">Bekræft</button>
-<button class="btn btn-outline-primary"data-dismiss="modal" >Go Back</button>
+<button class="btn btn-outline-info"data-dismiss="modal" >Go Back</button>
                    </form>
         </div>
     </div>

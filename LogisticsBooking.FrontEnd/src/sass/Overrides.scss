@@ -53,6 +53,8 @@
    background-image: none;
    background-size: cover;
  }
+ 
+ 
 
 
 
@@ -81,11 +83,14 @@
    border-color: #FF5A87;
  }
 
+
  .btn-primary:hover {
-   color: #fff;
+   color: white;
    background-color: #FF5A87;
    border-color: #FF5A87;
  }
+
+
 
  .badge-danger {
    color: #fff;
@@ -174,64 +179,70 @@ background-color:  #818E94;
    flex: 0 0 7%;
  }
 
+ 
+ 
+ 
+ 
+ 
+ 
  .circle-active {
-   background: #FFE5EC;
-   border-radius: 3.6em;
-   -moz-border-radius: 3.6em;
-   -webkit-border-radius: 3.6em;
-   color: #FF5A87;
+   background: #CFE1F5;
+   border-radius: 1.2em;
+   -moz-border-radius: 1.2em;
+   -webkit-border-radius: 1.2em;
+   color: #2680EB;
    display: inline-block;
-   border: 1px solid #FFE5EC;
-   line-height: 3.6em;
+   border: 1px solid #CFE1F5;
+   line-height: 1.2em;
    margin-right: 5px;
    text-align: center;
-   width: 3.6em;
+   width: 1.6em;
  }
 
  .circle {
    background: white;
-   border-radius: 3.6em;
-   -moz-border-radius: 3.6em;
-   -webkit-border-radius: 3.6em;
+   border-radius: 1.2em;
+   -moz-border-radius: 1.2em;
+   -webkit-border-radius: 1.2em;
    color: #818E94;
    display: inline-block;
 
    border: 1px solid white;
-   line-height: 3.6em;
+   line-height: 1.2em;
    margin-right: 5px;
    text-align: center;
-   width: 3.6em;
+   width: 1.6em;
  }
 
  .circle-inactive {
    background: white;
-   border-radius: 3.6em;
-   -moz-border-radius: 3.6em;
-   -webkit-border-radius: 3.6em;
+   border-radius: 1.2em;
+   -moz-border-radius: 1.2em;
+   -webkit-border-radius: 1.2em;
    color: #818E94;
    display: inline-block;
 
    border: 1px solid white;
-   line-height: 3.6em;
+   line-height: 1.2em;
    margin-right: 5px;
    text-align: center;
-   width: 3.6em;
+   width: 1.6em;
  }
 
 
- .circle-active-1 {
-   background: white;
-   border-radius: 3.6em;
-   -moz-border-radius: 3.6em;
-   -webkit-border-radius: 3.6em;
+ .circle-bookingNotAllowed {
+   background: #FFE5EC;
+   border-radius: 1.2em;
+   -moz-border-radius: 1.2em;
+   -webkit-border-radius: 1.2em;
    border: 1px solid #FFE5EC;
    color: #FF5A87;
    display: inline-block;
 
-   line-height: 3.6em;
+   line-height: 1.2em;
    margin-right: 5px;
    text-align: center;
-   width: 3.6em;
+   width: 1.6em;
  }
 
 
@@ -239,4 +250,201 @@ background-color:  #818E94;
    color: black;
    font-weight: bold;
  }
- 
+
+
+ @media (min-width: 768px){
+   .circle-active {
+     background: #CFE1F5;
+     border-radius: 3.6em;
+     -moz-border-radius: 3.6em;
+     -webkit-border-radius: 3.6em;
+     color: #2680EB;
+     display: inline-block;
+     border: 1px solid #CFE1F5;
+     line-height: 3.6em;
+     margin-right: 5px;
+     text-align: center;
+     width: 3.6em;
+   }
+
+   .circle {
+     background: white;
+     border-radius: 3.6em;
+     -moz-border-radius: 3.6em;
+     -webkit-border-radius: 3.6em;
+     color: #818E94;
+     display: inline-block;
+
+     border: 1px solid white;
+     line-height: 3.6em;
+     margin-right: 5px;
+     text-align: center;
+     width: 3.6em;
+   }
+
+   .circle-inactive {
+     background: white;
+     border-radius: 3.6em;
+     -moz-border-radius: 3.6em;
+     -webkit-border-radius: 3.6em;
+     color: #818E94;
+     display: inline-block;
+
+     border: 1px solid white;
+     line-height: 3.6em;
+     margin-right: 5px;
+     text-align: center;
+     width: 3.6em;
+   }
+
+
+   .circle-bookingNotAllowed {
+     background: #FFE5EC;
+     border-radius: 3.6em;
+     -moz-border-radius:3.6em;
+     -webkit-border-radius: 3.6em;
+     border: 1px solid #FFE5EC;
+     color: #FF5A87;
+     display: inline-block;
+
+     line-height: 3.6em;
+     margin-right: 5px;
+     text-align: center;
+     width: 3.6em;
+   }
+ }
+
+
+ .btn-xm, .btn-group-xm > .btn {
+   padding: 0.15rem 0.25rem;
+   font-size: 0.875rem;
+   line-height: 1.3;
+   border-radius: 0.2rem;
+ }
+
+ .btn-outline-info:hover {
+   color: #fff;
+   border-color: #36b9cc;
+ }
+
+ html {
+   -webkit-font-smoothing: antialiased!important;
+   -moz-osx-font-smoothing: grayscale!important;
+   -ms-font-smoothing: antialiased!important;
+ }
+ .md-stepper-horizontal {
+   display:table;
+   width:100%;
+   margin:0 auto;
+   background-color: transparent;
+
+ }
+ .md-stepper-horizontal .md-step {
+   display:table-cell;
+   position:relative;
+   padding:24px;
+ }
+ .md-stepper-horizontal .md-step:hover,
+ .md-stepper-horizontal .md-step:active {
+   background-color:rgba(0,0,0,0.04);
+ }
+ .md-stepper-horizontal .md-step:active {
+   border-radius: 15% / 75%;
+ }
+ .md-stepper-horizontal .md-step:first-child:active {
+   border-top-left-radius: 0;
+   border-bottom-left-radius: 0;
+ }
+ .md-stepper-horizontal .md-step:last-child:active {
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+ }
+ .md-stepper-horizontal .md-step:hover .md-step-circle {
+   background-color:#757575;
+ }
+ .md-stepper-horizontal .md-step:first-child .md-step-bar-left,
+ .md-stepper-horizontal .md-step:last-child .md-step-bar-right {
+   display:none;
+ }
+ .md-stepper-horizontal .md-step .md-step-circle {
+   width:30px;
+   height:30px;
+   margin:0 auto;
+   background-color:#999999;
+   border-radius: 50%;
+   text-align: center;
+   line-height:30px;
+   font-size: 16px;
+   font-weight: 600;
+   color:#FFFFFF;
+ }
+ .md-stepper-horizontal.green .md-step.active .md-step-circle {
+   background-color:#00AE4D;
+ }
+ .md-stepper-horizontal.orange .md-step.active .md-step-circle {
+   background-color:#F96302;
+ }
+ .md-stepper-horizontal .md-step.active .md-step-circle {
+   background-color: rgb(33,150,243);
+ }
+ .md-stepper-horizontal .md-step.done .md-step-circle:before {
+   font-family:'FontAwesome';
+   font-weight:100;
+   content: "\f00c";
+ }
+ .md-stepper-horizontal .md-step.done .md-step-circle *,
+ .md-stepper-horizontal .md-step.editable .md-step-circle * {
+   display:none;
+ }
+ .md-stepper-horizontal .md-step.editable .md-step-circle {
+   -moz-transform: scaleX(-1);
+   -o-transform: scaleX(-1);
+   -webkit-transform: scaleX(-1);
+   transform: scaleX(-1);
+ }
+ .md-stepper-horizontal .md-step.editable .md-step-circle:before {
+   font-family:'FontAwesome';
+   font-weight:100;
+   content: "\f040";
+ }
+ .md-stepper-horizontal .md-step .md-step-title {
+   margin-top:16px;
+   font-size:16px;
+   font-weight:600;
+ }
+ .md-stepper-horizontal .md-step .md-step-title,
+ .md-stepper-horizontal .md-step .md-step-optional {
+   text-align: center;
+   color:rgba(0,0,0,.26);
+ }
+ .md-stepper-horizontal .md-step.active .md-step-title {
+   font-weight: 600;
+   color:rgba(0,0,0,.87);
+ }
+ .md-stepper-horizontal .md-step.active.done .md-step-title,
+ .md-stepper-horizontal .md-step.active.editable .md-step-title {
+   font-weight:600;
+ }
+ .md-stepper-horizontal .md-step .md-step-optional {
+   font-size:12px;
+ }
+ .md-stepper-horizontal .md-step.active .md-step-optional {
+   color:rgba(0,0,0,.54);
+ }
+ .md-stepper-horizontal .md-step .md-step-bar-left,
+ .md-stepper-horizontal .md-step .md-step-bar-right {
+   position:absolute;
+   top:36px;
+   height:1px;
+   border-top:1px solid #DDDDDD;
+ }
+ .md-stepper-horizontal .md-step .md-step-bar-right {
+   right:0;
+   left:50%;
+   margin-left:20px;
+ }
+ .md-stepper-horizontal .md-step .md-step-bar-left {
+   left:0;
+   right:50%;
+   margin-right:20px;
+ }

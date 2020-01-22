@@ -3,106 +3,144 @@
 @using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingSingleModel
 
-<style>
-    #wrapper {
-        text-align: center;
-    }
-    #yourdiv {
-        display: inline-block;
-    }
-</style>
 
-<div class="py-5 text-center">
-    <div class="container">
-        <div class="row">
-            <div class="mx-auto col-lg-6 col-10">
-                <h1>Booking fra @Model.Booking.TransporterName</h1>
-                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
-                <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookTime"> </div>
-                    <div class="form-group"> <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets"> </div>
-                    <div class="form-group"> <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="ViewPort"> </div>
-                    <div class="form-group"> <label for="form18" style="width: 12em">Faktisk ankomst</label> 
-                        <input type="number" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 2.5em" max="23" min="0" required /> 
-                        : <input type="number" asp-for="@Model.ArrivalMinute" name="ActualArrivalMinute" style="width: 2.5em" max="59" min="0" required />
-                    </div>
-                    <div class="form-group"><label for="form18" style="width: 12em">Start Læsning</label> 
-                        <input type="number" asp-for="@Model.StartHour" name="startHour" style="width: 2.5em" max="23" min="0" required /> 
-                        : <input type="number" asp-for="@Model.StartMinute" name="startMinute" style="width: 2.5em" max="59" min="0" required />
-                    </div>
-                    <div class="form-group"><label for="form18" style="width: 12em">Slut Læsning</label> 
-                        <input type="number" asp-for="@Model.EndHour" name="endHour" style="width: 2.5em" max="23" min="0" required /> 
-                        : <input type="number" asp-for="@Model.EndMinute" name="endMinute" style="width: 2.5em" max="59" min="0" required />
-                    </div>
-                    <input asp-for="Booking.EndLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
-                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" value="Opdater"/>
-                    <a id="test" data-toggle="modal" data-target="#popup" class=" btn btn-primary">Slet</a>
-                </form>
-                
-            </div>
-        </div>
+
+@if (Model.MessegeIsSet)
+{
+    <div class="alert alert-success" role="alert">
+        @Model.Message
     </div>
-</div>
+ 
+}
 
-
-
-<div id="wrapper">
-    <div id="yourdiv">
-        <h2 style="position: center">Ordrer på denne booking</h2>
-    </div>
-</div>
-
-<div class="py-5" style="">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="list-group " style="">
-                    @if(@Model.Booking.OrdersListViewModel != null){
-                        foreach (var order in @Model.Booking.OrdersListViewModel)
-                        {
-                            <a asp-page="./OrderSingle" asp-route-id="@order.OrderId" class="list-group-item list-group-item-action d-flex justify-content-between">
-                                <div>OrdNr: @order.OrderNumber</div>
-                                <div>Id: @order.ExternalId</div>
-                                <div>@order.InOut</div>
-                                <div>Paller: @order.TotalPallets</div>
-                            </a>
-                        }
-                    }
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2"></div>
+        <div class="col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Booking</h6>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="card-body">
 
-
-
-
- <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                      <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form method="post">
-                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">Bekræft</button>
+                    <h1>Booking fra @Model.Booking.TransporterName</h1>
+                    <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                    <form method="post" class="text-left">
+                        <div class="form-group">
+                            <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="ViewPort">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18" style="width: 12em">Faktisk ankomst</label>
+                            <input type="number" class="form-control d-inline" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 4.5em" max="23" min="0" required/>
+                            : <input type="number" class="form-control d-inline" asp-for="@Model.ArrivalMinute" name="ActualArrivalMinute" style="width: 4.5em" max="59" min="0" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="form18" style="width: 12em">Start Læsning</label>
+                            <input type="number" class="form-control d-inline" asp-for="@Model.StartHour" style="width: 4.5em; " name="startHour" max="23" min="0" required/>
+                            : <input type="number" class="form-control d-inline" asp-for="@Model.StartMinute" name="startMinute" style="width: 4.5em" max="59" min="0" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="form18" style="width: 12em">Slut Læsning</label>
+                            <input type="number" class="form-control d-inline" asp-for="@Model.EndHour" name="endHour" style="width: 4.5em" max="23" min="0" required/>
+                            : <input type="number" class="form-control d-inline" asp-for="@Model.EndMinute" name="endMinute" style="width: 4.5em" max="59" min="0" required/>
+                        </div>
+                        <div class="row d-flex justify-content-end">
+                             <input  asp-for="Booking.EndLoading" type="hidden" class="form-control m-2" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
+                             <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" value="Opdater">Opdater</button>
+                             
+                             <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-primary m-2">Slet</div>
+                             
+                        </div>
+                       
                     </form>
+
                 </div>
             </div>
         </div>
+
+
+        <div class="col-xl-2"></div>
+
     </div>
+
+    
+    
+        <div class="row">
+            <div class="col-xl-2"></div>
+            <div class="col-xl-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ordrer på booking</h6>
+                    </div>
+                    <div class="card-body">
+    
+                      <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="list-group " style="">
+                                          @if (@Model.Booking.OrdersListViewModel != null)
+                                          {
+                                              foreach (var order in @Model.Booking.OrdersListViewModel)
+                                              {
+                                                  <a asp-page="./OrderSingle" asp-route-id="@order.OrderId" asp-route-bookingId="@Model.Booking.InternalId" class="list-group-item list-group-item-action d-flex justify-content-between">
+                                                      <div>OrdNr: @order.OrderNumber</div>
+                                                      <div>Id: @order.ExternalId</div>
+                                                      <div>@order.InOut</div>
+                                                      <div>Paller: @order.TotalPallets</div>
+                                                  </a>
+                                              }
+                                          }
+                                      </div>
+                                  </div>
+                              </div>
+    
+                    </div>
+                </div>
+            </div>
+    
+    
+            <div class="col-xl-2"></div>
+    
+        </div>
+    
+    
+</div>
+
+
+
+
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            </div>
+            <div class="modal-footer">
+                
+                <form method="post">
+                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">Bekræft</button>
+                </form>
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    
+
 
     <script>
         $(function () {
@@ -136,4 +174,3 @@
         });
     </script>
 }
-
