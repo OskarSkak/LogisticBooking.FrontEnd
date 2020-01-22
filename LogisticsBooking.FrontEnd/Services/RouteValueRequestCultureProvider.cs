@@ -8,6 +8,7 @@ namespace LogisticsBooking.FrontEnd.Services
 {
     public class RouteValueRequestCultureProvider : IRequestCultureProvider
     {
+        
         private readonly CultureInfo[] _cultures;
 
         public RouteValueRequestCultureProvider(CultureInfo[] cultures)

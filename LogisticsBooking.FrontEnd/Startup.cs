@@ -174,7 +174,7 @@ namespace LogisticsBooking.FrontEnd
                 options.DefaultRequestCulture = new RequestCulture("da");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
-                options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
+                
             });
             
             services.AddDbContext<ILogisticBookingApiDatabase , ApiDbContext>(options =>
@@ -265,7 +265,6 @@ namespace LogisticsBooking.FrontEnd
            
 
             loggerFactory.AddSerilog();
-            /*
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -275,7 +274,6 @@ namespace LogisticsBooking.FrontEnd
 
             
             app.UseForwardedHeaders(fordwardedHeaderOptions);
-            */
             app.UseCors("MyPolicy");
             app.UseSession();
             //
@@ -296,9 +294,8 @@ namespace LogisticsBooking.FrontEnd
             app.UseCookiePolicy();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             app.UseRequestLocalization(localizationOptions);
-            /*
             app.UseRouter(routes =>
-            {/*
+            {
                 routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
                 {
                     subApp.UseRequestLocalization(localizationOptions);
@@ -310,10 +307,7 @@ namespace LogisticsBooking.FrontEnd
                             template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
                     });
                 });
-                
             });
-        */
-            app.UseMvc();
         }
     }
 }
