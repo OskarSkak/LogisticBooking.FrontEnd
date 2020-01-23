@@ -448,3 +448,9 @@ background-color:  #818E94;
    right:50%;
    margin-right:20px;
  }
+
+
+ .form-control:disabled, .form-control[readonly] {
+   background-color: white; 
+   opacity: 1;
+ }

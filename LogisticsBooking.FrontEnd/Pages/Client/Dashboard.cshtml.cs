@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -96,6 +97,34 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             }
 
             return masterSchedulesStandardViewModel;
+        }
+
+        public void OnPostDateTime(string birthday , string start)
+        {
+            Console.WriteLine(birthday.Length);
+            
+            DateTime dt=DateTime.ParseExact(birthday.Substring(0, 10), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            Console.WriteLine(birthday.Substring(12, 11));
+            DateTime dy=DateTime.ParseExact(birthday.Substring(13, 10), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            Console.WriteLine(dt);
+            Console.WriteLine(dy);
+            
+          
+        }
+        
+        public void OnPostDate(string birthday)
+        {
+            Console.WriteLine(birthday);
+        }
+        
+        public void OnPostTime(string birthday)
+        {
+            Console.WriteLine(birthday);
+        }
+        
+        public void OnPostdateRange(string birthday )
+        {
+            Console.WriteLine(birthday);
         }
 
         
