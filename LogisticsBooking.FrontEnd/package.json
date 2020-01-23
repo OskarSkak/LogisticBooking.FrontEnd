@@ -35,6 +35,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-es6": "^1.0.0",
+    "nodep-date-input-polyfill": "^5.2.0",
     "popper.js": "^1.15.0",
     "postcss-cli": "^6.1.3",
     "tooltip.js": "^1.3.2"
