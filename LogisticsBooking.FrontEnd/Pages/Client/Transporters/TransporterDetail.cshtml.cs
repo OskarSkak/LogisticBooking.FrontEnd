@@ -42,9 +42,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             _supplierDataService = supplierDataService;
         }
 
-        public async Task OnGetAsync(Guid id)
+        public async Task OnGetAsync(string ok)
         {
-            TransporterViewModel = await _transporterDataService.GetTransporterById(id);
+            TransporterViewModel = await _transporterDataService.GetTransporterById(Guid.Parse(ok));
             SupplierViewModel = await _supplierDataService.ListSuppliers(0, 0);
             
             SelectList = new SelectList(SupplierViewModel.Suppliers, nameof(DataServices.Models.Supplier.Supplier.SupplierViewModel.SupplierId) , nameof(DataServices.Models.Supplier.Supplier.SupplierViewModel.Name));
