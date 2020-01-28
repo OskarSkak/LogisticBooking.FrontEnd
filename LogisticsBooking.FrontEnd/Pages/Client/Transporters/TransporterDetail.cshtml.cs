@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices.Models;
-using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
@@ -13,10 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
 namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 {
-    public class Transporter_SingleModel : PageModel
+    public class TransporterDetail : PageModel
     {
         private readonly ITransporterDataService _transporterDataService;
         private readonly IMapper _mapper;
@@ -39,7 +35,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         
         [TempData] public String ResponseMessage { get; set; }
 
-        public Transporter_SingleModel(ITransporterDataService transporterDataService, IMapper mapper , ISupplierDataService supplierDataService)
+        public TransporterDetail(ITransporterDataService transporterDataService, IMapper mapper , ISupplierDataService supplierDataService)
         {
             _transporterDataService = transporterDataService;
             _mapper = mapper;
@@ -121,4 +117,5 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             return new RedirectToPageResult("./Transporters");
         }
     }
+    
 }
