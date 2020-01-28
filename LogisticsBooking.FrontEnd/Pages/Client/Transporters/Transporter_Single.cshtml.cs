@@ -46,7 +46,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             _supplierDataService = supplierDataService;
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task OnGetAsync(Guid id)
         {
             TransporterViewModel = await _transporterDataService.GetTransporterById(id);
             SupplierViewModel = await _supplierDataService.ListSuppliers(0, 0);
@@ -62,7 +62,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                     Value = supplier.SupplierViewModelId.ToString()
                 });
             }
-            return Page();
         }
 
         public async Task<IActionResult> OnPostUpdate(TransporterViewModel transporterViewModel)
