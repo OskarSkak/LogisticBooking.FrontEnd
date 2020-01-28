@@ -1,0 +1,143 @@
+﻿@page "{id}"
+@using LogisticsBooking.FrontEnd.Acquaintance
+@model LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking.InactiveBookingSingleModel
+
+<form method="post" class="text-left">
+    @if (Model.Booking.InactiveOrders != null && Model.Booking.InactiveOrders.Count != 0)
+    {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-2"></div>
+            <div class="col-xl-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Booking fra PLACEHOLDER</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="form18">Leverings Dato</label> <input asp-for="Booking.BookingTime" class="form-control" id="form18" name="PageBookingTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="PageTotalPallets">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="PagePort">
+                        </div>
+                        <div class="form-group">
+                            <label for="form18">Eksternt ID</label> <input asp-for="Booking.ExternalId" class="form-control" id="form18" name="PageExternalId">
+                        </div>
+                        <div class="row d-flex justify-content-end">
+                            <input asp-for="Booking.InternalId" type="hidden" class="form-control m-2" id="form18" name="PageInternalId" value="@Model.Booking.InternalId">
+                            <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" value="Opdater">Opdater</button>
+                            <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-primary m-2">Slet</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2"></div>
+        </div>
+    </div>
+
+
+    for(var i = 0; i < Model.Booking.InactiveOrders.Count; i++){
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-2"></div>
+            <div class="col-xl-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ordre fra PLACEHOLDER</h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" class="text-left">
+                            <div class="form-group">
+                                <label for="form18">Eksternt ID</label> <input asp-for="Booking.InactiveOrders[i].ExternalId" class="form-control" id="form18" name="Booking.InactiveOrders[@i].ExternalId">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Kommentar</label> <input asp-for="Booking.InactiveOrders[i].Comment" class="form-control" id="form18" name="Booking.InactiveOrders[@i].Comment">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Bund paller</label> <input asp-for="Booking.InactiveOrders[i].BottomPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].BottomPallets">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Indgående/Udgående</label> <input asp-for="Booking.InactiveOrders[i].InOut" class="form-control" id="form18" name="Booking.InactiveOrders[@i].InOut">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Ordre nummer</label> <input asp-for="Booking.InactiveOrders[i].OrderNumber" class="form-control" id="form18" name="Booking.InactiveOrders[@i].OrderNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Totalt antal paller</label> <input asp-for="Booking.InactiveOrders[i].TotalPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].TotalPallets">
+                            </div>
+                            <div class="form-group">
+                                <label for="form18">Vare nummer</label> <input asp-for="Booking.InactiveOrders[i].WareNumber" class="form-control" id="form18" name="Booking.InactiveOrders[@i].WareNumber">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2"></div>
+        </div>
+    </div>
+    }
+    }
+</form>
+
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            </div>
+            <div class="modal-footer">
+                
+                <form method="post">
+                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">Bekræft</button>
+                </form>
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
+}

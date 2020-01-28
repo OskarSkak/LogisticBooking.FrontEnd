@@ -1,0 +1,57 @@
+﻿@page
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
+@using Microsoft.AspNetCore.Antiforgery
+@model LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking.InactiveBookingOverviewModel
+@inject IAntiforgery AntiForgery;
+
+<h1>Inaktive Bookings</h1>
+<table id="example" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Booking tidspunkt</th>
+        <th>Paller</th>
+        <th>Transportør</th>
+        <th>Id</th>
+        <th>Slet</th>
+        <th>Gå til</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var booking in Model.InactiveBookingListViewModel.InactiveBookings)
+    {
+        <tr>
+            <td>@booking.BookingTime</td>
+            <td>@booking.TotalPallets</td>
+            <td>@booking.TransporterName</td>
+            <td>@booking.ExternalId</td>
+            <td>
+                <form asp-page-handler="delete" method="post" > 
+                    <button type="submit" name="InternalIdView" value="@booking.InternalId" class="btn btn-primary"><i class="far fa-trash-alt"></i></button>
+                </form>
+            </td>
+            <td>
+                <a asp-page="./InactiveBookingSingle" asp-route-id="@booking.InternalId" class="btn btn-primary"><i class="fas fa-angle-right"></i></a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function() {
+            $("#example").DataTable({
+                "columnDefs": [
+                    { "width": "6%", "targets": [1, 4, 5] }
+                ]
+            });
+        });
+
+    </script>
+}
+}
