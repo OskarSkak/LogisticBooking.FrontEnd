@@ -47,14 +47,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             
             if (createUserCommand.Role == "transporter")
             {
-                var createTransporterResult = await _applicationUserDataService.CreateTransporter(createUserCommand);
-                if (createTransporterResult.IsSuccesfull)
-                {
-                    Message = "User created. Check email for confirmation link";
-                    return Page();
-                }
-
-                return BadRequest();
+               
             } 
             var result = await _applicationUserDataService.CreateUser(createUserCommand);
 

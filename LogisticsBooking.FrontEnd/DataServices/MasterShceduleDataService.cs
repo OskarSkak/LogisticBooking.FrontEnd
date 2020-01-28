@@ -54,6 +54,20 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Unsuccesfull();
         }
 
+        public async Task<Response> SetMasterScheduleInactive(SetScheduleInactiveCommand masterSetScheduleInactiveCommand)
+        {
+            var endpint = baseurl + "inactive";
+            var response = await PutAsync<SetScheduleInactiveCommand>(endpint , masterSetScheduleInactiveCommand);
+
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return new Response(true );
+            }
+            return Response.Unsuccesfull();
+        
+        }
+
         public async Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule()
         {
             var endpoint = baseurl + "active";

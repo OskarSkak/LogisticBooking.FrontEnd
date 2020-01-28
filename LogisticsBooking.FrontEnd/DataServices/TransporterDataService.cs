@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using Microsoft.AspNetCore.Http;
@@ -69,6 +70,40 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 
             }
             return await TryReadAsync<TransportersListViewModel>(result); 
+        }
+
+        public async Task<Response> AddSupplierToTransporter( AddSupplierToTransporterCommand command)
+        {
+            var endpoint = baseurl + "addsupplier";
+
+            var response = await PutAsync<AddSupplierToTransporterCommand>(endpoint, command);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(response , errorMsg);
+                }
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
+
+        public async Task<Response> RemoveSupplierFromTransporter(RemoveSupplierFromTransporterCommand command)
+        {
+            var endpoint = baseurl + "removesupplier";
+
+            var response = await PutAsync<RemoveSupplierFromTransporterCommand>(endpoint, command);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(response , errorMsg);
+                }
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
+            }
+            return Response.Succes();
         }
 
         public async Task<Response> UpdateTransporter(Guid id, TransporterViewModel transporter)

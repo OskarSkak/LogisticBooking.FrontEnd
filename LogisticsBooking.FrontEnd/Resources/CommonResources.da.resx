@@ -137,5 +137,8 @@
     <value>Kunder</value>
   </data>
 
+  <data name="Transporters"   xml:space="preserve">
+    <value>Transportører</value>
+  </data>
     
 </root>

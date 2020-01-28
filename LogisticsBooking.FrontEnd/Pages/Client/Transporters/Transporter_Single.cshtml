@@ -21,6 +21,33 @@
                     <div class="form-group"> <label for="form18">Email</label> <input asp-for="TransporterViewModel.Email" type="email" class="form-control" id="form18"  > </div>
                     <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="TransporterViewModel.Address" class="form-control" id="form18" > </div>
                     <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="TransporterViewModel.Telephone" class="form-control" id="form18"  > </div>
+                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-5">
+                                <label>Aktive Kunder</label>
+                                <select class="form-control" asp-for="ActiveSelectedSupplier" asp-items="Model.ActiveTransportersSelectList"></select>
+                            </div>
+                            <div class="col-2 ">
+                                
+                                <button asp-page-handler="AddSupplier" class=" mt-5 m-2 btn btn-primary btn-sm">Tilføj</button>
+                                <button asp-page-handler="RemoveSupplier" class=" m-2 btn btn-primary btn-sm">Fjern</button>
+                            </div>
+                            <div class="col-5">
+                                <label>Alle Kunder</label>
+                                <select class="form-control" asp-for="SelectedSupplier" asp-items="@Model.SelectList"></select>
+                            </div>
+                        </div>
+                        
+                  
+                    </div>
+                    
+                    <div class="form-group">
+                       
+                        
+                    </div>
+                    
+
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary"  value="Opdater"/>
                  
                 </form>

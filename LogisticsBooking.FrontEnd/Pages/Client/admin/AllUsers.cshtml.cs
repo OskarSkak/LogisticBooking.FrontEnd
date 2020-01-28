@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 {
+    
+    
     public class AllUsers : PageModel
     {
         private readonly IApplicationUserDataService _applicationUserDataService;

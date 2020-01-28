@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
@@ -16,6 +17,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
         // Leverings vindue for kunden
         public DateTime DeliveryStart { get; set; }
         public DateTime DeliveryEnd { get; set; }
+        
+        public List<TransporterSupplierViewModel> Transporters { get; set; }
         
     }
 }

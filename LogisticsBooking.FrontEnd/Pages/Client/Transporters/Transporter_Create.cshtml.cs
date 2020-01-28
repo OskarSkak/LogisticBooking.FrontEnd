@@ -41,18 +41,30 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                 return Page();
             }
 
-            var transporter = new CreateUserCommand();
-            transporter.Email = transporterViewModel.Email;
-            transporter.Name = transporterViewModel.Email;
-            transporter.Role = "transporter";
-            
-            
 
+            var transporterId = Guid.NewGuid();
+            transporterViewModel.TransporterId = transporterId;
             
+            var result = await _transporterDataService.CreateTransporter(transporterViewModel);
 
+            if (result.IsSuccesfull)
+            {
+                var transporter = new CreateUserCommand();
+                transporter.Email = transporterViewModel.Email;
+                transporter.Name = transporterViewModel.Email;
+                transporter.Id = transporterId;
+                transporter.Role = "transporter";
+                var createTransporterResult = await _applicationUserDataService.CreateTransporter(transporter);
+                if (createTransporterResult.IsSuccesfull)
+                {
+                    
+                    return Page();
+                }
+
+                await _transporterDataService.DeleteTransporter(transporterId);
+                return BadRequest();
+            }
             
-            
-           
             
             ResponseMessage = "Transportøren er oprettet";
             return new RedirectResult("Transporters");

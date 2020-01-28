@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter
 {
@@ -10,5 +11,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter
         public string Name { get; set; }
         
         public Guid TransporterId { get; set; }
+        
+        public List<TransporterSupplierViewModel> Suppliers { get; set; }
     }
 }

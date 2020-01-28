@@ -55,9 +55,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             Intervals = PopulateList(Intervals);
         }
 
-        public void OnPost()
-        {
-        }
+        
         
         public CreateNewSchedule(IScheduleDataService scheduleDataService , IMasterScheduleDataService masterScheduleDataService , IMapper mapper)
         {
@@ -66,13 +64,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, string name , Shift shift)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, List<TimeSpan> StartTime,  string name , Shift shift , List<string> day)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
             //var result = await ScheduleDataService.CreateSchedule(schedule);
 
             
+
             var masterScheduleViewModel = new MasterScheduleStandardViewModel
             {
                 Name = name,
@@ -81,7 +80,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 IsActive = false,
                 MischellaneousPallets = schedule.MischellaneousPallets,
                 MasterScheduleStandardId = Guid.NewGuid(),
-                MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals)
+                MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals),
+                ActiveDays = SetMasterDayViewModel(day)
                 
             };
             
@@ -111,6 +111,81 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
 
             return false;
+        }
+
+        private List<MasterDayViewModel> SetMasterDayViewModel(List<string> days)
+        {
+            List<MasterDayViewModel> MasteractiveDaysViewModels = new List<MasterDayViewModel>();
+            
+            
+            foreach (var day in days)
+            {
+                if (day == "monday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Monday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "tuesday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Tuesday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "wednesday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Wednesday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "thursday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Thursday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "friday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Friday,
+                        IsActive = true,
+                    });
+                }
+                
+                if (day == "saturday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Saturday,
+                        IsActive = true,
+                    });
+                }
+                
+                
+                if (day == "sunday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Sunday,
+                        IsActive = true,
+                    });
+                }
+               
+                
+            }
+
+            
+
+            return MasteractiveDaysViewModels;
         }
 
         public IActionResult OnPostSpecific(List<InternalInterval> intervals, string name , Shift shift)

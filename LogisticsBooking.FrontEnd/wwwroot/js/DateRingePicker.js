@@ -61,7 +61,7 @@ $(function() {
         opens: 'left'
     });
 
-    $("input.time").on('apply.daterangepicker', function(ev, picker) {
+    $("input.date-range").on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('dd/MM/yyyy - dd/MM/yyyy'));
     });
     

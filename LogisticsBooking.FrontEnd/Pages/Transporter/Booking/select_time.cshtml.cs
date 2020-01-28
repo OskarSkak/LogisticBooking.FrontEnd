@@ -9,6 +9,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModels;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             if (result == null)
             {
-                return await CreateScheduleFromActiveMaster(currentBooking.BookingTime);
+                return await CreateScheduleFromActiveMaster(currentBooking.BookingTime , currentBooking);
             }
 
             foreach (var interval in result.Schedules)
@@ -76,42 +77,123 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
         }
 
-        private async Task<IActionResult> CreateScheduleFromActiveMaster(DateTime bookingTime)
+        private async Task<IActionResult> CreateScheduleFromActiveMaster(DateTime bookingTime,
+            BookingViewModel currentBooking)
         {
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
             if (result == null)
             {
-                // Ingen aktive Schedules
-                return new RedirectToPageResult("Error");
+                ErrorMessage = "Der er ikke en aktiv på denne dag. Kontakt AGRI-Norcold";
+
             }
+
             var many = new CreateManyScheduleCommand();
             many.SchedulesListViewModel = new SchedulesListViewModel();
             many.SchedulesListViewModel.Schedules = new List<ScheduleViewModel>();
 
-            
+
+            var orderOnBooking = currentBooking.OrdersListViewModel.FirstOrDefault();
+
+            Console.WriteLine(orderOnBooking);
+
+            var shift = Shift.Day;
+
+
+
+
             foreach (var masterSchedule in result.MasterScheduleStandardViewModels)
             {
-                var scheduleId = Guid.NewGuid();
+                foreach (var interval in masterSchedule.MasterIntervalStandardViewModels)
+                {
+                    if ((orderOnBooking.SupplierViewModel.DeliveryStart.TimeOfDay >
+                         interval.StartTime.Value.TimeOfDay) &&
+                        (orderOnBooking.SupplierViewModel.DeliveryStart.TimeOfDay < interval.EndTime.Value.TimeOfDay))
+                    {
+                        shift = masterSchedule.Shifts;
+                    }
+                }
+            }
+
+            var masterScheduleStandardViewModel = result.MasterScheduleStandardViewModels.FirstOrDefault(e => e.Shifts == Shift.Day);
+
+            if (masterScheduleStandardViewModel == null)
+            {
+                
+            } 
+            
+            var scheduleId = Guid.NewGuid();
+
+           
                 many.SchedulesListViewModel.Schedules.Add(new ScheduleViewModel
                 {
-                    Name = masterSchedule.Name,
-                    Shifts = masterSchedule.Shifts,
-                    CreatedBy = masterSchedule.CreatedBy,
-                    MischellaneousPallets = masterSchedule.MischellaneousPallets,
+                    Name = masterScheduleStandardViewModel.Name,
+                    Shifts = masterScheduleStandardViewModel.Shifts,
+                    CreatedBy = masterScheduleStandardViewModel.CreatedBy,
+                    MischellaneousPallets = masterScheduleStandardViewModel.MischellaneousPallets,
                     ScheduleDay = bookingTime,
-                    Intervals = Fx(masterSchedule.MasterIntervalStandardViewModels, bookingTime , scheduleId),
-                    ScheduleId = scheduleId
-                });
+                    Intervals = Map(masterScheduleStandardViewModel, scheduleId , currentBooking),
+                    ScheduleId = scheduleId,
+                    ActiveDays = _mapper.Map<List<DayViewModel>>(masterScheduleStandardViewModel.ActiveDays)
+                }); 
+            
+            
+            
+                scheduleId = Guid.NewGuid();
+                masterScheduleStandardViewModel = result.MasterScheduleStandardViewModels.FirstOrDefault(e => e.Shifts == Shift.Night);
+                
+                many.SchedulesListViewModel.Schedules.Add(new ScheduleViewModel
+                {
+                    Name = masterScheduleStandardViewModel.Name,
+                    Shifts = masterScheduleStandardViewModel.Shifts,
+                    CreatedBy = masterScheduleStandardViewModel.CreatedBy,
+                    MischellaneousPallets = masterScheduleStandardViewModel.MischellaneousPallets,
+                    ScheduleDay = bookingTime,
+                    Intervals = Fx(masterScheduleStandardViewModel.MasterIntervalStandardViewModels , currentBooking.BookingTime , scheduleId),
+                    ScheduleId = scheduleId,
+                    ActiveDays = _mapper.Map<List<DayViewModel>>(masterScheduleStandardViewModel.ActiveDays)
+                }); 
+                
+            
+        
 
-            }
+           
+           
+
+                
+            
             
 
 
             await _scheduleDataService.CreateManySchedule(many);
+            
+            // Return new redirect to same page in order to get the newlt created schedule
             return new RedirectToPageResult("");
 
         }
 
+        public List<IntervalViewModel> Map(MasterScheduleStandardViewModel masterSchedulesStandardViewModel , Guid scheduleId , BookingViewModel bookingViewModel)
+        {
+            List<IntervalViewModel> intervals = new List<IntervalViewModel>();
+
+            foreach (var interval in masterSchedulesStandardViewModel.MasterIntervalStandardViewModels)
+            {
+                intervals.Add(new IntervalViewModel
+                {
+                    Bookings = new List<BookingViewModel>(),
+                    BottomPallets = interval.BottomPallets,
+                    EndTime = new DateTime(bookingViewModel.BookingTime.Year , bookingViewModel.BookingTime.Month , bookingViewModel.BookingTime.Day , interval.EndTime.Value.Hour, interval.EndTime.Value.Minute , interval.EndTime.Value.Second),
+                    StartTime =  new DateTime(bookingViewModel.BookingTime.Year , bookingViewModel.BookingTime.Month , bookingViewModel.BookingTime.Day , interval.StartTime.Value.Hour, interval.StartTime.Value.Minute , interval.StartTime.Value.Second),
+                    IntervalId = Guid.NewGuid(),
+                    IsBooked = false,
+                    RemainingPallets = interval.BottomPallets,
+                    ScheduleId = scheduleId
+                });
+            }
+
+            return intervals;
+        }
+
+       
 
         private List<IntervalViewModel> Fx(List<MasterIntervalStandardViewModel> masterIntervalStandardViewModels , DateTime bookingTime , Guid scheduleId)
         {
@@ -124,6 +206,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     BottomPallets = interval.BottomPallets,
                     MasterIntervalStandardId = Guid.NewGuid(),
                     MasterScheduleStandardId = scheduleId,
+                    EndTime = interval.EndTime,
+                    StartTime = interval.StartTime,
+                    
                 };
                 
                 if (interval.StartTime.Value.Hour >22 && interval.EndTime.Value.Hour < 10 )
@@ -142,12 +227,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     masterInterval.EndTime = new DateTime(bookingTime.Year , bookingTime.Month , bookingTime.Day , interval.EndTime.Value.Hour , interval.EndTime.Value.Minute , interval.EndTime.Value.Second);
                     masterInterval.StartTime = new DateTime(bookingTime.Year , bookingTime.Month , bookingTime.Day , interval.StartTime.Value.Hour , interval.StartTime.Value.Minute , interval.StartTime.Value.Second);
                 }
-                
+               
                 list.Add(masterInterval);
             }
 
             return _mapper.Map<List<IntervalViewModel>>(list);
         }
+        
+         
         
         public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
         {
@@ -156,6 +243,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             // Get the current booking View Model from the session created at previous page
             var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
 
+            
 
 
             var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);

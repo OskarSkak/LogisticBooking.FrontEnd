@@ -112,20 +112,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
           
         }
         
-        public void OnPostDate(string birthday)
-        {
-            Console.WriteLine(birthday);
-        }
-        
-        public void OnPostTime(string birthday)
-        {
-            Console.WriteLine(birthday);
-        }
-        
-        public void OnPostdateRange(string birthday )
-        {
-            Console.WriteLine(birthday);
-        }
+       
 
         
     }

@@ -17,6 +17,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
@@ -70,6 +71,9 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<TransporterViewModel> GetTransporterById(Guid id);
         Task<Response> DeleteTransporter(Guid id);
         Task<TransporterViewModel> GetTransporterByName(string name);
+
+        Task<Response> AddSupplierToTransporter(AddSupplierToTransporterCommand command);
+        Task<Response> RemoveSupplierFromTransporter(RemoveSupplierFromTransporterCommand command);
     }
 
     public interface ISupplierDataService
@@ -80,6 +84,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<SupplierViewModel> GetSupplierById(Guid id);
         Task<SuppliersListViewModel> ListSuppliers(int page, int pageSize);
         Task<SupplierViewModel> GetSupplierByName(string name);
+
+        Task<SuppliersListViewModel> GetSupplierByTransporter(Guid id);
     }
 
     public interface IUtilBookingDataService
@@ -99,6 +105,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<MasterSchedulesStandardViewModel> GetAllSchedules();
 
         Task<Response> SetMasterScheduleActive(SetMasterScheduleStandardActiveCommand masterScheduleStandardActive);
+        Task<Response> SetMasterScheduleInactive(SetScheduleInactiveCommand masterSetScheduleInactiveCommand);
 
         Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule();
 
