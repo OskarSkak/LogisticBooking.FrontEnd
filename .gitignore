@@ -2,3 +2,4 @@ LogisticsBooking.FrontEnd/obj
 LogisticsBooking.FrontEnd/bin
 .idea
 LogisticsBooking.FrontEnd/clientApp/node_modules
+.DS_Store
