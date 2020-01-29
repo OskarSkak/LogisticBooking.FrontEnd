@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
         mode: argv.mode === "production" ? "production" : "development",
         entry: {'style' : './src/sass/app.scss',
              'dd' : './src/index.js',
-            'datableCustom' : './src/datatableCustom.js'
+            'ie' : './src/sass/ie.scss'
         },
         output: {
             filename: '[name]' + '.js',
