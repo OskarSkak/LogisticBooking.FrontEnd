@@ -195,6 +195,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<ITransporterBookingsDataService, TransporterBookingsDataService>();
             services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
             services.AddTransient<IDashboardDataService, DashboardDataservice>();
+            services.AddTransient<IInactiveBookingDataService, InactiveBookingsDataService>();
             services.AddSingleton<CommonLocalizationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(o =>
