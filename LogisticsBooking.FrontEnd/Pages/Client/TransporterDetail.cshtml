@@ -2,6 +2,23 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.Transporters.TransporterDetail
 
 
+@if (Model.ShowOkResponseMessage)
+{
+    <div class="alert alert-success">
+        <strong>@Model.ResponseOkMessage</strong> 
+    </div>
+} 
+
+@if (Model.ShowFailResponseMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.ResponseFailMessage</strong> 
+    </div>
+} 
+
+
+
+
 <div class="py-5 text-center">
     <div class="container">
         <div class="row">

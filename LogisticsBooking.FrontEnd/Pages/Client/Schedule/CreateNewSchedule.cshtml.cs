@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
@@ -44,13 +45,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [BindProperty] public bool IsDay { get; set; }
 
 
-        public void OnGet(string id)
+        public void OnGet()
         {
-            
-            if (id.Equals(DAY)) IsDay = true;
-            if (id.Equals(NIGHT)) IsDay = false;
-            
-            Shifts = IsDay ? Shift.Day : Shift.Night;
 
             Intervals = PopulateList(Intervals);
         }
@@ -64,12 +60,23 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, List<TimeSpan> StartTime,  string name , Shift shift , List<string> day)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals,  string name , Shift shift , List<string> day)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
             //var result = await ScheduleDataService.CreateSchedule(schedule);
 
+            foreach (var interval in intervals)
+            {
+                if (TimeUtility.IsWithin(new TimeSpan(6, 0, 0), new TimeSpan(16, 0, 0), interval.StartTime.TimeOfDay,
+                    interval.EndTime.TimeOfDay))
+                {
+                    shift = Shift.Day;
+                    break;
+                }
+
+                shift = Shift.Night;
+            }
             
 
             var masterScheduleViewModel = new MasterScheduleStandardViewModel
@@ -91,7 +98,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             if (result.IsSuccesfull)
             {
                 CompleteMessage = "Planen er oprettet korrekt";
-                return new RedirectToPageResult("ScheduleOverview");
+                return new RedirectToPageResult("AllSchedules");
             }
 
 

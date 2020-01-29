@@ -114,7 +114,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 }
             }
 
-            var masterScheduleStandardViewModel = result.MasterScheduleStandardViewModels.FirstOrDefault(e => e.Shifts == Shift.Day);
+            var masterScheduleStandardViewModel = result.MasterScheduleStandardViewModels.FirstOrDefault(e => e.Shifts == shift);
 
             if (masterScheduleStandardViewModel == null)
             {
@@ -140,18 +140,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
                 scheduleId = Guid.NewGuid();
                 masterScheduleStandardViewModel = result.MasterScheduleStandardViewModels.FirstOrDefault(e => e.Shifts == Shift.Night);
-                
-                many.SchedulesListViewModel.Schedules.Add(new ScheduleViewModel
+                if (masterScheduleStandardViewModel != null)
                 {
-                    Name = masterScheduleStandardViewModel.Name,
-                    Shifts = masterScheduleStandardViewModel.Shifts,
-                    CreatedBy = masterScheduleStandardViewModel.CreatedBy,
-                    MischellaneousPallets = masterScheduleStandardViewModel.MischellaneousPallets,
-                    ScheduleDay = bookingTime,
-                    Intervals = Fx(masterScheduleStandardViewModel.MasterIntervalStandardViewModels , currentBooking.BookingTime , scheduleId),
-                    ScheduleId = scheduleId,
-                    ActiveDays = _mapper.Map<List<DayViewModel>>(masterScheduleStandardViewModel.ActiveDays)
-                }); 
+                    many.SchedulesListViewModel.Schedules.Add(new ScheduleViewModel
+                    {
+                        Name = masterScheduleStandardViewModel.Name,
+                        Shifts = masterScheduleStandardViewModel.Shifts,
+                        CreatedBy = masterScheduleStandardViewModel.CreatedBy,
+                        MischellaneousPallets = masterScheduleStandardViewModel.MischellaneousPallets,
+                        ScheduleDay = bookingTime,
+                        Intervals = Fx(masterScheduleStandardViewModel.MasterIntervalStandardViewModels , currentBooking.BookingTime , scheduleId),
+                        ScheduleId = scheduleId,
+                        ActiveDays = _mapper.Map<List<DayViewModel>>(masterScheduleStandardViewModel.ActiveDays)
+                    }); 
+                }
+                
                 
             
         

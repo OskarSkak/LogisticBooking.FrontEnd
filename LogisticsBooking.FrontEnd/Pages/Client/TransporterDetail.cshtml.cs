@@ -35,7 +35,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         
         public List<Guid> ActiveSelectedSupplier { get; set; }
         
-        [TempData] public String ResponseMessage { get; set; }
+        [TempData] public String ResponseOkMessage { get; set; }
+        [TempData] public String ResponseFailMessage { get; set; }
+        
+        public bool ShowOkResponseMessage => !String.IsNullOrEmpty(ResponseOkMessage);
+        public bool ShowFailResponseMessage => !String.IsNullOrEmpty(ResponseFailMessage);
 
         public TransporterDetail(ITransporterDataService transporterDataService, IMapper mapper , ISupplierDataService supplierDataService , ILogger<TransporterDetail> logger )
         {
@@ -78,7 +82,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                 return new RedirectToPageResult("Error");
             }
 
-            ResponseMessage = "Opdatering af transportør var vellykket";
+            ResponseOkMessage = "Opdatering af transportør var vellykket";
             return new RedirectToPageResult("./Transporters");
         }
 
@@ -87,14 +91,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
             if (SelectedSupplier.Equals(Guid.Empty))
             {
-                return new RedirectToPageResult("", new {id = transporterViewModel.TransporterId}); 
+                ResponseFailMessage = "Der skete en fejl";
+                return new RedirectToPageResult("", new {ok = transporterViewModel.TransporterId}); 
             }
-           await _transporterDataService.AddSupplierToTransporter(new AddSupplierToTransporterCommand
+            await _transporterDataService.AddSupplierToTransporter(new AddSupplierToTransporterCommand
             {
                 SupplierId = SelectedSupplier,
                 TransporterId = transporterViewModel.TransporterId
             });
-            return new RedirectToPageResult("", new {id = transporterViewModel.TransporterId});
+            ResponseOkMessage = "Kunden er nu tilføjet korrekt";
+            return new RedirectToPageResult("", new {ok = transporterViewModel.TransporterId});
         }
 
         public async Task<IActionResult> OnPostRemoveSupplier(Guid ActiveSelectedSupplier,
@@ -102,7 +108,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         {
             if (ActiveSelectedSupplier.Equals(Guid.Empty))
             {
-                return new RedirectToPageResult("", new {id = transporterViewModel.TransporterId}); 
+                return new RedirectToPageResult("", new {ok = transporterViewModel.TransporterId}); 
             }
 
            var result = await _transporterDataService.RemoveSupplierFromTransporter(new RemoveSupplierFromTransporterCommand
@@ -111,13 +117,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                 TransporterId = transporterViewModel.TransporterId
             });
 
-            return new RedirectToPageResult("", new {id = transporterViewModel.TransporterId}); 
+            return new RedirectToPageResult("", new {ok = transporterViewModel.TransporterId}); 
         }
 
         public async Task<IActionResult> OnPostDelete(TransporterViewModel transporterViewModel)
         {
             var result = await _transporterDataService.DeleteTransporter(TransporterViewModel.TransporterId);
-            ResponseMessage = "Transportøren er slettet korrekt";
+            ResponseOkMessage = "Transportøren er slettet korrekt";
             return new RedirectToPageResult("./Transporters");
         }
     }

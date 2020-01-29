@@ -1,4 +1,4 @@
-@page "{id}"
+@page
 @using System.Collections.Specialized
 @using Microsoft.EntityFrameworkCore.Internal
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CreateNewSchedule
@@ -86,7 +86,7 @@
                                             <tr>
                                                 <th>Angiv antal bundpaller for alle intervaller</th>
                                                 <th>Angiv navnet for tidsplanen</th>
-                                                <th>Opret tidsplanen</th>
+                                                
                                             </tr>
                                             <tr>
                                                 <td class="d-flex justify-content-start">
@@ -95,11 +95,7 @@
                                                 <td>
                                                     <input type="text" class="form-control" name="name"/>
                                                 </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#opret">
-                                                        Opret
-                                                    </button>
-                                                </td>
+                                                
                                             </tr>
                                         </table>
                                     </div>
@@ -205,9 +201,7 @@
                                     </div>
 
 
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#opret">
-                                                                              Opret
-                                                                            </button>
+                                    <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Opret</button>
                                                                             
 
                                
@@ -227,26 +221,6 @@
     </div>
 
 
-    <div class="modal fade" id="opret" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Opret plan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Vælg om denne plan skal være en standard eller om det skal være en enkelt plan
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" value="@Model.Shifts" name="shift"/>
-                    <button asp-page-handler="Specific" type="submit" class="btn btn-secondary">Enkelt</button>
-                    <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Standard</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </form>
 
 </body>
@@ -256,9 +230,13 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="~/js/DateRingePicker.js"></script>
-        
+ 
 
     <script>
+    
+   
+    
+    
         function toggle(className) {
             var x = '.' + className;
             if ($(x).is(":hidden")) {

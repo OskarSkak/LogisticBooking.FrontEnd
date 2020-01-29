@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Itenso.TimePeriod;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using Microsoft.AspNetCore.Mvc;
@@ -289,6 +291,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                     DateTime.Today.AddDays(30));
 
             var json = new JsonResult(bookings);
+
+            return json;
+        }
+        
+        public async Task<IActionResult> OnGetCustom(DateTime start, DateTime end)
+        {
+
+            
+            var bookings = await bookingDataService.GetBookingsInbetweenDates(start,end);
+
+             var json = new JsonResult(bookings);
 
             return json;
         }

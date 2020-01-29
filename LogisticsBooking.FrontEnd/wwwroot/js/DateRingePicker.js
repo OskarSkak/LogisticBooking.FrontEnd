@@ -62,7 +62,7 @@ $(function() {
     });
 
     $("input.date-range").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('dd/MM/yyyy - dd/MM/yyyy'));
+        $(this).val(picker.startDate.format('DD/MM/YYYY -') + picker.endDate.format(' DD/MM/YYYY'));
     });
     
     

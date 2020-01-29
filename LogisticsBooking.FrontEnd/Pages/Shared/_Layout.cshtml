@@ -69,10 +69,9 @@
           <div class="bg-white py-2 collapse-inner rounded">
             
             
-            <a class="collapse-item" asp-page="/Client/Schedule/CalendarOverview"  >@localizer.Get("Calendar overview")</a>
-            <a class="collapse-item" asp-route-id="All" asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Active plans") </a>
-            <a class="collapse-item" asp-route-id="NIGHT" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create night plan")</a>
-            <a class="collapse-item" asp-route-id="DAY" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create day plan")</a>
+            
+            <a class="collapse-item"  asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Active plans") </a>
+            <a class="collapse-item" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create Plan")</a>
             
             
           </div>

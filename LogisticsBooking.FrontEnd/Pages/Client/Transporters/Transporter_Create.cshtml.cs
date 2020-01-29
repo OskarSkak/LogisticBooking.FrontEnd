@@ -57,17 +57,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                 var createTransporterResult = await _applicationUserDataService.CreateTransporter(transporter);
                 if (createTransporterResult.IsSuccesfull)
                 {
-                    
-                    return Page();
+                     ResponseMessage = "Transportøren er oprettet";
+                    return new RedirectToPageResult("Transporters");
                 }
 
                 await _transporterDataService.DeleteTransporter(transporterId);
                 return BadRequest();
             }
-            
-            
-            ResponseMessage = "Transportøren er oprettet";
-            return new RedirectResult("Transporters");
+
+
+
+            return BadRequest();
         }
     }
 }
