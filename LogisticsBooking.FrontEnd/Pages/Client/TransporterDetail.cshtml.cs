@@ -9,6 +9,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 {
@@ -17,6 +18,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         private readonly ITransporterDataService _transporterDataService;
         private readonly IMapper _mapper;
         private readonly ISupplierDataService _supplierDataService;
+        private readonly ILogger<TransporterDetail> _logger;
 
 
         [BindProperty] 
@@ -35,15 +37,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         
         [TempData] public String ResponseMessage { get; set; }
 
-        public TransporterDetail(ITransporterDataService transporterDataService, IMapper mapper , ISupplierDataService supplierDataService)
+        public TransporterDetail(ITransporterDataService transporterDataService, IMapper mapper , ISupplierDataService supplierDataService , ILogger<TransporterDetail> logger )
         {
             _transporterDataService = transporterDataService;
             _mapper = mapper;
             _supplierDataService = supplierDataService;
+            _logger = logger;
         }
 
         public async Task OnGetAsync(string ok)
         {
+            _logger.LogWarning("Ramte her!!!!!!!!!!");
             TransporterViewModel = await _transporterDataService.GetTransporterById(Guid.Parse(ok));
             SupplierViewModel = await _supplierDataService.ListSuppliers(0, 0);
             
