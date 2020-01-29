@@ -229,9 +229,10 @@ namespace LogisticsBooking.FrontEnd
             
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 // Usefull for enter a site that does not exists. 
-                app.UseStatusCodePagesWithRedirects("/Error");
+                //app.UseStatusCodePagesWithRedirects("/Error");
+                app.UseExceptionHandler("/Error");
                 _logger.LogInformation("in Prod :)");
                 var value = _config["Envi:envi"];
                 _logger.LogInformation(value);
@@ -287,22 +288,12 @@ namespace LogisticsBooking.FrontEnd
                 }
             });
             app.UseCookiePolicy();
+            app.UseStatusCodePages();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            
+           // app.UseStatusCodePagesWithReExecute("/Error");
             app.UseRequestLocalization(localizationOptions);
-            app.UseRouter(routes =>
-            {
-                routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
-                {
-                    subApp.UseRequestLocalization(localizationOptions);
-
-                    subApp.UseMvc(mvcRoutes =>
-                    {
-                        mvcRoutes.MapRoute(
-                            name: "default",
-                            template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
-                    });
-                });
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

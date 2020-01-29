@@ -42,12 +42,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
            
         }
         
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
+                if (result == null)
+            {
+                return new RedirectToPageResult("/Pages/ErrorPage");
+            }
 
-            
             MasterSchedulesStandardViewModel = CreateMasterSchedules(result);
 
             DashboardViewModel = await _dashboardDataService.GetDashboard();
@@ -57,6 +60,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             var d = 1 - percent;
             ShowPercent = (int) (d * 100);
             Console.WriteLine(ShowPercent);
+            return Page();
         }
         
 
@@ -99,18 +103,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             return masterSchedulesStandardViewModel;
         }
 
-        public void OnPostDateTime(string birthday , string start)
+        public void OnPostDateTime()
         {
-            Console.WriteLine(birthday.Length);
-            
-            DateTime dt=DateTime.ParseExact(birthday.Substring(0, 10), "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            Console.WriteLine(birthday.Substring(12, 11));
-            DateTime dy=DateTime.ParseExact(birthday.Substring(13, 10), "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            Console.WriteLine(dt);
-            Console.WriteLine(dy);
-            
-          
+            throw new ArithmeticException();
+
+
         }
+        
+        
         
        
 
