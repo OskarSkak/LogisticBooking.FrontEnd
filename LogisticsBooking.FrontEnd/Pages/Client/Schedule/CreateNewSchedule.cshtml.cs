@@ -287,7 +287,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public int InternalId { get; set; }
         public int BottomPallets { get; set; }
         public bool IsShown { get; set; }
-        public void CreateMappings(Profile configuration)
+
+        public void CreateMappings(global::AutoMapper.Profile configuration)
         {
             configuration.CreateMap<InternalInterval, MasterIntervalStandardViewModel>()
                 .ForMember(dest => dest.BottomPallets,

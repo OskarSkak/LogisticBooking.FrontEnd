@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 {
     
-    
+    [Authorize(Roles = "admin")]
     public class AllUsers : PageModel
     {
         private readonly IApplicationUserDataService _applicationUserDataService;
