@@ -49,7 +49,8 @@
                        
                         <text>
                             
-                            <a asp-page="/Client/TransporterDetail" asp-route-ok="@Transporter.TransporterId" class="list-group-item list-group-item-action ">@Transporter.Name</a>
+                            <div id="_@Transporter.TransporterId" asp-route-ok="@Transporter.TransporterId" class="list-group-item list-group-item-action ">@Transporter.Name</div>
+                            <input hidden="hidden" type="hidden" value="@Transporter.TransporterId"/>
                         </text>
                     }
                 </div>
@@ -57,3 +58,23 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    
+    @foreach (var Transporter in Model.Transporters)
+        {
+    
+    <script>
+     $('#_@Transporter.TransporterId').on('click', function f() {
+        var root = location.protocol + '//' + location.host;
+        window.location.href = root + '/Client/TransporterDetail?ok=@Transporter.TransporterId'; 
+        });
+    </script>
+    
+    }
+    
+    
+    
+    
+}
