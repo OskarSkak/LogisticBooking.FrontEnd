@@ -12,8 +12,8 @@ module.exports = (env, argv) => {
     return {
         mode: argv.mode === "production" ? "production" : "development",
         entry: {'style' : './src/sass/app.scss',
-             'dd' : './src/index.js',
-            'ie' : './src/sass/ie.scss'
+             'dd' : './src/index.js'
+            
         },
         output: {
             filename: '[name]' + '.js',
