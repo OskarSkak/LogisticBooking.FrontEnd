@@ -24,66 +24,18 @@
 
 <div class="container-fluid">
 
-    <div class="d-sm-flex align-items-center justify-content-end mb-4">
+    <div class="d-sm-flex align-items-center  mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
             <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
-            </form>
-            <ul class="navbar-nav ml-3">
-                   <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <div class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                      <i class="fas fa-download fa-sm text-white-50"></i>
-                                      Flere muligheder
-                                  </div>
-                                
-                              </a>
-                              <!-- Dropdown - User Information -->
-                              <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
-                                  <a class="dropdown-item" id="today" >
-                                  
-                                      Idag
-                                  </a>
-                                  <a class="dropdown-item" id="tomorrow" >
-                                      
-                                      Imorgen
-                                  </a>
-                                  
-                                  <a class="dropdown-item" id="Yesterday" >
-                                      
-                                      
-                                      Igår
-                                  </a>
-                                  <div class="dropdown-divider"></div>
-                                  <i class="dropdown-item" id="LastWeek" >
-                                  
-                                      Sidste uge
-                                  </i>
-                                  <a class="dropdown-item" id="LastMonth"  >
-                                                                    
-                                      sidste måned
-                                  </a>
-                                  
-                                  <div class="dropdown-divider"></div>
-                                  <a class="dropdown-item" id="NextWeek"  >
-                                                                    
-                                      Næste uge
-                                  </a>
-                                  
-                                  <a class="dropdown-item" id="NextMonth"  >
-                                                                                                      
-                                      Næste Måned
-                                  </a>
-                                  
-                                                                    
-                                  
-                                  
-                              </div>
-                              
-                            </li>
+        </form>
 
-            </ul>
+            
+        
+        <input readonly="readonly" style="max-width: 240px;" name="custom" type="text" class="date-range ml-3 d-none form-control d-sm-inline-block shadow-sm" /> 
+    
+
+            
     
         
     </div>
@@ -150,16 +102,21 @@
 
 
 @section Scripts{
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
+      <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+          <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
       
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        
 <script>
     
 
-   
+
 
         
         $(function () {
@@ -188,7 +145,7 @@
                                     },
                    { 
                        "data": "bookingTime" , render: function(data ) {
-                           return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                           return moment(data).format("DD/MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                        },
                        width:"70px"
                    },
@@ -328,698 +285,124 @@
         
 
 
-$('#example tbody').on( 'click', 'button', function () {
-        var data = table.row( $(this).parents('tr') ).data();
-        alert( data[0] +"'s salary is: "+ data[ 5 ] );
-    } );
-
-
-$('#today').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-    $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=Today",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                    return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        console.log("yesterday")
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
+$(function() {
+    $("input.date-range").daterangepicker({
+        opens: 'left'
     });
 
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
+    $("input.date-range").on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY -') + picker.endDate.format(' DD/MM/YYYY'));
+        
+          $('#example').DataTable().clear().destroy();
+            $('#example tbody').off('click');
+            $('.SubmitButton').off('click');
+            var table = $('#example').DataTable( {
+                "processing": true,
+                "serverSide": false,
+                "ajax": {
+                    "url": "BookingOverview?handler=custom",
+                    "type": "GET",
+                    "datatype": "application/json",
+                    "dataSrc": "bookings",
+                    "data": function (d) {
+                        console.log(picker.startDate.format('MM/DD/YYYY'));
+                        d.start = picker.startDate.format('MM/DD/YYYY');
+                        d.end =  picker.endDate.format('MM/DD/YYYY');
+                        
+                        
+                    }
+        
+                },
+        
+                "columns": [
+                    {
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": "internalId",
+                        "defaultContent": '',
+                        "render": function (data) {
+                            return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                        },
+                        width:"15px"
+                    },
+                    {
+                        "data": "bookingTime" , render: function(data ) {
+                            return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                        },
+                        width:"70px",
+                        "type": 'datetime-moment',
+                        orderData: [1, 7]
+                    },
+                    { "data": "externalId" },
+        
+                    { "data": "totalPallets" },
+                    { "data": "transporterName" },
+                    { "data": "email" },
+                    {"data" : "port"},
+                    {"data" : "interval.startTime" , render: function(data) {
+                           return moment(data).format("HH:mm")
+                        },
+                        orderData: [1, 7],
+                        "type": 'datetime-moment',
+                        },
+                    {"data" : "actualArrival" , render: function(data){
+                            return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                        } },
+        
+                    {"data" : "startLoading" , render: function(data){
+                            return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                        }},
+                    {"data" : "endLoading" , render: function(data){
+                            return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                        }},
+                    {"data" : null , render: function(data){
+                            return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
+                        }},
+        
+        
+                ]
+            } );
+        
+            $('#SubmitButton').on('click', function() {
+                var data = table.$('input, select').serialize();
+                alert(
+                    "The following data would have been submitted to the server: \n\n"+
+                    data.substr( 0, 120 )+'...'
+                );
+                return false;
+            } );
+        
+            // Add event listener for opening and closing details
+            $('#example tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var tdi = tr.find("i.fa");
+                var row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    tdi.first().removeClass('fas fa-caret-up');
+                    tdi.first().addClass('fas fa-caret-down');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                    tdi.first().removeClass('fas fa-caret-down');
+                    tdi.first().addClass('fas fa-caret-up');
+                }
+            });
+        
+            table.on("user-select", function (e, dt, type, cell, originalEvent) {
+                if ($(cell.node()).hasClass("details-control")) {
+                    e.preventDefault();
+                }
+            });
+
     });
     
-
-} ));
-
-
-$('#Yesterday').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=Yesterday",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                   return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-
-$('#tomorrow').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=Tomorrow",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                    return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        console.log("yesterday")
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-
-$('#LastWeek').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=LastWeek",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                    return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-$('#LastMonth').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=LastMonth",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                    return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-$('#NextWeek').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=NextWeek",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                   return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-
-$('#NextMonth').on('click' ,(function () {
-    $('#example').DataTable().clear().destroy();
-    $('#example tbody').off('click');
-        $('.SubmitButton').off('click');
-    var table = $('#example').DataTable( {
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": "BookingOverview?handler=NextMonth",
-            "type": "GET",
-            "datatype": "application/json",
-            "dataSrc": "bookings",
-
-        },
-
-        "columns": [
-            {
-                "className": 'details-control',
-                "orderable": false,
-                "data": "internalId",
-                "defaultContent": '',
-                "render": function (data) {
-                    return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
-                },
-                width:"15px"
-            },
-            {
-                "data": "bookingTime" , render: function(data ) {
-                    return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
-                },
-                width:"70px"
-            },
-            { "data": "externalId" },
-
-            { "data": "totalPallets" },
-            { "data": "transporterName" },
-            { "data": "email" },
-            {"data" : "port"},
-            {"data" : "interval.startTime" , render: function(data) {
-                   return moment(data).format("HH:mm")
-                }},
-            {"data" : "actualArrival" , render: function(data){
-                    return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                } },
-
-            {"data" : "startLoading" , render: function(data){
-                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
-                }},
-            {"data" : "endLoading" , render: function(data){
-                    return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
-                }},
-            {"data" : null , render: function(data){
-                    return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
-                }},
-
-
-        ]
-    } );
-
-    $('#SubmitButton').on('click', function() {
-        var data = table.$('input, select').serialize();
-        alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        );
-        return false;
-    } );
-
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var tdi = tr.find("i.fa");
-        var row = table.row(tr);
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            tdi.first().removeClass('fas fa-caret-up');
-            tdi.first().addClass('fas fa-caret-down');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tdi.first().removeClass('fas fa-caret-down');
-            tdi.first().addClass('fas fa-caret-up');
-        }
-    });
-
-    table.on("user-select", function (e, dt, type, cell, originalEvent) {
-        if ($(cell.node()).hasClass("details-control")) {
-            e.preventDefault();
-        }
-    });
-
-} ));
-
-
+    
+});
 
         
     

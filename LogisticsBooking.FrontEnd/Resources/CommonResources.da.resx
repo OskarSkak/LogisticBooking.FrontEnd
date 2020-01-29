@@ -137,5 +137,14 @@
     <value>Kunder</value>
   </data>
 
-    
+  <data name="Transporters"   xml:space="preserve">
+    <value>Transportører</value>
+  </data>
+
+  <data name="Create Plan"   xml:space="preserve">
+    <value>Opret Plan</value>
+  </data>
+
+
+
 </root>

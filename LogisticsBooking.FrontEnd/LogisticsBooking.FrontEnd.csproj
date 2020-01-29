@@ -71,6 +71,9 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
+      <_ContentIncludedByDefault Remove="clientApp\build\asset-manifest.json" />
+      <_ContentIncludedByDefault Remove="clientApp\build\manifest.json" />
+      <_ContentIncludedByDefault Remove="clientApp\public\manifest.json" />
     </ItemGroup>
 
 

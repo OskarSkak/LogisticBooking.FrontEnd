@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
@@ -44,20 +45,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [BindProperty] public bool IsDay { get; set; }
 
 
-        public void OnGet(string id)
+        public void OnGet()
         {
-            
-            if (id.Equals(DAY)) IsDay = true;
-            if (id.Equals(NIGHT)) IsDay = false;
-            
-            Shifts = IsDay ? Shift.Day : Shift.Night;
 
             Intervals = PopulateList(Intervals);
         }
 
-        public void OnPost()
-        {
-        }
+        
         
         public CreateNewSchedule(IScheduleDataService scheduleDataService , IMasterScheduleDataService masterScheduleDataService , IMapper mapper)
         {
@@ -66,13 +60,25 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, string name , Shift shift)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals,  string name , Shift shift , List<string> day)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
             //var result = await ScheduleDataService.CreateSchedule(schedule);
 
+            foreach (var interval in intervals)
+            {
+                if (TimeUtility.IsWithin(new TimeSpan(6, 0, 0), new TimeSpan(16, 0, 0), interval.StartTime.TimeOfDay,
+                    interval.EndTime.TimeOfDay))
+                {
+                    shift = Shift.Day;
+                    break;
+                }
+
+                shift = Shift.Night;
+            }
             
+
             var masterScheduleViewModel = new MasterScheduleStandardViewModel
             {
                 Name = name,
@@ -81,7 +87,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 IsActive = false,
                 MischellaneousPallets = schedule.MischellaneousPallets,
                 MasterScheduleStandardId = Guid.NewGuid(),
-                MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals)
+                MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals),
+                ActiveDays = SetMasterDayViewModel(day)
                 
             };
             
@@ -91,7 +98,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             if (result.IsSuccesfull)
             {
                 CompleteMessage = "Planen er oprettet korrekt";
-                return new RedirectToPageResult("ScheduleOverview");
+                return new RedirectToPageResult("AllSchedules");
             }
 
 
@@ -111,6 +118,81 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
 
             return false;
+        }
+
+        private List<MasterDayViewModel> SetMasterDayViewModel(List<string> days)
+        {
+            List<MasterDayViewModel> MasteractiveDaysViewModels = new List<MasterDayViewModel>();
+            
+            
+            foreach (var day in days)
+            {
+                if (day == "monday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Monday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "tuesday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Tuesday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "wednesday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Wednesday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "thursday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Thursday,
+                        IsActive = true,
+                    });
+                }
+                if (day == "friday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Friday,
+                        IsActive = true,
+                    });
+                }
+                
+                if (day == "saturday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Saturday,
+                        IsActive = true,
+                    });
+                }
+                
+                
+                if (day == "sunday")
+                {
+                    MasteractiveDaysViewModels.Add(new MasterDayViewModel
+                    {
+                        ActiveDay = DayOfWeek.Sunday,
+                        IsActive = true,
+                    });
+                }
+               
+                
+            }
+
+            
+
+            return MasteractiveDaysViewModels;
         }
 
         public IActionResult OnPostSpecific(List<InternalInterval> intervals, string name , Shift shift)

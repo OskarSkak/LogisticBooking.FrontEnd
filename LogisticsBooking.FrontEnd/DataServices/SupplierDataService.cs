@@ -18,9 +18,11 @@ namespace LogisticsBooking.FrontEnd.DataServices
         public SupplierDataService(IHttpContextAccessor httpContextAccessor , IOptions<BackendServerUrlConfiguration> config) : base(httpContextAccessor , config)
         {
             baseurl = _APIServerURL + "/api/suppliers/";
+            baseu = _APIServerURL + "/api/transporters/suppliers/";
         }
 
         private string baseurl;
+        private string baseu;
         
         public async Task<Response> CreateSupplier(CreateSupplierViewModel _supplier)
         {
@@ -76,6 +78,13 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 if (item.Name == name) return item;
 
             return null;
+        }
+
+        public async Task<SuppliersListViewModel> GetSupplierByTransporter(Guid id)
+        {
+            var endpoint = baseu  + id;
+            var result = await GetAsync(endpoint);
+            return await TryReadAsync<SuppliersListViewModel>(result);
         }
 
         public async Task<Response> UpdateSupplier(Guid id, SupplierViewModel supplier)

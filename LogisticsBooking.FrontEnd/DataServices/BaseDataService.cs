@@ -165,7 +165,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<T> TryReadAsync<T>(HttpResponseMessage response) where T : class
         {
-            if (response.Content == null || !response.IsSuccessStatusCode)
+            if (response?.Content == null || !response.IsSuccessStatusCode)
             {
                 return null; // <-- Dont eat the error here!
             }

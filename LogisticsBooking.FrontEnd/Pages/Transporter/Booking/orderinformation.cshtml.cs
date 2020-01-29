@@ -68,7 +68,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             ModelState.Remove("TotalPallets");
             if (!ModelState.IsValid)
             {
-                await GenerateBookingViewModel();
+                var result = await GenerateBookingViewModel();
+                if (!result)
+                {
+                    return new RedirectToPageResult("/Transporter/Booking/BookOrder");
+                }
                 ShowOrderMessage = true;
                 OrderMessage = "Der var en fejl på ordren, klik på opret ordre for at se hvilke.";
                 return Page();
@@ -255,13 +259,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private bool Overlap(SupplierViewModel supplierViewModelTryingToBook,
             SupplierViewModel supplierViewModel)
         {
-            
-            
             TimeSpan start = supplierViewModel.DeliveryStart.TimeOfDay; // 10 PM
             TimeSpan end = supplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
             TimeSpan start1 = supplierViewModelTryingToBook.DeliveryStart.TimeOfDay;
             TimeSpan end1 = supplierViewModelTryingToBook.DeliveryEnd.TimeOfDay;
- 
 
             return TimeUtility.IsOverlapping(start, end, start1, end1);
         }
@@ -343,13 +344,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         /**
          * Sets the Viewmodels so they can be used in the view
          */
-        private async Task GenerateBookingViewModel()
+        private async Task<bool> GenerateBookingViewModel()
         {
             
             BookingViewModel = GetBookingViewModelFromSession();
             if (!BookingViewModel.SuppliersListViewModel.Suppliers.Any())
             {
-                BookingViewModel.SuppliersListViewModel =  await _supplierDataService.ListSuppliers(0, 0);  
+                var id = GetLoggedInUserId();
+                var result = await _supplierDataService.GetSupplierByTransporter(Guid.Parse(id));
+                if (result == null)
+                {
+                    return false;
+                }
+
+                BookingViewModel.SuppliersListViewModel = result;
             }
             
             CreateSelectedList(BookingViewModel.SuppliersListViewModel);
@@ -357,8 +365,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             UpdateTotalPallets(BookingViewModel);
             SetBookingViewModelToSession(BookingViewModel);
-            
-            
+
+            return true;
         }
         
     }

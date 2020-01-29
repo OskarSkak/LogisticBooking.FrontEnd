@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -41,12 +42,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
            
         }
         
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
+                if (result == null)
+            {
+                return new RedirectToPageResult("/Pages/ErrorPage");
+            }
 
-            
             MasterSchedulesStandardViewModel = CreateMasterSchedules(result);
 
             DashboardViewModel = await _dashboardDataService.GetDashboard();
@@ -56,6 +60,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             var d = 1 - percent;
             ShowPercent = (int) (d * 100);
             Console.WriteLine(ShowPercent);
+            return Page();
         }
         
 
@@ -97,6 +102,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
 
             return masterSchedulesStandardViewModel;
         }
+
+        public void OnPostDateTime()
+        {
+            throw new ArithmeticException();
+
+
+        }
+        
+        
+        
+       
 
         
     }

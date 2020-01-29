@@ -12,6 +12,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     {
         private readonly IUtilBookingDataService _utilBookingDataService;
         private readonly IScheduleDataService _scheduleDataService;
+        private readonly IMasterScheduleDataService _masterScheduleDataService;
 
         [BindProperty]
         public BookingViewModel BookingViewModel { get; set; }
@@ -23,10 +24,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public string ModelStateMessage { get; set; }
         public bool ShowMessage => !String.IsNullOrEmpty(ScheduleAvailableMessage) || !String.IsNullOrEmpty(ModelStateMessage) ;
         
-        public BookOrder(IUtilBookingDataService utilBookingDataService , IScheduleDataService scheduleDataService)
+        public BookOrder(IUtilBookingDataService utilBookingDataService , IScheduleDataService scheduleDataService , IMasterScheduleDataService masterScheduleDataService)
         {
             _utilBookingDataService = utilBookingDataService;
             _scheduleDataService = scheduleDataService;
+            _masterScheduleDataService = masterScheduleDataService;
         }
         
         public void OnGet()
@@ -35,13 +37,27 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
         }
 
-        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingViewModel)
+        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingViewModel , DateTime bookingTime)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
+            if (bookingTime.Date <= DateTime.Now)
+            {
+                ModelStateMessage = "Dagen skal værer efter idag";
+                return Page();
+            }
+
+
+            if (! await ScheduleIsAllowed(bookingTime))
+            {
+                ModelStateMessage = "Der kan ikke bookes på den dag";
+                return Page();
+            }
             
+            bookingViewModel.BookingTime = bookingTime;
             await UpdateBookingInformation(bookingViewModel);
             
             AddBookingViewModelToSession();
@@ -49,6 +65,31 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             // If all is success - navigate to order information page
             return new RedirectToPageResult("orderinformation");
+        }
+
+        private async Task<bool> ScheduleIsAllowed( DateTime bookingTime)
+        {
+            // Er der en schedule på dagen? 
+            // Hvis der er allerede er en på dagen er de aktive days godkendt.
+            var currentSchedule = await _scheduleDataService.GetScheduleBydate(bookingTime);
+            if (currentSchedule != null)
+            {
+                return true;
+            }
+
+            var MasterSchedules = await _masterScheduleDataService.GetActiveMasterSchedule();
+            foreach (var masterScheduleStandardViewModel in MasterSchedules.MasterScheduleStandardViewModels)
+            {
+                var activeDays = masterScheduleStandardViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == bookingTime.DayOfWeek);
+                if (activeDays == null)
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+
         }
 
 
@@ -62,6 +103,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             // Set the External Booking ID
             BookingViewModel.ExternalId = externalBookingId.bookingid;
+
+            BookingViewModel.BookingTime = bookingViewModel.BookingTime;
         }
 
         private void AddBookingViewModelToSession()

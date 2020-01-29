@@ -448,3 +448,21 @@ background-color:  #818E94;
    right:50%;
    margin-right:20px;
  }
+
+
+ .form-control:disabled, .form-control[readonly] {
+   background-color: white; 
+   opacity: 1;
+ }
+
+
+
+ @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+   /* IE10+ CSS styles go here */
+
+   .sidebar .nav-item .nav-link[data-toggle="collapse"].collapsed::after {
+     color: transparent;
+   }
+ }
+
+

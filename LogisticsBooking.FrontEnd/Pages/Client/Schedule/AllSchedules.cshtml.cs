@@ -81,6 +81,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             return new RedirectToPageResult("");
         }
 
+        public async Task<IActionResult> OnPostMakeInactive(string isActive, Guid id, Shift shift)
+        {
+            var result = await _masterScheduleDataService.SetMasterScheduleInactive(new SetScheduleInactiveCommand()
+                {MasterScheduleStandardToInactive = id , Shift = shift});
+
+            if (result.IsSuccesfull)
+            {
+                return new RedirectToPageResult("");
+            }
+            
+            return new RedirectToPageResult("");
+        }
+
         public async Task<JsonResult> OnGetTest()
         {
             var Schedules = await _masterScheduleDataService.GetAllSchedules();

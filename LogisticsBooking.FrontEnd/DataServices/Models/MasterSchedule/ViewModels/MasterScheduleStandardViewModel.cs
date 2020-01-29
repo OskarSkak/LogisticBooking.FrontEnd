@@ -21,6 +21,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModel
         public bool IsActive { get; set; }
         
         public List<MasterIntervalStandardViewModel> MasterIntervalStandardViewModels { get; set; }
+        
+        public List<MasterDayViewModel> ActiveDays { get; set; }
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<MasterScheduleStandardViewModel, CreateNewMasterScheduleStandardCommand>()

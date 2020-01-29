@@ -1,3 +1,5 @@
+using System;
+
 namespace LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser
 {
     public class CreateUserCommand
@@ -6,5 +8,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser
         public string Name { get; set; }
         
         public string Role { get; set; }
+        
+        public Guid Id { get; set; }
     }
 }

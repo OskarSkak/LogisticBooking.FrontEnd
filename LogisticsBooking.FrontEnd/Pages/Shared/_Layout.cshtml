@@ -20,10 +20,13 @@
         <script async type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
 
       <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet"/>
-      
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
        <!-- Custom styles for this template-->
        <link href="~/dist/style.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+      <link href="/open-iconic/font/css/open-iconic-foundation.css" rel="stylesheet">
+      <link href="~/dist/ie.css" />
+      
        @RenderSection("Styles" , false)
        
 </head>
@@ -66,17 +69,34 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" asp-page="/Client/Schedule/ScheduleOverview"  >@localizer.Get("Active plans")</a>
             
-            <a class="collapse-item" asp-page="/Client/Schedule/CalendarOverview"  >@localizer.Get("Calendar overview")</a>
-            <a class="collapse-item" asp-route-id="All" asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Saved plans") </a>
-            <a class="collapse-item" asp-route-id="NIGHT" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create night plan")</a>
-            <a class="collapse-item" asp-route-id="DAY" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create day plan")</a>
+            
+            
+            <a class="collapse-item"  asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Active plans") </a>
+            <a class="collapse-item" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create Plan")</a>
             
             
           </div>
         </div>
       </li>
+      
+      
+      <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTrans" aria-expanded="true" aria-controls="collapseTrans">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>@localizer.Get("Transporters")</span>
+              </a>
+              <div id="collapseTrans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                  <a class="collapse-item"  asp-page="/Client/Transporters/Transporters"  >@localizer.Get("Transporters")</a>
+                  
+                  
+                </div>
+              </div>
+            </li>
+      
+      
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -263,13 +283,14 @@
   </div>
 </div>
 
-<script src="~/js/nodep-date-input-polyfill.dist.js"></script>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>    
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-<script   src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="~/dist/dd.js"></script>
-      
+<script src="~/dist/dd.js"></script>
 @RenderSection("Scripts" , false)
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 
 <script>

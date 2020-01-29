@@ -1,4 +1,4 @@
-@page "{id}"
+@page
 @using System.Collections.Specialized
 @using Microsoft.EntityFrameworkCore.Internal
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CreateNewSchedule
@@ -40,7 +40,7 @@
     .kiddo{
         display: inline-block;
         vertical-align: top;
-        width: 31%;
+        width: 29%;
         margin: 10px;
         text-align: left;
     }
@@ -48,7 +48,7 @@
     .kiddo-25{
         display: inline-block;
         vertical-align: top;
-        width: 25%;
+        width: 29%;
         margin: 10px;
         text-align: left;
         
@@ -61,114 +61,182 @@
 </style>
 
 <body onload="hideAllEmpty()">
-<div class="py-1 text-center">
-    <div class="container">
-        <div class="row">
-            <div class="mx-auto col-lg-5 col-md-7 col-10">
-                <h1>Opret ny Tidsplan</h1>
-                <p class="mb-3">Rediger nedenstående felter efter behov. Bemærk, der kan maksimalt oprettes
-                    24 individuelle intervaller for en given tidsplan. Endvidere, intervallers start og slut tider må ikke overlappe med andre intervallers tider</p>
+
+
+<form method="post">
+
+
+    <div class="container-fluid">
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Opret ny plan</h2>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-6">
 
 
-<form method="post" >
-    <div class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card bg-light text-center">
-                        <div class="card-body p-1">
-                            <table>
-                                <tr>
-                                    <th>Angiv antal bundpaller for alle intervaller</th>
-                                    <th>Angiv navnet for tidsplanen</th>
-                                    <th>Opret tidsplanen</th>
-                                </tr>
-                                <tr>
-                                    <td class="d-flex justify-content-start"><div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/></td>
-                                    <td><input type="text" class="form-control" name="name"/></td>
-                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#opret">
-                                          Opret
-                                        </button></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="py-1" style="">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="list-group" style="">
-                        <text>
-                            <div class="list-group-item list-group-item-action display-spacebetween parent">
-                                <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen">+/-</p>
-                                <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="kiddo-25">Paller</p>
-                                <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="kiddo-25">Start</p>
-                                <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="kiddo-25">Slut</p>
-                            </div>
-                        </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count))
-                        {
-
-                            <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
-                                    <div class="btn input-group-res" onclick="toggle('@interval.InternalId')"><i class="fas fa-toggle-on"></i></div>
-                                    <div class="@interval.InternalId parent">
-                                        <input type="number" class="input-group- kiddo form-control" style="text-align: center;" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
-                                        <input type="time" pattern="[0-9]{2}:[0-9]{2}" class="kiddo form-control" style="text-align: center;" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
-                                        <input type="time" class="kiddo form-control" style="text-align: center;" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card bg-light text-center">
+                                    <div class="card-body p-1">
+                                        <table>
+                                            <tr>
+                                                <th>Angiv antal bundpaller for alle intervaller</th>
+                                                <th>Angiv navnet for tidsplanen</th>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td class="d-flex justify-content-start">
+                                                    <div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="name"/>
+                                                </td>
+                                                
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        }
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="list-group" style="">
+
+                                    <div class="list-group-item list-group-item-action d-flex justify-content-between parent">
+                                        <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen" class="kiddo-25">+/-</p>
+                                        <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="kiddo-25">Paller</p>
+                                        <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="kiddo-25">Start</p>
+                                        <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="kiddo-25">Slut</p>
+                                    </div>
+
+                                    @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count))
+                                    {
+                                        <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                            <div class="list-group-item list-group-item-action d-flex" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
+                                                <div class="btn input-group-res" onclick="toggle('@interval.InternalId')">
+                                                    <i class="fas fa-toggle-on"></i>
+                                                </div>
+                                                <div class="@interval.InternalId parent">
+                                                    <input type="number" class="input-group- kiddo form-control" style="text-align: center;" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
+                                                    <input type="text"  class="time kiddo form-control" style="text-align: center;"  name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
+                                                    <input type="text" class="time kiddo form-control" style="text-align: center;"  name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="d-flex justify-content-center">
+                                    <h3>Angiv hvilke dage denne plan skal være gældene for</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                               
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day" type="checkbox" value="monday">
+                                        <label class="form-check-label">
+                                            Mandag
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day" type="checkbox" value="tuesday">
+                                        <label class="form-check-label">
+                                            Tirsdag
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day"  type="checkbox" value="wednesday">
+                                        <label class="form-check-label">
+                                            Onsdag
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day"  type="checkbox" value="thursday">
+                                        <label class="form-check-label">
+                                            Torsdag
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day"  type="checkbox" value="friday">
+                                        <label class="form-check-label">
+                                            Fredag
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day"  type="checkbox" value="saturday">
+                                        <label class="form-check-label">
+                                            Lørdag
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="day"  type="checkbox" value="sunday">
+                                        <label class="form-check-label">
+                                            Søndag
+                                        </label>
+                                    </div>
+
+
+                                    <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Opret</button>
+                                                                            
+
+                               
+
+
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
+
+
     </div>
-    
 
 
-
-
-
-<div class="modal fade" id="opret" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Opret plan</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      Vælg om denne plan skal være en standard eller om det skal være en enkelt plan
-      </div>
-        <div class="modal-footer">
-            <input type="hidden" value="@Model.Shifts" name="shift"/>
-            <button asp-page-handler="Specific" type="submit" class="btn btn-secondary" >Enkelt</button>
-            <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Standard</button>
-        </div>
-    </div>
-  </div>
-</div>
 </form>
 
 </body>
 
 @section Scripts{
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="~/js/DateRingePicker.js"></script>
+ 
+
     <script>
+    
+   
+    
+    
         function toggle(className) {
             var x = '.' + className;
             if ($(x).is(":hidden")) {
@@ -207,7 +275,7 @@
         }
 
     </script>
-    
+
     <script>
         function hideAllEmpty()
         {
@@ -217,7 +285,7 @@
             }
         }
     </script>
-    
+
     <script>
         function allowDrop(ev) {
             ev.preventDefault();
@@ -237,5 +305,5 @@
             srcParent.appendChild(tgt);
         }
     </script>
-    
+
 }

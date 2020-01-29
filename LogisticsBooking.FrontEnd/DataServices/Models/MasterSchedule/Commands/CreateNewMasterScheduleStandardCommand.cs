@@ -19,5 +19,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands
         public bool IsActive { get; set; }
 
         public  List<MasterIntervalStandardViewModel> MasterIntervalStandardViewModels { get; set; }
+        
+        public List<MasterDayViewModel> ActiveDays { get; set; }
     }
 }

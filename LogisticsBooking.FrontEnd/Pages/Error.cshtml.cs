@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LogisticsBooking.FrontEnd.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    
     public class ErrorModel : PageModel
     {
         public string RequestId { get; set; }
@@ -16,6 +16,14 @@ namespace LogisticsBooking.FrontEnd.Pages
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
         public void OnGet(string code)
+        {
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            var id = HttpContext.Response.StatusCode;
+            
+            
+            Console.WriteLine();
+        }
+        public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             var id = HttpContext.Response.StatusCode;

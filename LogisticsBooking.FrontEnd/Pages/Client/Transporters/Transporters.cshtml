@@ -18,10 +18,7 @@
     </div>
 }
 
-<div class="text-center">
-            <h1 class="display-4">@CommonLocalizationService.Get("Hello")]</h1>
-            <p>@htmlLocalizer["Learn"]</p>
-        </div>
+
 
 <div class="py-5 text-center">
   
@@ -34,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="mx-auto col-lg-5 col-md-7 col-10">
-                   <!-- <a asp-page="Transporter_Create"><button class="btn btn-primary btn-floating">Opret Transportør</button></a> -->
+                    <a asp-page="Transporter_Create"><button class="btn btn-primary btn-floating">Opret Transportør</button></a> 
                 </div>
             </div>
         </div>
@@ -51,7 +48,9 @@
                     {
                        
                         <text>
-                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.TransporterId" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
+                            
+                            <div id="_@Transporter.TransporterId" asp-route-ok="@Transporter.TransporterId" class="list-group-item list-group-item-action ">@Transporter.Name</div>
+                            <input hidden="hidden" type="hidden" value="@Transporter.TransporterId"/>
                         </text>
                     }
                 </div>
@@ -59,3 +58,23 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    
+    @foreach (var Transporter in Model.Transporters)
+        {
+    
+    <script>
+     $('#_@Transporter.TransporterId').on('click', function f() {
+        var root = location.protocol + '//' + location.host;
+        window.location.href = root + '/Client/TransporterDetail?ok=@Transporter.TransporterId'; 
+        });
+    </script>
+    
+    }
+    
+    
+    
+    
+}
