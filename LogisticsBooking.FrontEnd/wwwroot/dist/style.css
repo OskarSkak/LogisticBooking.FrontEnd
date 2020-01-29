@@ -9702,5 +9702,5 @@ html {
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   /* IE10+ CSS styles go here */
   .text-gray-800 {
-    color: red; } }
+    color: red; !important; } }
 
