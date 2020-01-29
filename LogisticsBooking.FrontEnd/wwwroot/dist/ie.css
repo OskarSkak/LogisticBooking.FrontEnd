@@ -1,2 +1,2 @@
-body{background-color:red}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active){.text-gray-800{color:red}}
 
