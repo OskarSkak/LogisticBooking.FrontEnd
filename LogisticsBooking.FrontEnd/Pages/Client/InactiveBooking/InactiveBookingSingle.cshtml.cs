@@ -41,7 +41,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking
         {
             var response = _inactiveBookingDataService.DeleteInactiveBooking(Guid.Parse(id));
             if (response.IsCompletedSuccessfully) return new RedirectToPageResult("InactiveBookingOverview");
-            else return new RedirectToPageResult("InactiveBookingOverviewa"); //TODO: Fix when error page designed
+            else return new RedirectToPageResult("InactiveBookingOverview"); //TODO: Fix when error page designed
         }
 
         public async Task<IActionResult> OnPostUpdate(InactiveBookingViewModel Booking, 
@@ -65,7 +65,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking
                 if(Booking.InactiveOrders[i].WareNumber != 0) inactiveBooking.InactiveOrders[i].WareNumber = Booking.InactiveOrders[i].WareNumber;
             }
 
-            //var result = _inactiveBookingDataService.UpdateInactiveBooking(inactiveBooking);
+            var result = _inactiveBookingDataService.UpdateInactiveBookingWithOrders(UpdateInactiveBookingWithOrdersCommand.GenerateCommand(inactiveBooking));
             
             return new RedirectToPageResult("InactiveBookingOverview");
         } 

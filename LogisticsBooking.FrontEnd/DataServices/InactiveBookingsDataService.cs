@@ -49,5 +49,14 @@ namespace LogisticsBooking.FrontEnd.DataServices.Utilities
             var result = await TryReadAsync<InactiveBookingListViewModel>(response);
             return result;
         }
+
+        public async Task<Response> UpdateInactiveBookingWithOrders(UpdateInactiveBookingWithOrdersCommand cmd)
+        {
+            var endUrl = baseurl + "InactiveOrders/";
+            var response = await PutAsync(endUrl, cmd);
+            if (response.Content == null) return Response.Unsuccesfull(response, response.ReasonPhrase);
+            var errorMsg = await response.Content.ReadAsStringAsync();
+            return Response.Unsuccesfull(response,errorMsg);
+        }
     }
 }

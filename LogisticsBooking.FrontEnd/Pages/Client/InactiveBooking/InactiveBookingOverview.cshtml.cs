@@ -40,7 +40,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking
             var InternalIdView_Guid = Guid.Parse(InternalIdView);
             var result = _inactiveBookingDataService.DeleteInactiveBooking(InternalIdView_Guid);
             //TODO: Error handling after agreement
-            return result.IsCompletedSuccessfully ? new RedirectToPageResult("Pages/Client/InactiveBooking/InactiveBookingOverview.cshtml") : new RedirectToPageResult("ERROR PAGE");
+            return result.IsCompletedSuccessfully ? new RedirectToPageResult("InactiveBookingOverview") : new RedirectToPageResult("ERROR PAGE");
         }
         
         public async Task<IActionResult> OnPostGoToAsync(string InternalIdView)

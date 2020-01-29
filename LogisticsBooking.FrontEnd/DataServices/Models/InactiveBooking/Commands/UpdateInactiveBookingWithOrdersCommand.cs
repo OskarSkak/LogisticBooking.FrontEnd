@@ -5,7 +5,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.InactiveOrder.ViewModels;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.InactiveBooking.Commands
 {
-    public class UpdateInactiveBookingCommand
+    public class UpdateInactiveBookingWithOrdersCommand
     {
         public Guid InternalId { get; set; }
         public int ExternalId { get; set; }
@@ -14,14 +14,14 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.InactiveBooking.Commands
         public int Port { get; set; }
         public List<InactiveOrderViewModel> InactiveOrders { get; set; }
 
-        public UpdateInactiveBookingCommand()
+        public UpdateInactiveBookingWithOrdersCommand()
         {
             InactiveOrders = new List<InactiveOrderViewModel>();
         }
 
-        public static UpdateInactiveBookingCommand GenerateCommand(InactiveBookingViewModel model)
+        public static UpdateInactiveBookingWithOrdersCommand GenerateCommand(InactiveBookingViewModel model)
         {
-            var cmd = new UpdateInactiveBookingCommand
+            var cmd = new UpdateInactiveBookingWithOrdersCommand
             {
                 BookingTime = model.BookingTime,
                 InternalId = model.InternalId,

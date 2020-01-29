@@ -42,6 +42,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> DeleteInactiveBooking(Guid id);
         Task<InactiveBookingViewModel> GetInactiveBookingById(Guid id);
         Task<InactiveBookingListViewModel> GetInactiveBookings();
+        Task<Response> UpdateInactiveBookingWithOrders(UpdateInactiveBookingWithOrdersCommand cmd);
     }
 
     public interface IDeletedBookingDataService
