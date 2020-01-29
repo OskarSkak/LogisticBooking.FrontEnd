@@ -462,6 +462,12 @@ background-color:  #818E94;
    .colorred {
      color: red !important;
    }
+
+   @media (min-width: 768px) {
+     .sidebar .nav-item .nav-link i {
+       display: none;
+     }
+   }
  }
 
 
