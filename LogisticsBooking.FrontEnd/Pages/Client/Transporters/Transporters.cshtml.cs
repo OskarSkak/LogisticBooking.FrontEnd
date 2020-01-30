@@ -24,11 +24,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             transporterDataService = _transporterDataService;
             
         }
-        public async Task<IActionResult> OnGet()
+        public async Task OnGet()
         {
             Transporters = new List<TransporterViewModel>();
             Transporters = await PopulateList(transporterDataService, Transporters);
-            return new RedirectToPageResult("Error");
+            
         }
 
         private  async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)

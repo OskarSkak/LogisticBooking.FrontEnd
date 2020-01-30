@@ -188,7 +188,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             {
                 foreach (var booking in interval.Bookings)
                 {
-                    _bookingDataService.DeleteBooking(booking.InternalId);
+                   await  _bookingDataService.DeleteBooking(booking.InternalId);
                 }
             }
 

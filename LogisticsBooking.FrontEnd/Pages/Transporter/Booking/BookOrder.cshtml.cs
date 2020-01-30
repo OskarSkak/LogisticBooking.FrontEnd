@@ -41,6 +41,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             if (!ModelState.IsValid)
             {
+                foreach (var model in ModelState)
+                {
+                    
+                    Console.WriteLine(model);
+                }
                 return Page();
             }
 
