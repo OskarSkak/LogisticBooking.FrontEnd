@@ -258,7 +258,7 @@
                                     @foreach (var schedule in schedules)
                                     {
                                         
-                                        @if (schedule.Shifts == Shift.Day)
+                                        if (schedule.Shifts == Shift.Day)
                                         {
                                             
                                             foreach (var interval in schedule.Intervals)
