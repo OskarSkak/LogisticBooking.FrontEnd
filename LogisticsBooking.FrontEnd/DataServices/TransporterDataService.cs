@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
+using LogisticsBooking.FrontEnd.DataServices.Models.CombinedModels.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
@@ -70,6 +71,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 
             }
             return await TryReadAsync<TransportersListViewModel>(result); 
+        }
+
+        //TODO: Maybe out of place? Didnt want to create new controller for 1 slightly different query here, but not sure
+        public async Task<TransporterAndSupplierListViewModel> GetAllTransportersAndSuppliers()
+        {
+            var route = _APIServerURL + "/api/orders/outerjoins/SuppliersAndTransporters/";
+            var result = await GetAsync(route);
+            return await TryReadAsync<TransporterAndSupplierListViewModel>(result);
         }
 
         public async Task<Response> AddSupplierToTransporter( AddSupplierToTransporterCommand command)

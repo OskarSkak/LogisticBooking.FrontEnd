@@ -25,7 +25,6 @@ namespace LogisticsBooking.FrontEnd.DataServices
         public async Task<Response> CreateBooking(CreateBookingCommand booking)
         {
             
-
             var response = await PostAsync<CreateBookingCommand>(baseurl, booking);
 
             

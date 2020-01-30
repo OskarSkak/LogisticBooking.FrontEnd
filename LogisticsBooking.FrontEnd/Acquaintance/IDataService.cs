@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.CombinedModels.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Dashboard;
 using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.CommandModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.ViewModels;
@@ -82,7 +83,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<TransporterViewModel> GetTransporterById(Guid id);
         Task<Response> DeleteTransporter(Guid id);
         Task<TransporterViewModel> GetTransporterByName(string name);
-
+        Task<TransporterAndSupplierListViewModel> GetAllTransportersAndSuppliers();
         Task<Response> AddSupplierToTransporter(AddSupplierToTransporterCommand command);
         Task<Response> RemoveSupplierFromTransporter(RemoveSupplierFromTransporterCommand command);
     }

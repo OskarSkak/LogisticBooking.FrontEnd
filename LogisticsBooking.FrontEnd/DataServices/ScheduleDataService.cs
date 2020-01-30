@@ -103,12 +103,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<SchedulesListViewModel> GetScheduleBydate(DateTime date)
         {
-            
-
             var endpoint = baseurl + "date/" + date.ToString("yyyy-MM-dd");
             var response = await GetAsync(endpoint);
-
-
             return await TryReadAsync<SchedulesListViewModel>(response);
         }
     }
