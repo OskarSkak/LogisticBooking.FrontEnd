@@ -27,7 +27,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Utilities
             var errorMsg = await response.Content.ReadAsStringAsync();
             return Response.Unsuccesfull(response,errorMsg);
         }
-
+        
         public async Task<Response> DeleteInactiveBooking(Guid id)
         {
             var endpoint = baseurl + id;

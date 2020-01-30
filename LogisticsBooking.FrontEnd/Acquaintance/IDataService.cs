@@ -57,6 +57,10 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IScheduleDataService
     {
         Task<Response> CreateSchedule(CreateScheduleCommand schedule);
+        
+        Task<Response> CreateScheduleFromMAster(CreateScheduleFromMasterCommand schedule);
+        
+        Task<Response> CreateScheduleFromSchedule(CreateScheduleFromActiveSchedule schedule);
         Task<SchedulesListViewModel> GetSchedules();
         Task<ScheduleViewModel> GetScheduleById(Guid id);
         Task<Response> UpdateSchedule(ScheduleViewModel schedule);

@@ -24,13 +24,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             transporterDataService = _transporterDataService;
             
         }
-        public async void OnGet()
+        public async Task<IActionResult> OnGet()
         {
             Transporters = new List<TransporterViewModel>();
-            Transporters = PopulateList(transporterDataService, Transporters).Result;
+            Transporters = await PopulateList(transporterDataService, Transporters);
+            return new RedirectToPageResult("Error");
         }
 
-        private static async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)
+        private  async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)
         {
             var TransportersEnumerable = await transporterDataService.ListTransporters(0, 0);
             

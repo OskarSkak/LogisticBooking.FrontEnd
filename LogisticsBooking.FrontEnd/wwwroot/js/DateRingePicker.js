@@ -51,7 +51,7 @@ $(function() {
     });
 
     $("input.time").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('HH:mm'));
+        $(this).val(picker.startDate.format('HH:mm:ss'));
     });
 });
 

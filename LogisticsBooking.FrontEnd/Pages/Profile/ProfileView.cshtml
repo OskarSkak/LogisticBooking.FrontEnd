@@ -5,9 +5,47 @@
 
 <div class="row">
 
-    <div class="col-2">
-        
+    <div class="col-xl-3">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary  sidebar-dark accordion" id="accordionSidebar">
+
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link " href="#">
+
+                    <span>Email</span>
+                </a>
+
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li id="code" class="nav-item">
+                <a class="nav-link " >
+            
+                    <span>Ændre adgangskode</span>
+                </a>
+            
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link " href="#">
+            
+                    <span>Få data</span>
+                </a>
+            
+            </li>
+            
+
+
+        </ul>
+
     </div>
+
+    <div class="col-xl-1">
+
+    </div>
+
     <!-- Area Chart -->
     <div class="col-xl-8 col-lg-7">
         <div class="card shadow mb-4">
@@ -28,15 +66,36 @@
                 </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body">
-                
+            <div class="card-body d-none">
+
             </div>
+            
+            <div class="card-body d-none">
+            
+            </div>
+            
+            <div class="kode card-body d-none">
+                Ændre adgangskode
+            </div>
+            
         </div>
     </div>
 
     <!-- Pie Chart -->
-    <div class="col-2">
-            
-        </div>
+
 
 </div>
+
+@section Scripts
+{
+    <script>
+    
+    $('#code').on('click' ,function () {
+      $('.kode').removeClass('d-none');
+                $(this).addClass('');
+    });
+      
+    
+    
+    </script>
+}

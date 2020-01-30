@@ -1,0 +1,30 @@
+@model LogisticsBooking.FrontEnd.ViewComponents.NotificationComponentModel
+
+@if (Model.InactiveBookingListViewModel.InactiveBookings.Count > 0)
+{
+    <li class="nav-item dropdown no-arrow mx-1">
+                          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-envelope fa-fw"></i>
+                            <!-- Counter - Messages -->
+                            <span class="badge badge-danger badge-counter">1</span>
+                          </a>
+                          <!-- Dropdown - Messages -->
+                          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                            <h6 class="dropdown-header">
+                              Message Center
+                            </h6>
+                            
+                            
+                            <a class="dropdown-item d-flex align-items-center" asp-page="/Pages/InactiveBooking/InactiveBookingOverview">
+                              
+                              <div>
+                                <div class="text-truncate">@Model.InactiveBookingListViewModel.InactiveBookings.Count bookinger har ikke en plan</div>
+                                <div class="small text-gray-500">Der eksisterer @Model.InactiveBookingListViewModel.InactiveBookings.Count bookinger der ikke har en plan</div>
+                              </div>
+                            </a>
+                            
+                          </div>
+                        </li>
+            
+                        <div class="topbar-divider d-none d-sm-block"></div>
+}

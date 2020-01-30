@@ -1,0 +1,505 @@
+@page
+@using System.Collections.Specialized
+@using Microsoft.EntityFrameworkCore.Internal
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.UpdateSchedule
+
+<style>
+    .input-group-res {
+        width: 100%;
+        width: 70px;
+        box-sizing: border-box;
+    }
+    
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    
+    .div > input {
+        display: inline-block;
+        display: -moz-inline-box;
+        *display: inline; /* For IE7 */
+        zoom: 1; /* Trigger hasLayout */
+        width: 33%;
+        text-align: center;
+    }
+    
+    .parent{
+        width: 100%;
+        text-align: justify;
+    }
+
+    .kiddo{
+        display: inline-block;
+        vertical-align: top;
+        width: 10%;
+        margin: 10px;
+        text-align: left;
+    }
+    
+    .kiddo-25{
+        display: inline-block;
+        vertical-align: top;
+        width: 10%;
+        margin: 10px;
+        text-align: left;
+        
+    }
+
+    .bumper{
+        width: 100%;
+    }
+
+</style>
+
+<body onload="hideAllEmpty()">
+
+
+<form method="post">
+<input hidden="hidden" asp-for="@Model.NewScheduleDate"/>
+<input hidden="hidden" asp-for="@Model.CurrentScheduleId"/>
+<input hidden="hidden" asp-for="@Model.CreatedBy"/>
+
+<div class="container-fluid">
+
+<div class="card mb-4">
+<div class="card-header">
+    <h2>Opret ny plan</h2>
+</div>
+<div class="card-body">
+
+<div class="row">
+<div class="col-6">
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-light text-center">
+                <div class="card-body p-1">
+                    <table>
+                        <tr>
+                            <th>Angiv antal bundpaller for alle intervaller</th>
+                            <th>Angiv navnet for tidsplanen</th>
+
+                        </tr>
+                        <tr>
+                            <td class="d-flex justify-content-start">
+                                <div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/>
+                            </td>
+                            <td>
+                                <input value="@Model.ScheduleViewModel.Name" type="text" class="form-control" name="nameOfPlan"/>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="list-group" style="">
+
+                <div class="list-group-item list-group-item-action d-flex ">
+                    <div class="">
+                        <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="mr-3">Vis/skjul</p>   
+                    </div>
+                    <div class=" parent">
+                        <div class="row">
+
+                            <div class="col-2">
+                                <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="">Paller</p>
+                            </div>
+                            <div class="col-3">
+                                <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="">Start</p>
+                            </div>
+                            <div class="col-3">
+                                <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="">Slut</p>
+                            </div>
+                            <div class="col-3">
+                                <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen" class="">Bookings</p>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    
+
+
+
+
+                </div>
+
+                @foreach (var interval in Model.ScheduleViewModel.Intervals)
+                {
+                    <div class="add visible" id="@Model.ScheduleViewModel.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="list-group-item list-group-item-action d-flex" id="@Model.ScheduleViewModel.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
+
+                            <div class="col-1 ">
+                                <i id="_@interval.IntervalId" class="fas fa-toggle-on"></i>
+                            </div>
+                            
+                            <div class="@interval.ScheduleId parent">
+                                <div class="row">
+                                    
+                                    <div class="col-2">
+                                                                        <input type="number" class=" form-control" style="text-align: center;" id="@interval.ScheduleId" asp-for="@interval.BottomPallets" name="Intervals[@Model.ScheduleViewModel.Intervals.IndexOf(interval)].BottomPallets"/>
+
+                                    </div>
+                                    <div class="col-3">
+                                                                         <input type="text" value="@interval.StartTime.Value.TimeOfDay" class="time  form-control" style="text-align: center;" name="Intervals[@Model.ScheduleViewModel.Intervals.IndexOf(interval)].StartTime"/>
+                                   
+                                    </div>
+                                    <div class="col-3">
+                                                                           <input type="text" value="@interval.EndTime.Value.TimeOfDay" class="time  form-control" style="text-align: center;" name="Intervals[@Model.ScheduleViewModel.Intervals.IndexOf(interval)].EndTime"/>
+                                 
+                                    </div>
+                                    <div class="col-4">
+                                      @foreach (var booking in interval.Bookings)
+                                                                      {
+                                                                          <div class="">@booking.ExternalId</div>
+                                                                      }
+                                      
+                                    </div>
+                                    
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @foreach (var newInterval in @Model.NewIntervalViewModels)
+                {
+                    <div id="" class="d-none add" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="list-group-item list-group-item-action d-flex " id="" draggable="true" ondragstart="drag(event)">
+                            <div class="col-1 ">
+                                <i id="" class="fas fa-toggle-on"></i>
+                            </div>
+                            
+                            <div class="parent">
+                                <div class="row">
+                                    <div class="col-2">
+                                                                        <input type="number" name="NewIntervals[@Model.NewIntervalViewModels.IndexOf(newInterval)].Pallets" class="input-group-  form-control" style="text-align: center;"/>
+
+                                    </div>
+                                    <div class="col-3">
+                                                                       <input type="text" name="NewIntervals[@Model.NewIntervalViewModels.IndexOf(newInterval)].Start" class="time  form-control" style="text-align: center;"/>
+                                     
+                                    </div>
+                                    <div class="col-3">
+                                                                          <input type="text" name="NewIntervals[@Model.NewIntervalViewModels.IndexOf(newInterval)].End" class="time  form-control" style="text-align: center;"/>
+                                  
+                                    </div>
+                                    <div class="col-4">
+                                                                            
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div>
+                    <div class="addclick btn btn-secondary">Tilføj felt</div>
+                    <div class="removeclick btn btn-secondary">Fjern felt</div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-6">
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="d-flex justify-content-center">
+                <h3>Angiv hvilke dage denne plan skal være gældene for</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Monday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="monday">
+                    <label class="form-check-label">
+                        Mandag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="monday">
+                    <label class="form-check-label">
+                        Mandag
+                    </label>
+                </div>
+            }
+
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Tuesday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="tuesday">
+                    <label class="form-check-label">
+                        Tirsdag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="tuesday">
+                    <label class="form-check-label">
+                        Tirsdag
+                    </label>
+                </div>
+            }
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Wednesday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="wednesday">
+                    <label class="form-check-label">
+                        Onsdag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="wednesday">
+                    <label class="form-check-label">
+                        Onsdag
+                    </label>
+                </div>
+            }
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Thursday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="thursday">
+                    <label class="form-check-label">
+                        Torsdag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="thursday">
+                    <label class="form-check-label">
+                        Torsdag
+                    </label>
+                </div>
+            }
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Friday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="friday">
+                    <label class="form-check-label">
+                        Fredag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="friday">
+                    <label class="form-check-label">
+                        Fredag
+                    </label>
+                </div>
+            }
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Saturday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="saturday">
+                    <label class="form-check-label">
+                        Lørdag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="saturday">
+                    <label class="form-check-label">
+                        Lørdag
+                    </label>
+                </div>
+            }
+            @if (Model.ScheduleViewModel.ActiveDays.FirstOrDefault(e => e.ActiveDay == DayOfWeek.Sunday) != null)
+            {
+                <div class="form-check">
+                    <input checked="checked" class="form-check-input" name="day" type="checkbox" value="sunday">
+                    <label class="form-check-label">
+                        Søndag
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-check">
+                    <input class="form-check-input" name="day" type="checkbox" value="sunday">
+                    <label class="form-check-label">
+                        Søndag
+                    </label>
+                </div>
+            }
+
+
+            <button asp-page-handler="Update" type="submit" class="btn btn-primary">Opdater</button>
+            <button asp-page-handler="Delete" type="submit" class="btn btn-primary">Slet planen</button>
+
+
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+
+</form>
+
+</body>
+
+@section Scripts{
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="~/js/DateRingePicker.js"></script>
+
+
+    <script>
+    
+   
+    
+        $('.addclick').on('click', function(){
+            $('.d-none.add').each(function(i, obj) {
+                    console.log($(this))
+                    $(this).removeClass('d-none');
+                    $(this).addClass('visible');
+                    return false;
+                });
+            
+        });
+        
+        
+        
+         $('.removeclick').on('click', function(){
+             $($(".visible.add").get().reverse()).each(function() {
+                 var m = moment().utcOffset(0);
+                 m.set({hour:0,minute:0,second:0,millisecond:0});
+                 m.toISOString();
+                 
+                 console.log(m.format('HH:mm:ss'));
+                  var input = $(this).find(':input');
+                  input.val(m.format('HH:mm:ss'));
+                   $(this).removeClass('visible');
+                   $(this).addClass('d-none');
+                   return false;
+                                     
+              });
+               
+              
+            });
+         
+        
+    
+        function toggle(className) {
+            var x = '.' + className;
+            if ($(x).is(":hidden")) {
+                show(className)
+                document.getElementById(className).value = '33';
+            } else {
+                hide(className)
+                document.getElementById(className).value = '0';
+            }
+        }
+  
+ 
+        function hide(className) {
+            var x = '.' + className;
+            $(x).hide();
+            document.getElementById(className).value = '0';
+        }
+   
+
+
+        function show(className) {
+            var x = '.' + className;
+            $(x).show();
+            document.getElementById(className).value = '33';
+        }
+        
+        function changeAllPallets(value) {
+            var i;
+            for (i = 0; i < @Model.ScheduleViewModel.Intervals.Count; i++) {
+                if ($(x).is(":hidden")) {
+
+                } else {
+                    document.getElementById(className).value = parseInt(value);
+                }
+            }
+        }
+
+    </script>
+
+    <script>
+        function hideAllEmpty()
+        {
+            var i;
+            for (i = 11; i < 27; i++) {
+                hide(i); 
+            }
+        }
+    </script>
+
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("src", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var src = document.getElementById(ev.dataTransfer.getData("src"));
+            var srcParent = src.parentNode;
+            var tgt = ev.currentTarget.firstElementChild;
+
+            ev.currentTarget.replaceChild(src, tgt);
+            srcParent.appendChild(tgt);
+        }
+    </script>
+
+}

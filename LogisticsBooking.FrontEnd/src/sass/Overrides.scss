@@ -267,6 +267,20 @@ background-color:  #818E94;
      width: 3.6em;
    }
 
+   .circle-master {
+     background: white;
+     border-radius: 3.6em;
+     -moz-border-radius: 3.6em;
+     -webkit-border-radius: 3.6em;
+     color: #2680EB;
+     display: inline-block;
+     border: 1px solid white;
+     line-height: 3.6em;
+     margin-right: 5px;
+     text-align: center;
+     width: 3.6em;
+   }
+
    .circle {
      background: white;
      border-radius: 3.6em;
@@ -455,6 +469,14 @@ background-color:  #818E94;
    opacity: 1;
  }
 
+
+ .topbar .dropdown-list .dropdown-header {
+   background-color: #FF5A87;
+   border: 1px solid #FF5A87;
+   padding-top: 0.75rem;
+   padding-bottom: 0.75rem;
+   color: #fff;
+ }
 
 
  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {

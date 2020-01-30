@@ -23,7 +23,7 @@ namespace LogisticsBooking.FrontEnd.Pages
         public IActionResult OnGet()
         {
             
-            return new RedirectResult("User/Home");
+            return new RedirectToPageResult("User/Home");
         }
         
         public async Task  OnGetLogoutAsync()

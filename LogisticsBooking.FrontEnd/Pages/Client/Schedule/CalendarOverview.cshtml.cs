@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
@@ -19,6 +20,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
     public class CalendarOverview : PageModel
     {
         private readonly IMapper _mapper;
+        private readonly IMasterScheduleDataService _masterScheduleDataService;
         private readonly IScheduleDataService _scheduleDataService;
 
         
@@ -29,11 +31,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [TempData]
         public String Message { get; set; }
         
-        public CalendarOverview(IScheduleDataService scheduleDataService , IMapper mapper)
+        public MasterSchedulesStandardViewModel MasterSchedulesStandardViewModel { get; set; }
+        
+        public CalendarOverview(IScheduleDataService scheduleDataService , IMapper mapper , IMasterScheduleDataService masterScheduleDataService)
         {
      
             _scheduleDataService = scheduleDataService;
             _mapper = mapper;
+            _masterScheduleDataService = masterScheduleDataService;
         }
         
         
@@ -57,7 +62,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             {
               schedule.Intervals =  schedule.Intervals.OrderBy(x => x.StartTime).ToList();
             }
-            
+
+            MasterSchedulesStandardViewModel = await _masterScheduleDataService.GetActiveMasterSchedule();
 
         }
         

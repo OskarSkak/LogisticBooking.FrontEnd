@@ -163,6 +163,7 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
+            /*
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -177,6 +178,7 @@ namespace LogisticsBooking.FrontEnd
                 options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
                 
             });
+            */
             
           
             //Add DI�s below
@@ -197,7 +199,10 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IDashboardDataService, DashboardDataservice>();
             services.AddTransient<IInactiveBookingDataService, InactiveBookingsDataService>();
             services.AddSingleton<CommonLocalizationService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            
+            
+            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(o =>
                 {
                     o.Conventions.Add(new CultureTemplatePageRouteModelConvention());
@@ -228,12 +233,13 @@ namespace LogisticsBooking.FrontEnd
             var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
             
+
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 // Usefull for enter a site that does not exists. 
                 //app.UseStatusCodePagesWithRedirects("/Error");
-                app.UseExceptionHandler("/Error");
+                
                 _logger.LogInformation("in Prod :)");
                 var value = _config["Envi:envi"];
                 _logger.LogInformation(value);
@@ -243,23 +249,13 @@ namespace LogisticsBooking.FrontEnd
             else
             {
                 //ON exception trown (Whilst not in dev mode) redirect to this page:
+                //app.UseStatusCodePagesWithReExecute("/NotFound");
                 app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/NotFound");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-                _logger.LogInformation("in live :)");
-                var value = _config["Envi:envi"];
-                _logger.LogInformation(value);
-                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
+                
             }
-            
-            
-            
-           
-
-            
-            
-
-           
 
             loggerFactory.AddSerilog();
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
@@ -289,7 +285,7 @@ namespace LogisticsBooking.FrontEnd
                 }
             });
             app.UseCookiePolicy();
-            app.UseStatusCodePages();
+            //app.UseStatusCodePages();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             
            // app.UseStatusCodePagesWithReExecute("/Error");

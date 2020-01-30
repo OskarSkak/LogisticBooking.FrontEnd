@@ -33,7 +33,7 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             } 
             if (User.HasClaim("role" , "admin"))
             {
-                return new  RedirectToPageResult("/Client/Dashboard");
+                return new  RedirectResult("/Client/Dashboard");
             } 
             return new RedirectToPageResult("Error");
         }
