@@ -478,6 +478,23 @@ background-color:  #818E94;
    color: #fff;
  }
 
+ .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show>.btn-primary.dropdown-toggle {
+   color: #fff;
+   background-color: #FF5A87;
+   border-color: #FF5A87;
+ }
+
+
+
+ .btn-primary:focus, .btn-primary.focus {
+
+   color: #fff;
+   background-color: #FF5A87;
+   border-color: #FF5A87;
+ }
+
+ 
+
 
  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
    /* IE10+ CSS styles go here */

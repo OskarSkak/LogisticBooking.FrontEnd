@@ -48,12 +48,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 }
                 return Page();
             }
-
+            /*
             if (bookingTime.Date <= DateTime.Now)
             {
                 ModelStateMessage = "Dagen skal værer efter idag";
                 return Page();
             }
+            */
 
 
             if (! await ScheduleIsAllowed(bookingTime))

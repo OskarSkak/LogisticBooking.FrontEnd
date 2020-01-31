@@ -21,10 +21,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="form19">Leveringstidspunkt start</label> <input type="time" class="form-control" id="form19" name="DeliveryStart">
+                        <label for="form19">Leveringstidspunkt start</label> <input type="text" class="time form-control" id="form19" name="DeliveryStart">
                     </div>
                     <div class="form-group">
-                        <label for="form20">Leveringstidspunkt Slut</label> <input type="time" class="form-control" id="form20" name="DeliveryEnd">
+                        <label for="form20">Leveringstidspunkt Slut</label> <input type="text" class="time form-control" id="form20" name="DeliveryEnd">
                     </div>
 
 
@@ -35,3 +35,11 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script src="~/js/DateRingePicker.js"></script>
+     
+}

@@ -34,7 +34,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         private  async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)
         {
             var TransportersEnumerable = await transporterDataService.ListTransporters(0, 0);
-            
             return TransportersEnumerable.Transporters;
         }
     }
