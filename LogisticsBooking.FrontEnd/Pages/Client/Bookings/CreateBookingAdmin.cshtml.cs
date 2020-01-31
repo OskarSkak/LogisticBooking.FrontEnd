@@ -30,6 +30,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public BookingViewModel Booking { get; set; }
         [BindProperty] public List<TransporterViewModel> Transporters { get; set; }
         [BindProperty] public List<SupplierViewModel> Suppliers { get; set; }
+        public CreateBookingCommand CreateBookingCommand { get; set; }
         public SelectList TransporterOptions { get; set; }
         public SelectList SupplierOptions { get; set; }
         //TEMP
@@ -48,6 +49,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking.OrdersListViewModel = new List<OrderViewModel>();
             Booking.OrdersListViewModel.Add(new OrderViewModel());
             Booking.OrdersListViewModel.Add(new OrderViewModel());
+            foreach (var order in Booking.OrdersListViewModel) order.SupplierViewModel = new SupplierViewModel();
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -60,11 +62,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostCreate(DateTime ViewBookingTime, string TransporterId, int ViewTotalPallets, BookingViewModel Booking)
         {
             var externalBookingId  = await utilBookingDataService.GetBookingNumber();
 
-            var bookingCmd = new CreateBookingCommand
+            CreateBookingCommand = new CreateBookingCommand
             {
                 DeliveryDate = ViewBookingTime, 
                 TotalPallets = ViewTotalPallets,
@@ -78,18 +81,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             foreach (var order in Booking.OrdersListViewModel)
             {
-                if(order.BottomPallets != 0) bookingCmd.CreateOrderCommand.Add(new CreateOrderCommand
+                if(order.BottomPallets != 0) CreateBookingCommand.CreateOrderCommand.Add(new CreateOrderCommand
                 {
                     BottomPallets = order.BottomPallets, 
                     Comments = order.Comment, 
-                    ExternalId = bookingCmd.ExternalId + "-" + i++,
+                    ExternalId = CreateBookingCommand.ExternalId + "-" + i++,
                     SupplierId = order.SupplierViewModel.SupplierId, 
                     TotalPallets = order.TotalPallets, 
                     OrderNumber = order.OrderNumber, 
                     InOut = order.InOut
                 });
             }
-            
+
+            var CreateCommandId = Guid.NewGuid();
+            TempData.Set(CreateCommandId.ToString(), CreateBookingCommand);
+            var mike = TempData.Get<CreateBookingCommand>(CreateCommandId.ToString()); 
             return new RedirectToPageResult("Error");
         }
     }

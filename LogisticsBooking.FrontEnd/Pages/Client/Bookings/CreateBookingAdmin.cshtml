@@ -15,13 +15,16 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="BookingTime">
+                            <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookingTime">
                         </div>
                         <div class="form-group">
-                            <label for="form18">Transportør &nbsp;&nbsp;&nbsp;&nbsp;</label> <select name="TransporterId" asp-items="Model.TransporterOptions"></select>
+                            <label for="form18">Transportør &nbsp;&nbsp;&nbsp;&nbsp;</label> 
+                            <select name="TransporterId" asp-items="Model.TransporterOptions" asp-for="Booking.TransporterId">
+                                <option value="">Vælg en Transportør</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="TotalPallets">
+                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewTotalPallets">
                         </div>
                     </div>
                 </div>
@@ -43,7 +46,9 @@
                     <div class="card-body">
                         <form method="post" class="text-left">
                             <div class="form-group">
-                                <label for="form18">Kunde &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[@i].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions"></select>
+                                <label for="form18">Kunde &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[@i].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions" asp-for="Booking.OrdersListViewModel[i].SupplierViewModel.SupplierId">
+                                    <option value="">Vælg en kunde</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="form18">Kommentar</label> <input asp-for="Booking.OrdersListViewModel[i].Comment" class="form-control" id="form18" name="Booking.OrdersListViewModel[@i].Comment">
@@ -72,9 +77,9 @@
         <div class="row">
             <div class="col-xl-2"></div>
             <div class="col-xl-8">
-                <div class="row d-flex justify-content-end">
-                    <button type="submit" asp-page-handler="Create" class="btn btn-lg btn-info m-2" value="Opdater">Opret Booking</button>
-                </div>
+                <form method="post">
+                    <button asp-page-handler="Create" type="submit" class="btn btn-primary">Opret Bookning</button>
+                </form>
             </div>
         </div>
     </div>
