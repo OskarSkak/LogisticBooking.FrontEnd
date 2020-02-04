@@ -30,6 +30,7 @@ namespace LogisticsBooking.FrontEnd.ViewComponents
             notificationComponent.InactiveBookingListViewModel = result;
             
             return View(notificationComponent);
+            
         }
     }
 }
