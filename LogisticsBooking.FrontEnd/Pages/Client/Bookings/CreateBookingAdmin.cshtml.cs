@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
@@ -27,7 +28,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         private IInactiveBookingDataService inactiveBookingDataService;
         private ITransporterDataService transporterDataService;
         private IUtilBookingDataService utilBookingDataService;
-        [BindProperty] public BookingViewModel Booking { get; set; }
+        [BindProperty(SupportsGet = true)] public BookingViewModel Booking { get; set; }
+        [BindProperty(SupportsGet = true)] public List<OrderViewModel> Orders { get; set; }
         [BindProperty] public List<TransporterViewModel> Transporters { get; set; }
         [BindProperty] public List<SupplierViewModel> Suppliers { get; set; }
         public CreateBookingCommand CreateBookingCommand { get; set; }
@@ -50,6 +52,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking.OrdersListViewModel.Add(new OrderViewModel());
             Booking.OrdersListViewModel.Add(new OrderViewModel());
             foreach (var order in Booking.OrdersListViewModel) order.SupplierViewModel = new SupplierViewModel();
+            Orders = new List<OrderViewModel>();
+            for (int i = 0; i < 2; i++) Orders.Add(new OrderViewModel());
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,18 +63,32 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Suppliers = TransporterSupplierJoin.Suppliers;
             TransporterOptions = new SelectList(Transporters, nameof(TransporterViewModel.TransporterId), nameof(TransporterViewModel.Name));
             SupplierOptions = new SelectList(Suppliers, nameof(SupplierViewModel.SupplierId), nameof(SupplierViewModel.Name));
+            Booking = new BookingViewModel();
+            Booking.OrdersListViewModel = new List<OrderViewModel>();
+            Booking.OrdersListViewModel.Add(new OrderViewModel());
+            Booking.OrdersListViewModel.Add(new OrderViewModel());
+            for (int i = 0; i < 2; i++) Orders.Add(new OrderViewModel());
             return Page();
         }
 
 
-        public async Task<IActionResult> OnPostCreate(DateTime ViewBookingTime, string TransporterId, int ViewTotalPallets, BookingViewModel Booking)
+        public async Task<IActionResult> OnPostCreate(string TransporterId, BookingViewModel Booking)
         {
-            var externalBookingId  = await utilBookingDataService.GetBookingNumber();
-
-            CreateBookingCommand = new CreateBookingCommand
+            Booking.TransporterId = Guid.Parse(TransporterId);
+            Booking.ExternalId  = utilBookingDataService.GetBookingNumber().Result.bookingid;
+            var i = 1;
+            foreach (var order in Booking.OrdersListViewModel)
             {
-                DeliveryDate = ViewBookingTime, 
-                TotalPallets = ViewTotalPallets,
+                order.ExternalId = Booking.ExternalId + "-" + i++;
+            }
+
+            var tempBookingId = Guid.NewGuid();
+            TempData.Set(tempBookingId.ToString(), Booking);
+            return new RedirectToPageResult("select_time", tempBookingId);
+            /*CreateBookingCommand = new CreateBookingCommand
+            {
+                DeliveryDate = Booking.BookingTime, 
+                TotalPallets = Booking.TotalPallets,
                 TransporterId = Guid.Parse(TransporterId),
                 CreateOrderCommand = new List<CreateOrderCommand>(), 
                 ExternalId = externalBookingId.bookingid, 
@@ -92,11 +110,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                     InOut = order.InOut
                 });
             }
+            
+            Booking.TransporterId = 
 
             var CreateCommandId = Guid.NewGuid();
             TempData.Set(CreateCommandId.ToString(), CreateBookingCommand);
-            var mike = TempData.Get<CreateBookingCommand>(CreateCommandId.ToString()); 
-            return new RedirectToPageResult("Error");
+            TempData.Set(CreateCommandId.ToString(), Booking);
+            return new RedirectToPageResult("Error");*/
         }
     }
     

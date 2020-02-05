@@ -1,0 +1,114 @@
+@page "{id?}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@model LogisticsBooking.FrontEnd.Pages.Client.Bookings.select_time
+
+
+
+@if (Model.ShowErrorMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.ErrorMessage</strong>
+    </div>
+}
+
+<div class="py-1" style="">
+    <div class="container">
+  <div class="md-stepper-horizontal blue">
+      <div class="md-step active ">
+        <div class="md-step-circle"><span></span><i class="fas fa-check"></i></div>
+        <div class="md-step-title">Leveringsdag</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step active ">
+          <div class="md-step-circle"><i class="fas fa-check"></i></div>
+          <div class="md-step-title">Opret Ordrer</div>
+          <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step active ">
+        <div class="md-step-circle"><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i></div>
+        <div class="md-step-title">Leveringstidspunkt</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step">
+        <div class="md-step-circle"><span>4</span></div>
+        <div class="md-step-title">Gennemført</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+    </div>
+    </div>
+</div>  
+
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center display-center col-md font-weight-bolder">Følgende tider er ledige</h2>
+        </div>
+        <div class="row">
+            <div class="mx-auto p-4 col-lg-8">
+               
+                
+                
+                @if (!Model.SchedulesListViewModel.Schedules.Any())
+                {
+                    @:ingen
+                }
+
+                @foreach (var schedule in Model.SchedulesListViewModel.Schedules)
+                
+                     {
+                         foreach (var interval in schedule.Intervals)
+                         {
+                             
+                        
+                         if (!interval.IsBooked)
+                         {
+
+                             <div class="col-md">
+                                 <div class="list-group" style="">
+                                     <form method="post">
+                                         <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
+                                             <div class="row">
+                                                 <div class="col">
+                                                     <input type="hidden" value="@interval.StartTime.Value.DayOfWeek.ToString("G") - @interval.StartTime.Value.ToString("M")"/>
+                                                     <input type="hidden"/>
+                                                     <input type="hidden" name="interval" value="@interval.IntervalId">
+
+                                                     <div class="">@interval.StartTime.Value.DayOfWeek.ToString("G")   </div>
+                                                 </div>
+                                                 
+                                                 <div class="col">
+                                                     <div>@interval.StartTime.Value.ToString("MM/dd")</div>
+                                                 </div>
+                                                 <div class="col">
+                                                                                                      <div class="">@interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t") </div>
+
+                                                 </div>
+                                                 
+                                                 
+
+
+                                             </div>
+                                         </button>
+                                     </form>
+
+
+
+                                 </div>
+                             </div>
+                         }
+                             
+                         }
+
+                     }
+                
+              
+            </div>
+         
+
+        </div>
+    </div>
+</div>
