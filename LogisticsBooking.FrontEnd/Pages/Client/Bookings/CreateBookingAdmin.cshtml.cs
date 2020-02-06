@@ -82,9 +82,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 order.ExternalId = Booking.ExternalId + "-" + i++;
             }
 
-            var tempBookingId = Guid.NewGuid();
-            TempData.Set(tempBookingId.ToString(), Booking);
-            return new RedirectToPageResult("select_time", tempBookingId);
+            var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            TempData.Set(id, Booking);
+            return new RedirectToPageResult("select_time");
             /*CreateBookingCommand = new CreateBookingCommand
             {
                 DeliveryDate = Booking.BookingTime, 

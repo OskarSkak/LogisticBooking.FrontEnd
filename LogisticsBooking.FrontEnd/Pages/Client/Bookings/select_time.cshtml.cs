@@ -45,8 +45,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             _masterScheduleDataService = masterScheduleDataService;
         }
         
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync()
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             var currentBooking = TempData.Get<BookingViewModel>(id);
             
             // Get the schedule that match the booking. (Chech has already been made at the first page)
@@ -82,8 +83,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
             if (result == null)
             {
-                ErrorMessage = "Der er ikke en aktiv på denne dag. Kontakt AGRI-Norcold";
-
+                ErrorMessage = "Der er ingen aktiv plan på denne dag.";
             }
 
             var many = new CreateManyScheduleCommand();
@@ -93,12 +93,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             var orderOnBooking = currentBooking.OrdersListViewModel.FirstOrDefault();
 
-            Console.WriteLine(orderOnBooking);
-
             var shift = Shift.Day;
-
-
-
 
             foreach (var masterSchedule in result.MasterScheduleStandardViewModels)
             {
@@ -154,18 +149,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                     }); 
                 }
                 
-                
-            
-        
-
-           
-           
-
-                
-            
-            
-
-
             await _scheduleDataService.CreateManySchedule(many);
             
             // Return new redirect to same page in order to get the newlt created schedule
@@ -236,21 +219,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             return _mapper.Map<List<IntervalViewModel>>(list);
         }
         
-         
-        
         public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
         {
-            var currentLoggedInUserId = GetLoggedInUserId();
-
-            // Get the current booking View Model from the session created at previous page
-            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
-
-            
-
+            var currentLoggedInUserId = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            var currentBooking = TempData.Get<BookingViewModel>(currentLoggedInUserId);
 
             var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);
             createBookingcommand.IntervalId = Guid.Parse(interval);
-            createBookingcommand.TransporterId = Guid.Parse(currentLoggedInUserId);
+            createBookingcommand.TransporterId = currentBooking.TransporterId;
 
             var result = await _bookingDataService.CreateBooking(createBookingcommand);
 
@@ -261,15 +237,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             ErrorMessage = "Der skete en fejl, prøv igen";
             return new RedirectToPageResult("");
-        }
-        
-        /**
-         * gets the current logged in user
-         */
-        private string GetLoggedInUserId()
-        {
-            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            
         }
         
         private bool Overlap(IntervalViewModel intervalViewModel,
@@ -284,18 +251,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
         }
 
-
         private void RemoveIntervalsNotOverlap(BookingViewModel bookingViewModel, ScheduleViewModel scheduleViewModel)
         {
             foreach (var order in bookingViewModel.OrdersListViewModel)
             {
                 scheduleViewModel.Intervals.RemoveAll(item => scheduleViewModel.Intervals.Any( iss => !Overlap(item ,order )));
             }
-
-
         }
-
-       
-
     }
 }
