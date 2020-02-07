@@ -17,7 +17,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             CurrentDate = DateTime.Now;
             FirstDateOfWeek = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
-            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek);
+            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek+1);
             
         }
 
@@ -25,14 +25,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             CurrentDate = CurrentDate.AddMonths(1);
             FirstDateOfWeek = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
-            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek);
+            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek+1);
         }
 
         public void DecreaseMonth()
         {
             CurrentDate = CurrentDate.AddMonths(-1);
             FirstDateOfWeek = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
-            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek);
+            StartDate = FirstDateOfWeek.AddDays(-(int)FirstDateOfWeek.DayOfWeek+1);
         }
     }
     

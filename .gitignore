@@ -4,3 +4,4 @@ LogisticsBooking.FrontEnd/bin
 LogisticsBooking.FrontEnd/clientApp/node_modules
 .DS_Store
 .vs
+LogisticsBooking.FrontEnd/node_modules

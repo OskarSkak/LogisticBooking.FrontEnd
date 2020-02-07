@@ -68,7 +68,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var result = await GetAsync(baseurl);
             if (!result.IsSuccessStatusCode)
             {
-                
+                return null;
             }
             return await TryReadAsync<TransportersListViewModel>(result); 
         }

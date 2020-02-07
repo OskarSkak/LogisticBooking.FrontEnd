@@ -27,6 +27,9 @@
     <div class="d-sm-flex align-items-center  mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
+
+<input hidden="hidden" id="start" name="Start"/>
+<input hidden="hidden" id="end" name="End"/>
             <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
         </form>
 
@@ -107,11 +110,12 @@
 <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
       <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
           <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-      
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+        <script src="~/js/DateRingePicker.js"></script>
         
 <script>
     
@@ -141,7 +145,10 @@
                                         "render": function (data) {
                                             return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
                                         },
-                                        width:"15px"
+                                        width:"15px",
+                                        "type": 'datetime-moment',
+                                        orderData: [1, 7]
+                                                                
                                     },
                    { 
                        "data": "bookingTime" , render: function(data ) {
@@ -151,22 +158,25 @@
                    },
                    { "data": "externalId" },
                   
-                   { "data": "totalPallets" },
+                   { "data": "totalPallets", },
                    { "data": "transporterName" },
                    { "data": "email" },
                    {"data" : "port"},
-                   {"data" : "interval.startTime" , render: function(data) {
+                   {"data" : "interval.startTime",
+                    orderData: [1, 7],
+                    render: function(data) {
                        return moment(data).format("HH:mm")
+                       
                    }},
                    {"data" : "actualArrival" , render: function(data){
-                        return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                        return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
                    } },
                                                                   
                    {"data" : "startLoading" , render: function(data){
-                                                                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                                                                    return '<input class="time form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
                                                                }},
                    {"data" : "endLoading" , render: function(data){
-                                                                  return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                                                                  return  ' <input  class="time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                                                              }},
                     {"data" : null , render: function(data){
                                                                   return  '<Button  class=" btn btn-secondary"  >Rediger</button> </form> '
@@ -296,6 +306,8 @@ $(function() {
           $('#example').DataTable().clear().destroy();
             $('#example tbody').off('click');
             $('.SubmitButton').off('click');
+            $('#start').val(picker.startDate.format('MM/DD/YYYY'));
+            $('#end').val(picker.endDate.format('MM/DD/YYYY'));
             var table = $('#example').DataTable( {
                 "processing": true,
                 "serverSide": false,
@@ -327,10 +339,11 @@ $(function() {
                     },
                     {
                         "data": "bookingTime" , render: function(data ) {
-                            return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                            return moment(data).format(" DD/MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                         },
                         width:"70px",
                         "type": 'datetime-moment',
+                        sort: 'bookingTime',
                         orderData: [1, 7]
                     },
                     { "data": "externalId" },
@@ -346,14 +359,14 @@ $(function() {
                         "type": 'datetime-moment',
                         },
                     {"data" : "actualArrival" , render: function(data){
-                            return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                            return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
                         } },
         
                     {"data" : "startLoading" , render: function(data){
-                            return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                            return '<input class="time form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
                         }},
                     {"data" : "endLoading" , render: function(data){
-                            return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                            return  ' <input  class=" time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                         }},
                     {"data" : null , render: function(data){
                             return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
@@ -363,14 +376,7 @@ $(function() {
                 ]
             } );
         
-            $('#SubmitButton').on('click', function() {
-                var data = table.$('input, select').serialize();
-                alert(
-                    "The following data would have been submitted to the server: \n\n"+
-                    data.substr( 0, 120 )+'...'
-                );
-                return false;
-            } );
+           
         
             // Add event listener for opening and closing details
             $('#example tbody').on('click', 'td.details-control', function () {
@@ -403,6 +409,60 @@ $(function() {
     
     
 });
+        
+        
+        (function (factory) {
+            if (typeof define === "function" && define.amd) {
+                define(["jquery", "moment", "datatables.net"], factory);
+            } else {
+                factory(jQuery, moment);
+            }
+        }(function ($, moment) {
+         
+        $.fn.dataTable.moment = function ( format, locale, reverseEmpties ) {
+            var types = $.fn.dataTable.ext.type;
+         
+            // Add type detection
+            types.detect.unshift( function ( d ) {
+                if ( d ) {
+                    // Strip HTML tags and newline characters if possible
+                    if ( d.replace ) {
+                        d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
+                    }
+         
+                    // Strip out surrounding white space
+                    d = $.trim( d );
+                }
+         
+                // Null and empty values are acceptable
+                if ( d === '' || d === null ) {
+                    return 'moment-'+format;
+                }
+         
+                return moment( d, format, locale, true ).isValid() ?
+                    'moment-'+format :
+                    null;
+            } );
+         
+            // Add sorting method - use an integer for the sorting
+            types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
+                if ( d ) {
+                    // Strip HTML tags and newline characters if possible
+                    if ( d.replace ) {
+                        d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
+                    }
+         
+                    // Strip out surrounding white space
+                    d = $.trim( d );
+                }
+                 
+                return !moment(d, format, locale, true).isValid() ?
+                    (reverseEmpties ? -Infinity : Infinity) :
+                    parseInt( moment( d, format, locale, true ).format( 'x' ), 10 );
+            };
+        };
+         
+        }));
 
         
     

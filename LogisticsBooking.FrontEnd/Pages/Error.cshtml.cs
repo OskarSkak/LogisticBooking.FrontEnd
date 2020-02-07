@@ -23,13 +23,6 @@ namespace LogisticsBooking.FrontEnd.Pages
             
             Console.WriteLine();
         }
-        public void OnGet()
-        {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-            var id = HttpContext.Response.StatusCode;
-            
-            
-            Console.WriteLine();
-        }
+        
     }
 }

@@ -240,9 +240,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             Intervals = new List<InternalInterval>();
             DateTime Time = new DateTime();
+            IsDay = true;
             if (IsDay)
             {
-                Time = Convert.ToDateTime("07:00");
+                Time = Convert.ToDateTime("05:00");
             }
             else
             {

@@ -31,6 +31,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
         public bool InBetweenDates { get; set; }
         public int NumberOfDays { get; set; }
+        
+        [BindProperty]
+        public DateTime Start { get; set; }
+        [BindProperty]
+        public DateTime End { get; set; }
 
         public BookingOverviewModel(IBookingDataService _bookingDataService , IStringLocalizer<View> localizer,
             ILogger<BookingOverviewModel> logger)
@@ -151,10 +156,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             };
         }
 
-        public async Task<ActionResult> OnPostExportExcel()
+        public async Task<ActionResult> OnPostExportExcel(DateTime Start, DateTime End)
         {
             BookingsListViewModel.Bookings = new List<BookingViewModel>();
-            BookingsListViewModel = await bookingDataService.GetBookings();
+            BookingsListViewModel = await bookingDataService.GetBookingsInbetweenDates(Start ,End);
 
             var from = DateTime.Now;
             var endDate = DateTime.Now.Date.ToShortDateString();
@@ -178,7 +183,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             worksheet.Cell(1, 6).SetValue("KONTAKTOPLYSNINGER");
             worksheet.Cell(1, 7).SetValue("BOOKETTID");
             worksheet.Cell(1, 8).SetValue("PORT");
-            worksheet.Cell(1, 9).SetValue("LEVERANDØR");
+            worksheet.Cell(1, 9).SetValue("KUNDE");
             worksheet.Cell(1, 10).SetValue("FAKTISK_\nANKOMST");
             worksheet.Cell(1, 11).SetValue("START_\nLÆSNING");
             worksheet.Cell(1, 12).SetValue("SLUT_\nLÆSNING");
@@ -297,8 +302,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         
         public async Task<IActionResult> OnGetCustom(DateTime start, DateTime end)
         {
+            Start = start;
+            End = end;
 
-            
             var bookings = await bookingDataService.GetBookingsInbetweenDates(start,end);
 
              var json = new JsonResult(bookings);

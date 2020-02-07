@@ -31,7 +31,7 @@ $(function() {
         maxYear: new Date().getFullYear()+1
     });
     $("input.date").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD/MM/YYYY'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY'));
     });
 });
 
@@ -51,7 +51,7 @@ $(function() {
     });
 
     $("input.time").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('HH:mm'));
+        $(this).val(picker.startDate.format('HH:mm:ss'));
     });
 });
 

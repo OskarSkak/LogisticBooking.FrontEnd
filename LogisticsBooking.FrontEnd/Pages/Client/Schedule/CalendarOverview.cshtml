@@ -142,7 +142,7 @@
                                     var schedules = Model.SchedulesListViewModel.Schedules.Where(x => x.ScheduleDay.Equals(date)).ToList();
 
 
-
+                                    var master = Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.ToList();
 
 
                                     if (schedules.Count !=  0)
@@ -172,11 +172,32 @@
                                         
                                         
                                     }
-                                    else
+                                    if (Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 0 && schedules.Count ==  0)
                                     {
                                         <div class="col d-flex justify-content-center">
                                             <div class="circle">@date.Day</div>
                                         </div>
+                                    }
+                                    if (Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 1 && schedules.Count ==  0)
+                                    {
+                                        var active = Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].ActiveDays.FirstOrDefault(e => e.ActiveDay == date.DayOfWeek);
+                                        if (active == null)
+                                        {
+                                            <div  data-toggle="modal" class=" col d-flex justify-content-center">
+                                                <div class="circle-inactive">@date.Day</div>
+                                            </div>  
+                                        }
+                                        else
+                                        {
+                                            <div  data-toggle="modal" data-target="#_@date.Day.ToString("")_@master[0].MasterScheduleStandardId" class=" col d-flex justify-content-center">
+                                                <div class="circle-master">@date.Day</div>
+                                            </div>  
+                                        }
+                                        
+                                    }
+                                    else if (@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 2)
+                                    {
+                                        
                                     }
 
 
@@ -244,7 +265,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-6">
-                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
                                                                         <table class="table table-sm">
                                                                             <thead>
                                                                             <tr>
@@ -291,7 +312,7 @@
                             </div>
                         
                             <div class="col-lg-6">
-                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
+                                                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[1].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
                                 <table class="table table-sm">
                                     <thead>
                                     <tr>
@@ -353,7 +374,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                                                                <a asp-page="Schedule_Single" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
                        <table class="table table-sm">
                                          <thead>
                                          <tr>
@@ -401,6 +422,66 @@
     </div>
                                         }
 
+                                    }
+                                    
+                                    if (@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 1 && schedules.Count ==  0)
+                                    {
+                                                                      <div class="modal fade" id="_@date.Day.ToString("")_@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].MasterScheduleStandardId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">STANDARD Plan for @date.Date.ToString("d")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                                                                <a asp-page="UpdateScheduleMaster" asp-route-createdBy="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].MasterScheduleStandardId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].Name</a>
+                       <table class="table table-sm">
+                                         <thead>
+                                         <tr>
+                                             <th scope="col">Tider</th>
+                                             <th scope="col">Antal Paller</th>
+                                                                                      
+                                         </tr>
+                                         </thead>
+                                         
+                                         <tbody>
+                                         
+                                         @foreach (var interval in Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].MasterIntervalStandardViewModels)
+                                         {
+                                             <tr>
+                                                                  
+                                                 <td>
+                                                     <div class="d-flex justify-content-lg-around text-left">
+                                                         <div>
+                                                             <span class="float-left">@interval.StartTime.Value.ToString("t")</span>
+                                                         </div>
+                                                         <div>
+                                                             -
+                                                         </div>
+                                                         <div>
+                                                             <span>@interval.EndTime.Value.ToString("t")</span>
+                                                         </div>
+                                                                      
+                                                     </div>
+                                                                    
+                                                 </td>
+                                                 <td>@interval.BottomPallets</td>
+                                             </tr>
+                                                                
+                                              
+                                         } 
+                                         </tbody>
+                                         </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
                                     }
                                     
 

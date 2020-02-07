@@ -46,10 +46,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         {
             
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
-                if (result == null)
-            {
-                return new RedirectToPageResult("/Pages/ErrorPage");
-            }
+            
 
             MasterSchedulesStandardViewModel = CreateMasterSchedules(result);
 
@@ -105,7 +102,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
 
         public void OnPostDateTime()
         {
-            throw new ArithmeticException();
+            throw new NullReferenceException();
 
 
         }
