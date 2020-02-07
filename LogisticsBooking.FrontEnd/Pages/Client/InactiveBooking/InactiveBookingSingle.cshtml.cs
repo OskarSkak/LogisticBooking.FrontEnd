@@ -41,18 +41,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking
         {
             var response = _inactiveBookingDataService.DeleteInactiveBooking(Guid.Parse(id));
             if (response.IsCompletedSuccessfully) return new RedirectToPageResult("InactiveBookingOverview");
-            else return new RedirectToPageResult("InactiveBookingOverview"); //TODO: Fix when error page designed
+            return new RedirectToPageResult("InactiveBookingOverview"); //TODO: Fix when error page designed
         }
 
-        public async Task<IActionResult> OnPostUpdate(InactiveBookingViewModel Booking, 
-            DateTime PageBookingTime, int PageTotalPallets, int PagePort,
-            int PageExternalId, string PageInternalId)
+        public async Task<IActionResult> OnPostUpdate(InactiveBookingViewModel Booking)
         {
-            var inactiveBooking = await _inactiveBookingDataService.GetInactiveBookingById(Guid.Parse(PageInternalId));
-            inactiveBooking.Port = PagePort; //No check as i think the port can be 0 in reality
-            if (PageBookingTime != default(DateTime)) inactiveBooking.BookingTime = PageBookingTime;
-            if (PageTotalPallets != 0) inactiveBooking.TotalPallets = PageTotalPallets;
-            if (PageExternalId != 0) inactiveBooking.ExternalId = PageExternalId;
+            var inactiveBooking = await _inactiveBookingDataService.GetInactiveBookingById(Booking.InternalId);
+            inactiveBooking.Port = Booking.Port; //No check as i think the port can be 0 in reality
+            if (Booking.BookingTime != default(DateTime) && Booking.BookingTime != null) inactiveBooking.BookingTime = Booking.BookingTime;
+            if (Booking.TotalPallets != 0) inactiveBooking.TotalPallets = Booking.TotalPallets;
+            if (Booking.ExternalId!= 0) inactiveBooking.ExternalId = Booking.ExternalId;
 
             for (int i = 0; i < inactiveBooking.InactiveOrders.Count; i++)
             {
@@ -68,7 +66,40 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking
             var result = _inactiveBookingDataService.UpdateInactiveBookingWithOrders(UpdateInactiveBookingWithOrdersCommand.GenerateCommand(inactiveBooking));
             
             return new RedirectToPageResult("InactiveBookingOverview");
-        } 
+        }
+
+        public async Task<IActionResult> OnPostCreate(InactiveBookingViewModel Booking)
+        {
+            var booking = new BookingViewModel
+            {
+
+                BookingTime = Booking.BookingTime.Value,
+                TotalPallets = Booking.TotalPallets, 
+                Port = Booking.Port, 
+                ExternalId = Booking.ExternalId, 
+                InternalId = Booking.InternalId,
+                OrdersListViewModel = new List<OrderViewModel>()
+            };
+            
+            foreach (var inactiveOrder in Booking.InactiveOrders)
+            {
+                booking.OrdersListViewModel.Add(new OrderViewModel
+                {
+                    BookingId = booking.InternalId, 
+                    BottomPallets = inactiveOrder.BottomPallets,
+                    Comment = inactiveOrder.Comment, 
+                    ExternalId = inactiveOrder.ExternalId, 
+                    InOut = inactiveOrder.InOut, 
+                    OrderNumber = inactiveOrder.OrderNumber, 
+                    TotalPallets = inactiveOrder.TotalPallets, 
+                    WareNumber = inactiveOrder.WareNumber
+                });
+            }
+            
+            var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            TempData.Set(id, booking);
+            return new RedirectToPageResult("Client/Bookings/select_time");
+        }
     }
     
 }
