@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,11 +47,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         
         public async Task<IActionResult> OnGet()
         {
-
-            using (LogContext.PushProperty("X-Correlation-ID", HttpContext.TraceIdentifier))
-            {
-                _logger.LogWarning("user test 1 ");
-            }
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
             
 
@@ -62,9 +60,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             var percent =  (double) DashboardViewModel.TimeToNextDelivery.Ticks / (double) day.Ticks ;
             var d = 1 - percent;
             ShowPercent = (int) (d * 100);
-            Console.WriteLine(ShowPercent);
             
-            
+            stopwatch.Stop();
+            using (LogContext.PushProperty("X-Correlation-ID", HttpContext.TraceIdentifier))
+            {
+                _logger.LogWarning("Dashboard OnGet Took {time}ms" , stopwatch.ElapsedMilliseconds);
+            }
+
             return Page();
         }
         
