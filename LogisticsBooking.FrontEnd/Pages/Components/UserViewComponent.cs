@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
@@ -24,24 +25,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Components
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
-        {/*
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+        {
             var id  = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
-            var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand
-            {
-                Id = Guid.Parse(id)
-            });
             
-            stopwatch.Stop();
-            
-            using (LogContext.PushProperty("X-Correlation-ID", HttpContext.TraceIdentifier))
+            var currentUser = HttpContext.Session.GetObject<ApplicationUserViewModel>(id);
+            if (currentUser == null)
             {
-                _logger.LogWarning("UserViewComoponent took {time}ms" , stopwatch.ElapsedMilliseconds);
+                var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand
+                {
+                    Id = Guid.Parse(id)
+                });
+                HttpContext.Session.SetObject(id, user);
+                return View(user);
             }
-*/
-            return View(new ApplicationUserViewModel());
+            return View(currentUser);
+
         }
     }
     

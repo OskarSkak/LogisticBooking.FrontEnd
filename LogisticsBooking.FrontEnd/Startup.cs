@@ -60,6 +60,7 @@ namespace LogisticsBooking.FrontEnd
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithCorrelationId()
                 .Enrich.WithHttpContextData()
+                .Enrich.WithProperty("Totaltime" , 0)
                 .MinimumLevel.Warning()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
