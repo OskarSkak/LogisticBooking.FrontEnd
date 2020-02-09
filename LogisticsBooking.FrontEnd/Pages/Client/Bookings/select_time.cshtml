@@ -28,9 +28,7 @@
                      {
                          foreach (var interval in schedule.Intervals)
                          {
-                         if (!interval.IsBooked)
-                         {
-                             <div class="col-md">
+                         <div class="col-md">
                                  <div class="list-group" style="">
                                      <form method="post">
                                          <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
@@ -54,7 +52,6 @@
                                      </form>
                                  </div>
                              </div>
-                         }
                          }
                      }
             </div>

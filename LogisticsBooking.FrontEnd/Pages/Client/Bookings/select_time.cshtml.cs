@@ -242,13 +242,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         private bool Overlap(IntervalViewModel intervalViewModel,
             OrderViewModel orderViewModel)
         {
-            
             TimeSpan start = orderViewModel.SupplierViewModel.DeliveryStart.TimeOfDay; // 10 PM
             TimeSpan end = orderViewModel.SupplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
             TimeSpan start1 = intervalViewModel.StartTime.Value.TimeOfDay;
             TimeSpan end1 = intervalViewModel.EndTime.Value.TimeOfDay;
             return TimeUtility.IsWithin(start, end, start1, end1);
-            
         }
 
         private void RemoveIntervalsNotOverlap(BookingViewModel bookingViewModel, ScheduleViewModel scheduleViewModel)
