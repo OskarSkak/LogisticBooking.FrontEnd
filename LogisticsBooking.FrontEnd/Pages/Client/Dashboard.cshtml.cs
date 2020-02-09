@@ -47,7 +47,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         public async Task<IActionResult> OnGet()
         {
 
-            using (LogContext.PushProperty("user", User.Claims.FirstOrDefault(x => x.Type == "sub").Value))
+            using (LogContext.PushProperty("X-Correlation-ID", HttpContext.TraceIdentifier))
             {
                 _logger.LogWarning("user test 1 ");
             }

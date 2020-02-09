@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using AutoMapper;
-using DocumentFormat.OpenXml.Presentation;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -22,14 +20,11 @@ using LogisticsBooking.FrontEnd.AutoMapper;
 using LogisticsBooking.FrontEnd.Resources;
 using LogisticsBooking.FrontEnd.Services;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.Swagger; 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
+using Serilog.Enrichers.HttpContextData;
 using Serilog.Sinks.Elasticsearch;
 
 namespace LogisticsBooking.FrontEnd
@@ -63,7 +58,8 @@ namespace LogisticsBooking.FrontEnd
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
             Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
+                .Enrich.WithCorrelationId()
+                .Enrich.WithHttpContextData()
                 .MinimumLevel.Warning()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
@@ -264,7 +260,7 @@ namespace LogisticsBooking.FrontEnd
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
 
-            
+            app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseCors("MyPolicy");
             app.UseSession();
