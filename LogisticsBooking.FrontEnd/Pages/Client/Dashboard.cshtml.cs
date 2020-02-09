@@ -66,7 +66,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             {
                 _logger.LogWarning("Dashboard OnGet Took {time}ms" , stopwatch.ElapsedMilliseconds);
             }
-
+            
             return Page();
         }
         

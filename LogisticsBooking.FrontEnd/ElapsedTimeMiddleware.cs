@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,9 @@ namespace LogisticsBooking.FrontEnd
         {
             var sw = new Stopwatch();
             sw.Start();
+            Console.WriteLine(context.Request.Path);
             await _next(context);
+            sw.Stop();
             var isHtml = context.Response.ContentType?.ToLower().Contains("text/html");
             if (context.Response.StatusCode == 200 && isHtml.GetValueOrDefault())
             {

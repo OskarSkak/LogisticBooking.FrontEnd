@@ -253,6 +253,7 @@ namespace LogisticsBooking.FrontEnd
             }
 
             loggerFactory.AddSerilog();
+            
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -264,19 +265,16 @@ namespace LogisticsBooking.FrontEnd
             app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseCors("MyPolicy");
             app.UseSession();
-            //
             app.UseAuthentication();
             app.UseElapsedTimeMiddleware();
             app.UseHttpsRedirection();
-            
-            
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //app.UseStatusCodePages();
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             
            // app.UseStatusCodePagesWithReExecute("/Error");
-            app.UseRequestLocalization(localizationOptions);
+           // app.UseRequestLocalization(localizationOptions);
             app.UseMvcWithDefaultRoute();
 
         }
