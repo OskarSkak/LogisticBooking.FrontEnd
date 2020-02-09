@@ -163,14 +163,13 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
-            /*
+            
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
                 {
                     new CultureInfo("en"),
-                    new CultureInfo("da"),
-                    new CultureInfo("en-GB")
+                    new CultureInfo("da")
                 };
                 options.DefaultRequestCulture = new RequestCulture("da");
                 options.SupportedCultures = supportedCultures;
@@ -178,7 +177,7 @@ namespace LogisticsBooking.FrontEnd
                 options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
                 
             });
-            */
+            
             
           
             //Add DI�s below
@@ -273,9 +272,8 @@ namespace LogisticsBooking.FrontEnd
             app.UseAuthentication();
             app.UseElapsedTimeMiddleware();
             app.UseHttpsRedirection();
-            /*app.UseRewriter(new RewriteOptions()
-                .Add(RewriteRules.RedirectRequests)
-            );*/
+            
+            
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //app.UseStatusCodePages();
@@ -284,6 +282,7 @@ namespace LogisticsBooking.FrontEnd
            // app.UseStatusCodePagesWithReExecute("/Error");
             app.UseRequestLocalization(localizationOptions);
             app.UseMvcWithDefaultRoute();
+
         }
     }
 }

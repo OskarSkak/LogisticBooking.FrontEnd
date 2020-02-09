@@ -58,8 +58,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             var d = 1 - percent;
             ShowPercent = (int) (d * 100);
             Console.WriteLine(ShowPercent);
-            _logger.LogWarning(new NullReferenceException() , "objektet er ikke sat");
-            _logger.LogInformation("Hentet Dashboad");
+            
+            
             return Page();
         }
         

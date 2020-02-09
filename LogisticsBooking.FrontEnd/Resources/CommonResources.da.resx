@@ -145,6 +145,9 @@
     <value>Opret Plan</value>
   </data>
 
+  <data name="Welcome"   xml:space="preserve">
+    <value>Velkommen</value>
+  </data>
 
 
 </root>

@@ -16,24 +16,24 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             
             if (User.HasClaim("role", "client"))
             {
-                return new  RedirectToPageResult("/Client/Dashboard");
+                return new  RedirectToPageResult("/da/Client/Dashboard");
             }  
             if (User.HasClaim("role", "kontor"))
             {
-                return new  RedirectToPageResult("/Client/Dashboard");
+                return new  RedirectToPageResult("/da/Client/Dashboard");
             }  
             if (User.HasClaim("role", "lager"))
             {
-                return new  RedirectToPageResult("/Client/Dashboard");
+                return new  RedirectToPageResult("/da/Client/Dashboard");
             }  
             
             if (User.HasClaim("role" , "transporter"))
             {
-                return RedirectToPage("/Transporter/Booking/BookOrder");
+                return RedirectToPage("/da/Transporter/Booking/BookOrder");
             } 
             if (User.HasClaim("role" , "admin"))
             {
-                return new  RedirectResult("/Client/Dashboard");
+                return new  RedirectResult("/da/Client/Dashboard");
             } 
             return new RedirectToPageResult("Error");
         }

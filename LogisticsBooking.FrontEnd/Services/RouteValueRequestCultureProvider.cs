@@ -33,7 +33,7 @@ namespace LogisticsBooking.FrontEnd.Services
                 return Task.FromResult(new ProviderCultureResult(defaultCulture));
             }
 
-            if (!_cultures.Any(x => x.Name.ToLower() == routeValues[1].ToLower()))
+            if (_cultures.All(x => x.Name.ToLower() != routeValues[1].ToLower()))
             {
                 return Task.FromResult(new ProviderCultureResult(defaultCulture));
             }

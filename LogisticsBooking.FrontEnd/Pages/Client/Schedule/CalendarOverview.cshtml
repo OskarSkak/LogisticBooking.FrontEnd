@@ -65,7 +65,7 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-xl-12">
-                            <div class="circle-bookingNotAllowed">
+                            <div class="circle-inactive">
                                 ?
                             </div>
                             <span> Der kan ikke bookes på denne dag</span>
@@ -76,10 +76,10 @@
                     
                     <div class="row mt-4">
                         <div class="col-xl-12">
-                            <div class="circle-inactive">
+                            <div class="circle-master">
                                 ?
                             </div>
-                            <span> Ingen farve indikerer at der ikke er nogen plan, men hvis der bookes på denne dag bliver standard planen taget i brug</span>
+                            <span> Blå farve indikerer at der ikke er nogen plan, men hvis der bookes på denne dag bliver standard planen taget i brug</span>
                         </div>
                                             
                                             
@@ -195,9 +195,21 @@
                                         }
                                         
                                     }
-                                    else if (@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 2)
+                                    else if (@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels.Count == 2 && schedules.Count ==  0 )
                                     {
-                                        
+                                        var active = Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].ActiveDays.FirstOrDefault(e => e.ActiveDay == date.DayOfWeek);
+                                        if (active == null)
+                                        {
+                                            <div  data-toggle="modal" class=" col d-flex justify-content-center">
+                                                <div class="circle-inactive">@date.Day</div>
+                                            </div>  
+                                        }
+                                        else
+                                        {
+                                            <div  data-toggle="modal" data-target="#_@date.Day.ToString("")_@master[0].MasterScheduleStandardId" class=" col d-flex justify-content-center">
+                                                <div class="circle-master">@date.Day</div>
+                                            </div>  
+                                        }
                                     }
 
 

@@ -1,10 +1,14 @@
 @using LogisticsBooking.FrontEnd
 @using LogisticsBooking.FrontEnd.Services
 @namespace LogisticsBooking.FrontEnd.Pages
-
+@using System.Globalization
 @removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, RazorPages
-
+@addTagHelper *, Localisation
 @inject CommonLocalizationService CommonLocalizationService
+@inject CommonLocalizationService localizer
+@{
+    var culture = CultureInfo.CurrentCulture.Name;
+}
