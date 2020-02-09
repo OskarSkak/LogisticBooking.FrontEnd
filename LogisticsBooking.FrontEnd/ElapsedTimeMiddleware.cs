@@ -31,11 +31,11 @@ namespace LogisticsBooking.FrontEnd
             if (context.Response.StatusCode == 200 && isHtml.GetValueOrDefault())
             {
                 
-                using (LogContext.PushProperty("Totaltime" , 0))
+                
                 using (LogContext.PushProperty("X-Correlation-ID", context.TraceIdentifier))
                 {
-                    _logger.LogWarning($"FRONT - {context.Request.Path} executed in  {sw.ElapsedMilliseconds}ms");
-                    _logger.LogInformation(sw.ElapsedMilliseconds.ToString());
+                    _logger.LogWarning("FRONT - {path} executed in  {time}ms" ,context.Request.Path, sw.ElapsedMilliseconds);
+                    
                 }
                 
                 
