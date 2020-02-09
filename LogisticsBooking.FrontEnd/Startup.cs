@@ -285,7 +285,7 @@ namespace LogisticsBooking.FrontEnd
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
             
            // app.UseStatusCodePagesWithReExecute("/Error");
-           // app.UseRequestLocalization(localizationOptions);
+            app.UseRequestLocalization(localizationOptions);
             app.UseMvcWithDefaultRoute();
 
         }
