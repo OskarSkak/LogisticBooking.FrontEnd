@@ -62,11 +62,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             ShowPercent = (int) (d * 100);
             
             stopwatch.Stop();
-            using (LogContext.PushProperty("X-Correlation-ID", HttpContext.TraceIdentifier))
-            {
-                _logger.LogWarning("Dashboard OnGet Took {time}ms" , stopwatch.ElapsedMilliseconds);
-            }
-            
+           
             return Page();
         }
         
