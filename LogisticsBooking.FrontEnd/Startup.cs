@@ -61,7 +61,7 @@ namespace LogisticsBooking.FrontEnd
                 .Enrich.WithCorrelationId()
                 .Enrich.WithHttpContextData()
                 .Enrich.WithProperty("Totaltime" , 0)
-                .MinimumLevel.Warning()
+                .MinimumLevel.Information()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
                     AutoRegisterTemplate = true
