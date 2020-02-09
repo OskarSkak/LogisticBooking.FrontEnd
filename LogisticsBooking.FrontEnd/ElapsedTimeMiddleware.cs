@@ -34,7 +34,7 @@ namespace LogisticsBooking.FrontEnd
                 
                 using (LogContext.PushProperty("X-Correlation-ID", context.TraceIdentifier))
                 {
-                    _logger.LogWarning("FRONT - {path} executed in  {time}ms" ,context.Request.Path, sw.ElapsedMilliseconds);
+                    _logger.LogInformation("FRONT - {path} executed in  {time}ms" ,context.Request.Path, sw.ElapsedMilliseconds);
                     
                 }
                 
