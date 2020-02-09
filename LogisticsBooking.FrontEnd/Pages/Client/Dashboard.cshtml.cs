@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MoreLinq.Extensions;
+using Serilog.Context;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client
 {
@@ -45,7 +46,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         
         public async Task<IActionResult> OnGet()
         {
-            
+
+            using (LogContext.PushProperty("user", User.Claims.FirstOrDefault(x => x.Type == "sub").Value))
+            {
+                _logger.LogWarning("user test 1 ");
+            }
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
             
 
