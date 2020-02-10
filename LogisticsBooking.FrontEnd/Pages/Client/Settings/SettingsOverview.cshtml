@@ -1,4 +1,143 @@
 @page
+@using Microsoft.AspNetCore.Localization
 @model LogisticsBooking.FrontEnd.Pages.Client.Settings.SettingsOverview
 
-@await  Component.InvokeAsync("CultureSwitcher")
+
+@{
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = CultureInfo.CurrentCulture.Name;
+    }
+
+<h1>Indstillinger</h1>
+
+<div class="row">
+  
+    <div class="ml-3 col-xl-3">
+
+        <div class="list-group">
+            <button id="langClick" type="button" class="list-group-item list-group-item-action">
+                Sprog
+            </button>
+            <button id="SchedulesClick" type="button" class="list-group-item list-group-item-action">Schedules</button>
+        </div>
+
+    </div>
+
+
+
+
+    <div id="language" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Indstillinger</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+
+                    <div id="" class=" d d-flex justify-content-between col-xl-9">
+
+                        <p>Vælg sprog</p>
+                        @await Component.InvokeAsync("CultureSwitcher")
+                    </div>
+                    
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    
+     <div id="schedules" class="d-none col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Indstillinger</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+    
+                        <div id="" class=" d d-flex justify-content-center col-xl-9">
+    
+                            <p>Shedules</p>
+                        </div>
+                        
+    
+    
+                    </div>
+    
+                </div>
+            </div>
+    
+    
+        </div>
+
+</div>
+
+
+@section Scripts
+{
+
+    <script>
+    $('#langClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+           
+        });
+      
+        $('.active').each(function(i, obj) {
+                            $(this).removeClass('active')
+                          
+                        });
+        
+  
+      
+        $('#langClick').addClass('active');
+         $('#language').addClass('d');
+        $('#language').removeClass('d-none');
+        
+    });
+    
+    $('#SchedulesClick').on('click', function(){
+            $('.d').each(function(i, obj) {
+                $(this).addClass('d-none')
+                 
+            });
+            
+            $('.active').each(function(i, obj) {
+                                $(this).removeClass('active')
+                              
+                            });
+            $('#SchedulesClick').addClass('active');
+            $('#schedules').removeClass('d-none');
+             $('#schedules').addClass('d');
+            
+        });
+    </script>
+}

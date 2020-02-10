@@ -96,7 +96,7 @@
 
 
     <data name="Plans"   xml:space="preserve">
-    <value>planer</value>
+    <value>Planer</value>
   </data>
 
     <data name="Active plans"   xml:space="preserve">
@@ -145,6 +145,9 @@
     <value>Opret Plan</value>
   </data>
 
+  <data name="Welcome"   xml:space="preserve">
+    <value>Velkommen</value>
+  </data>
 
 
 </root>

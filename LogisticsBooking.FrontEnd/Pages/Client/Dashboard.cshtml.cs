@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +15,16 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MoreLinq.Extensions;
+using Serilog.Context;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client
 {
     public class Dashboard : PageModel
     {
         private readonly IMasterScheduleDataService _masterScheduleDataService;
+        private readonly ILogger<DashboardViewModel> _logger;
         private readonly IMapper _mapper;
         private readonly IDashboardDataService _dashboardDataService;
 
@@ -34,17 +38,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         [BindProperty]
         public int ShowPercent { get; set; }
 
-        public Dashboard(IDashboardDataService dashboardDataService , IMasterScheduleDataService masterScheduleDataService)
+        public Dashboard(IDashboardDataService dashboardDataService , IMasterScheduleDataService masterScheduleDataService , ILogger<DashboardViewModel> logger)
         {
             _dashboardDataService = dashboardDataService;
             _masterScheduleDataService = masterScheduleDataService;
-
-           
+            _logger = logger;
         }
         
         public async Task<IActionResult> OnGet()
         {
-            
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();
             
 
@@ -56,7 +60,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
             var percent =  (double) DashboardViewModel.TimeToNextDelivery.Ticks / (double) day.Ticks ;
             var d = 1 - percent;
             ShowPercent = (int) (d * 100);
-            Console.WriteLine(ShowPercent);
+            
+            stopwatch.Stop();
+           
             return Page();
         }
         

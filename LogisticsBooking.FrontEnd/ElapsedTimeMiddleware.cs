@@ -1,7 +1,11 @@
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Context;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace LogisticsBooking.FrontEnd
 {
@@ -20,11 +24,20 @@ namespace LogisticsBooking.FrontEnd
         {
             var sw = new Stopwatch();
             sw.Start();
+
             await _next(context);
+            sw.Stop();
             var isHtml = context.Response.ContentType?.ToLower().Contains("text/html");
             if (context.Response.StatusCode == 200 && isHtml.GetValueOrDefault())
             {
-                _logger.LogWarning($"{context.Request.Path} executed in -------- {sw.ElapsedMilliseconds}ms");
+                
+                
+                using (LogContext.PushProperty("X-Correlation-ID", context.TraceIdentifier))
+                {
+                    _logger.LogInformation("FRONT - {path} executed in  {time}ms" ,context.Request.Path, sw.ElapsedMilliseconds);
+                }
+                
+                
             }
         }
     }

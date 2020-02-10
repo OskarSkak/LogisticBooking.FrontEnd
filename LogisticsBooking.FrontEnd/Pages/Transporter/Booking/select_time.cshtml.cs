@@ -156,18 +156,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 }
                 
                 
-            
-        
-
-           
-           
-
-                
-            
-            
-
-
-            await _scheduleDataService.CreateManySchedule(many);
+                await _scheduleDataService.CreateManySchedule(many);
             
             // Return new redirect to same page in order to get the newlt created schedule
             return new RedirectToPageResult("");

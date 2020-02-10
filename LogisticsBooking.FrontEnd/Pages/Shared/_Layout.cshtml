@@ -1,6 +1,8 @@
 ﻿@inject CommonLocalizationService localizer
 
-
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +49,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-      <a class="nav-link" asp-page="/Client/Dashboard" >
+      <a class="nav-link" asp-route-culture="@culture" asp-page="/Client/Dashboard" >
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -71,9 +73,9 @@
             
             
             
-            <a class="collapse-item"  asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Active plans") </a>
-            <a class="collapse-item" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create Plan")</a>
-            <a class="collapse-item" asp-page="/Client/Schedule/CalendarOverview"  >@localizer.Get("Plan Overview")</a>
+            <a class="collapse-item" asp-route-culture="@culture"  asp-page="/Client/Schedule/AllSchedules"  >@localizer.Get("Active plans") </a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Schedule/CreateNewSchedule"  >@localizer.Get("Create Plan")</a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Schedule/CalendarOverview"  >@localizer.Get("Plan Overview")</a>
             
             
           </div>
@@ -89,7 +91,7 @@
               </a>
               <div id="collapseTrans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                  <a class="collapse-item"  asp-page="/Client/Transporters/Transporters"  >@localizer.Get("Transporters")</a>
+                  <a class="collapse-item" asp-route-culture="@culture"  asp-page="/Client/Transporters/Transporters"  >@localizer.Get("Transporters")</a>
                   
                   
                 </div>
@@ -106,10 +108,14 @@
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" asp-page="/Client/Bookings/BookingOverview">@localizer.Get("Booking overview")</a>
-            <a class="collapse-item" asp-page="/Client/Bookings/BookingOverviewAdmin">@localizer.Get("Administrate orders")</a>
-            <a class="collapse-item" asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
-            <a class="collapse-item" asp-page="/Client/InactiveBooking/InactiveBookingOverview">Inaktive Bookings</a>
+<a class="collapse-item" asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/BookingOverview">@localizer.Get("Booking overview")</a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/BookingOverviewAdmin">@localizer.Get("Administrate orders")</a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/InactiveBooking/InactiveBookingOverview">Inaktive Bookings</a>
+            
+            
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
+            
           </div>
         </div>
       </li>
@@ -130,7 +136,7 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-             <a class="collapse-item" asp-page="/Client/Suppliers/Suppliers" >@localizer.Get("Customers")</a>
+             <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Suppliers/Suppliers" >@localizer.Get("Customers")</a>
           </div>
         </div>
        
@@ -211,15 +217,15 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" asp-page="/Profile/ProfileView">
+                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Profile/ProfileView">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
-                <a class="dropdown-item" asp-page="/Client/Settings/SettingsOverview">
+                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/Settings/SettingsOverview">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Settings
                 </a>
-                <a class="dropdown-item" asp-page="/Client/admin/AllUsers">
+                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/admin/AllUsers">
                   <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                   Admin
                 </a>
@@ -239,7 +245,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           
-          @RenderBody()
+         @RenderBody()
         </div>
         <!-- /.container-fluid -->
 

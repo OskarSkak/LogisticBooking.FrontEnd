@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using AutoMapper;
-using DocumentFormat.OpenXml.Presentation;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -22,14 +20,11 @@ using LogisticsBooking.FrontEnd.AutoMapper;
 using LogisticsBooking.FrontEnd.Resources;
 using LogisticsBooking.FrontEnd.Services;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.Swagger; 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
+using Serilog.Enrichers.HttpContextData;
 using Serilog.Sinks.Elasticsearch;
 
 namespace LogisticsBooking.FrontEnd
@@ -63,8 +58,10 @@ namespace LogisticsBooking.FrontEnd
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
             Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .MinimumLevel.Warning()
+                .Enrich.WithCorrelationId()
+                .Enrich.WithHttpContextData()
+                .Enrich.WithProperty("Totaltime" , 0)
+                .MinimumLevel.Information()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
                     AutoRegisterTemplate = true
@@ -155,7 +152,17 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                // You might want to only set the application cookies over a secure connection:
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
             services.AddMemoryCache();
             
             services.AddAntiforgery(options =>
@@ -163,14 +170,13 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
-            /*
+            
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
                 {
                     new CultureInfo("en"),
-                    new CultureInfo("da"),
-                    new CultureInfo("en-GB")
+                    new CultureInfo("da")
                 };
                 options.DefaultRequestCulture = new RequestCulture("da");
                 options.SupportedCultures = supportedCultures;
@@ -178,7 +184,7 @@ namespace LogisticsBooking.FrontEnd
                 options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
                 
             });
-            */
+            
             
           
             //Add DI�s below
@@ -258,6 +264,7 @@ namespace LogisticsBooking.FrontEnd
             }
 
             loggerFactory.AddSerilog();
+            
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -265,17 +272,13 @@ namespace LogisticsBooking.FrontEnd
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
 
-            
+            app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseCors("MyPolicy");
             app.UseSession();
-            //
             app.UseAuthentication();
             app.UseElapsedTimeMiddleware();
             app.UseHttpsRedirection();
-            /*app.UseRewriter(new RewriteOptions()
-                .Add(RewriteRules.RedirectRequests)
-            );*/
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //app.UseStatusCodePages();
@@ -284,6 +287,7 @@ namespace LogisticsBooking.FrontEnd
            // app.UseStatusCodePagesWithReExecute("/Error");
             app.UseRequestLocalization(localizationOptions);
             app.UseMvcWithDefaultRoute();
+
         }
     }
 }

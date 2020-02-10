@@ -1,9 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace LogisticsBooking.FrontEnd.Pages.Components
 {
@@ -11,24 +15,32 @@ namespace LogisticsBooking.FrontEnd.Pages.Components
     {
         private readonly ITransporterDataService _transporterDataService;
         private readonly IApplicationUserDataService _applicationUserDataService;
+        private readonly ILogger<UserViewComponent> _logger;
 
-        public UserViewComponent(ITransporterDataService transporterDataService , IApplicationUserDataService applicationUserDataService)
+        public UserViewComponent(ITransporterDataService transporterDataService , IApplicationUserDataService applicationUserDataService , ILogger<UserViewComponent> logger)
         {
             _transporterDataService = transporterDataService;
             _applicationUserDataService = applicationUserDataService;
+            _logger = logger;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var id  = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
-            var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand
+            
+            var currentUser = HttpContext.Session.GetObject<ApplicationUserViewModel>(id);
+            if (currentUser == null)
             {
-                Id = Guid.Parse(id)
-            });
-            
-            
-            return View(user);
+                var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand
+                {
+                    Id = Guid.Parse(id)
+                });
+                HttpContext.Session.SetObject(id, user);
+                return View(user);
+            }
+            return View(currentUser);
+
         }
     }
     

@@ -24,12 +24,14 @@ namespace LogisticsBooking.FrontEnd.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            /*
             var result = await _inactiveBookingsDataService.GetInactiveBookings();
             
             NotificationComponentModel notificationComponent = new NotificationComponentModel();
             notificationComponent.InactiveBookingListViewModel = result;
+            */
+            return View(new NotificationComponentModel());
             
-            return View(notificationComponent);
         }
     }
 }
