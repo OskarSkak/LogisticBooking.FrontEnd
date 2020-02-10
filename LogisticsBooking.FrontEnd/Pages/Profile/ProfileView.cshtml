@@ -3,99 +3,80 @@
 
 @inject CommonLocalizationService localizer
 
-<div class="row">
+<style>
+    .DisplayNone {
+        display: none;
+    }
+    
+    .sectionBtn {
+        background-color: #e7e7e7; /* Green */
+        border: none;
+        color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 80%;
+    }
+</style>
 
-    <div class="col-xl-3">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary  sidebar-dark accordion" id="accordionSidebar">
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link " href="#">
-
-                    <span>Email</span>
-                </a>
-
-            </li>
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li id="code" class="nav-item">
-                <a class="nav-link " >
-            
-                    <span>Ændre adgangskode</span>
-                </a>
-            
-            </li>
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link " href="#">
-            
-                    <span>Få data</span>
-                </a>
-            
-            </li>
-            
-
-
-        </ul>
-
-    </div>
-
-    <div class="col-xl-1">
-
-    </div>
-
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"></h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
+</head>
+<div class="container">
+    <!--Row with two equal columns-->
+    <div class="row">
+        <div class="col-md-4">
+            <button id="show_hide_update" class="sectionBtn"><i class="fas fa-user-edit"></i>  Opdater brugerdata</button> <br /><br/>
+            <button id="show_hide_users" class="sectionBtn"><i class="fas fa-users"></i>  Administrer brugere</button> <br /><br/>
+            <button id="show_hide_password" class="sectionBtn"><i class="fas fa-lock"></i>  Opdater Password</button>
+        </div>
+        <div class="col-md-8">
+            <div class="DisplayNone Element" id="update_section">
+                update section
             </div>
-            <!-- Card Body -->
-            <div class="card-body d-none">
-
+            <div class="DisplayNone Element" id="users_section">
+                users section
             </div>
-            
-            <div class="card-body d-none">
-            
+            <div class="DisplayNone Element" id="password_section">
+                password section
             </div>
-            
-            <div class="kode card-body d-none">
-                Ændre adgangskode
-            </div>
-            
         </div>
     </div>
-
-    <!-- Pie Chart -->
-
-
 </div>
 
-@section Scripts
-{
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <script>
-    
-    $('#code').on('click' ,function () {
-      $('.kode').removeClass('d-none');
-                $(this).addClass('');
-    });
-      
-    
-    
+        $(document).ready(function () {
+            $("#show_hide_users").click(function () {
+                $('.Element').hide();
+                $("#users_section").show()
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#show_hide_update").click(function () {
+                $('.Element').hide();
+                $("#update_section").show()
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#show_hide_password").click(function () {
+                $('.Element').hide();
+                $("#password_section").show()
+            });
+        });
     </script>
 }
