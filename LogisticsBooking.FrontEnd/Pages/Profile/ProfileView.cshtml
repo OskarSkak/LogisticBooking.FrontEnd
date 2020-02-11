@@ -1,82 +1,275 @@
 @page
-@model LogisticsBooking.FrontEnd.Pages.Profile.ProfileView
+@using Microsoft.AspNetCore.Localization
+@model LogisticsBooking.FrontEnd.Pages.Profile.ProfileViewModel
 
 @inject CommonLocalizationService localizer
 
-<style>
-    .DisplayNone {
-        display: none;
-    }
-    
-    .sectionBtn {
-        background-color: #e7e7e7; /* Green */
-        border: none;
-        color: black;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        width: 80%;
-    }
-</style>
 
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@{
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = CultureInfo.CurrentCulture.Name;
+    }
 
-</head>
-<div class="container">
-    <!--Row with two equal columns-->
-    <div class="row">
-        <div class="col-md-4">
-            <button id="show_hide_update" class="sectionBtn"><i class="fas fa-user-edit"></i>  Opdater brugerdata</button> <br /><br/>
-            <button id="show_hide_users" class="sectionBtn"><i class="fas fa-users"></i>  Administrer brugere</button> <br /><br/>
-            <button id="show_hide_password" class="sectionBtn"><i class="fas fa-lock"></i>  Opdater Password</button>
+<h1>Indstillinger</h1>
+
+<div class="row">
+  
+    <div class="ml-3 col-xl-3">
+
+        <div class="list-group">
+            <button id="UpdateClick" type="button" class="list-group-item list-group-item-action">Opdater Brugerdata</button>
+            <button id="UsersClick" type="button" class="list-group-item list-group-item-action">Administrer Brugere</button>
+            <button id="PasswordClick" type="button" class="list-group-item list-group-item-action">Opdater Password</button>
+            <button id="langClick" type="button" class="list-group-item list-group-item-action">Sprog</button>
+            <button id="CreateClick" type="button" class="list-group-item list-group-item-action">Opret Bruger</button>
+            <button id="SchedulesClick" type="button" class="list-group-item list-group-item-action">Schedules</button>
         </div>
-        <div class="col-md-8">
-            <div class="DisplayNone Element" id="update_section">
-                update section
+
+    </div>
+    <div id="update" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opdater brugerdata</h6>
             </div>
-            <div class="DisplayNone Element" id="users_section">
-                users section
-            </div>
-            <div class="DisplayNone Element" id="password_section">
-                password section
+            <div class="card-body">
+                <div class="row">
+                    <div id="" class=" d d-flex justify-content-between col-xl-9">
+                        OPDATER BRUGERDATA
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <div id="create" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opret Bruger</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="" class=" d d-flex justify-content-between col-xl-9">
+                        
+                        <div class="content">
+                            <form asp-page-handler="Create">
+                                <div class="form-group">
+                                    <label >Navn</label>
+                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control" >
+                                </div>
+                                <div class="form-group">
+                                    <label >Email</label>
+                                    <input asp-for="@Model.CreateUserCommand.Email" type="email" class="form-control" >
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" asp-for="CreateUserCommand.Role" asp-items="Model.Roles"></select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">opret</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="password" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opdater Password</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="" class=" d d-flex justify-content-center col-xl-9">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+        <div id="users" class="d-none col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Administrer Brugere</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div id="" class=" d d-flex justify-content-center col-xl-9">
+                            <p>brugere</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <div id="language" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Indstillinger</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>    
+            <div class="card-body">
+                <div class="row">
+                    <div id="" class=" d d-flex justify-content-between col-xl-9">
+                    <p>Vælg sprog</p>
+                        @await Component.InvokeAsync("CultureSwitcher")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <div id="schedules" class="d-none col-xl-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Indstillinger</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+    
+                        <div id="" class=" d d-flex justify-content-center col-xl-9">
+    
+                            <p>Shedules</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
-
-@section Scripts{
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+@section Scripts
+{
 
     <script>
-        $(document).ready(function () {
-            $("#show_hide_users").click(function () {
-                $('.Element').hide();
-                $("#users_section").show()
-            });
+    $('#PasswordClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+           
         });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#show_hide_update").click(function () {
-                $('.Element').hide();
-                $("#update_section").show()
-            });
+      
+        $('.active').each(function(i, obj) {
+                            $(this).removeClass('active')
+                          
+                        });
+        
+  
+      
+        $('#PasswordClick').addClass('active');
+         $('#password').addClass('d');
+        $('#password').removeClass('d-none');
+        
+    });
+    
+    $('#CreateClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+           
         });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#show_hide_password").click(function () {
-                $('.Element').hide();
-                $("#password_section").show()
-            });
+      
+        $('.active').each(function(i, obj) {
+            $(this).removeClass('active')
+                          
         });
+        
+  
+      
+        $('#CreateClick').addClass('active');
+        $('#create').addClass('d');
+        $('#create').removeClass('d-none');
+        
+    });
+    
+    $('#UpdateClick').on('click', function(){
+            $('.d').each(function(i, obj) {
+                $(this).addClass('d-none')
+                 
+            });
+            
+            $('.active').each(function(i, obj) {
+                                $(this).removeClass('active')
+                              
+                            });
+            $('#UpdateClick').addClass('active');
+            $('#update').removeClass('d-none');
+             $('#update').addClass('d');
+            
+        });
+    
+    $('#UsersClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+                 
+        });
+            
+        $('.active').each(function(i, obj) {
+            $(this).removeClass('active')
+                              
+        });
+        $('#UsersClick').addClass('active');
+        $('#users').removeClass('d-none');
+        $('#users').addClass('d');
+            
+    });
+    
+    $('#langClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+           
+        });
+      
+        $('.active').each(function(i, obj) {
+            $(this).removeClass('active')
+                          
+        });
+        
+  
+      
+        $('#langClick').addClass('active');
+        $('#language').addClass('d');
+        $('#language').removeClass('d-none');
+        
+    });
+    
+    $('#SchedulesClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+                 
+        });
+            
+        $('.active').each(function(i, obj) {
+            $(this).removeClass('active')
+                              
+        });
+        $('#SchedulesClick').addClass('active');
+        $('#schedules').removeClass('d-none');
+        $('#schedules').addClass('d');
+            
+    });
     </script>
 }

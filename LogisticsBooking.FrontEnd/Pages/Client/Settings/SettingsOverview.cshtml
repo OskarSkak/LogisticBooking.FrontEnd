@@ -12,20 +12,14 @@
 <h1>Indstillinger</h1>
 
 <div class="row">
-  
     <div class="ml-3 col-xl-3">
-
         <div class="list-group">
             <button id="langClick" type="button" class="list-group-item list-group-item-action">
                 Sprog
             </button>
             <button id="SchedulesClick" type="button" class="list-group-item list-group-item-action">Schedules</button>
         </div>
-
     </div>
-
-
-
 
     <div id="language" class="d-none col-xl-8">
         <div class="card shadow mb-4">
@@ -43,24 +37,16 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </div>
-            </div>
+            </div>    
             <div class="card-body">
                 <div class="row">
-
                     <div id="" class=" d d-flex justify-content-between col-xl-9">
-
-                        <p>Vælg sprog</p>
+                    <p>Vælg sprog</p>
                         @await Component.InvokeAsync("CultureSwitcher")
                     </div>
-                    
-
-
                 </div>
-
             </div>
         </div>
-
-
     </div>
     
      <div id="schedules" class="d-none col-xl-8">
@@ -87,17 +73,10 @@
     
                             <p>Shedules</p>
                         </div>
-                        
-    
-    
                     </div>
-    
                 </div>
             </div>
-    
-    
         </div>
-
 </div>
 
 

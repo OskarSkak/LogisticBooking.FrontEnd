@@ -58,8 +58,8 @@ namespace LogisticsBooking.FrontEnd
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
             Log.Logger = new LoggerConfiguration()
-                .Enrich.WithCorrelationId()
-                .Enrich.WithHttpContextData()
+                //.Enrich.WithCorrelationId()
+                //.Enrich.WithHttpContextData()
                 .Enrich.WithProperty("Totaltime" , 0)
                 .MinimumLevel.Information()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
