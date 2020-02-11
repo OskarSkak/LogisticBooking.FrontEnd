@@ -17,18 +17,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
         [BindProperty] public List<SelectListItem> Roles { get; set; }
         [TempData] public string Message { get; set; }
         public bool MessageIsNull => !String.IsNullOrEmpty(Message);
-        public ListApplicationUserViewModels ApplicationUserViewModels { get; set; }
+        [BindProperty] public ListApplicationUserViewModels ApplicationUserViewModels { get; set; }
         
         public ProfileViewModel(IApplicationUserDataService applicationUserDataService)
         {
             _applicationUserDataService = applicationUserDataService;
+            ApplicationUserViewModels = _applicationUserDataService.GetAllUsers().Result;
         }
         
         
         public async void OnGet()
         {
             Roles = CreateSelectList();
-            ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
+            //ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
         }
 
         public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)

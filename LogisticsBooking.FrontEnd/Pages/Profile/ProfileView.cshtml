@@ -11,7 +11,7 @@
     var culture = CultureInfo.CurrentCulture.Name;
     }
 
-<h1>Indstillinger</h1>
+<h1 align="center">Indstillinger</h1>
 
 <div class="row">
   
@@ -50,12 +50,11 @@
             <div class="card-body">
                 <div class="row">
                     <div id="" class=" d d-flex justify-content-between col-xl-9">
-                        
-                        <div class="content">
+                        <div>
                             <form asp-page-handler="Create">
                                 <div class="form-group">
                                     <label >Navn</label>
-                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control" >
+                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label >Email</label>
@@ -67,7 +66,6 @@
                                 <button type="submit" class="btn btn-primary">opret</button>
                             </form>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -97,9 +95,32 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div id="" class=" d d-flex justify-content-center col-xl-9">
-                            <p>brugere</p>
+                        
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var user in Model.ApplicationUserViewModels.ApplicationUserViewModels)
+                            {
+                                <tr>
+                                    <td><a asp-page="UserSingle" asp-route-id="@user.ApplicationUserId">@user.Email</a></td>
+                                    <td>
+                                        @foreach (var role in user.ActiveRoles)
+                                        {
+                                            @role.Name @: <text> , </text>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <div class="col-xs-12 col-md-1 ">
                         </div>
+        
                     </div>
                 </div>
             </div>

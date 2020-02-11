@@ -26,5 +26,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
             Console.WriteLine("");
         }
+
+        
     }
 }

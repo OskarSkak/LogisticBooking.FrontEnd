@@ -26,31 +26,21 @@
                                             <a asp-page="CreateApplicationUser" class="nav-link">Opret Bruger</a>
                                         </li>
                     <div class="border-top my-3"></div>
-                    
                 </ul>
-              
-
-         
             </div>
-
         </div>
         <div class="col-xs-12 col-md-5 ">
-
             <div class="content ">
-                
                 <table class="table">
                     <thead>
                     <tr>
                         <th>Email</th>
                         <th>Role</th>
-                        
                     </tr>
                     </thead>
                     <tbody>
-                    
                     @foreach (var user in Model.ApplicationUserViewModels.ApplicationUserViewModels)
                     {
-
                         <tr>
                             <td><a asp-page="UserSingle" asp-route-id="@user.ApplicationUserId">@user.Email</a></td>
                             <td>
@@ -60,16 +50,10 @@
                             }
                             </td>
                         </tr>
-
                     }
-
-
-
                     </tbody>
                 </table>
-                
             </div>
-
         </div>
         <div class="col-xs-12 col-md-1 ">
         </div>
