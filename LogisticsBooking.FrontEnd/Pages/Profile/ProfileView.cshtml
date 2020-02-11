@@ -11,6 +11,14 @@
     var culture = CultureInfo.CurrentCulture.Name;
     }
 
+<style>
+    .inner {
+        display: table;
+        margin: 0 auto;
+    }
+    
+</style>
+
 <h1 align="center">Indstillinger</h1>
 
 <div class="row">
@@ -35,7 +43,36 @@
             <div class="card-body">
                 <div class="row">
                     <div id="" class=" d d-flex justify-content-between col-xl-9">
-                        OPDATER BRUGERDATA
+                        <form asp-page-handler="Update">
+                            <div class="form-group">
+                                <label >Navn</label>
+                                <input asp-for="LoggedInUser.Name" name="LoggedInUser.Name" type="text" class="form-control" value="@Model.LoggedInUser.Name"> <br/>
+                            </div>
+                            <div class="form-group">
+                                <label >Email</label>
+                                <input asp-for="LoggedInUser.Email" name="LoggedInUser.Email" class="form-control" value="@Model.LoggedInUser.Email"> <br/>
+                            </div>
+                            <div class="form-group">
+                                <p>Kontor </p>
+                                <input asp-for="OfficeRoleIsChecked"/>
+                            </div>
+                            <div class="form-group">
+                                <p>Standard medarbejder</p>
+                                <input asp-for="ClientRoleIsChecked"/>
+                            </div>
+                            <div class="form-group">
+                                <p>Lager </p>
+                                <input asp-for="WareHouseRoleIsChecked"/>
+                                <br/>
+                            </div>
+                            <div class="form-group">
+                                <p>Transportør </p>
+                                <input asp-for="TransporterRoleIsChecked"/>
+                            </div>
+                            
+                            <input type="hidden" asp-for="LoggedInUser.ApplicationUserId" name="LoggedInUser.ApplicationUserId"/>
+                            <button type="submit" class="btn btn-primary">Opdater din brugerdata</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -50,20 +87,21 @@
             <div class="card-body">
                 <div class="row">
                     <div id="" class=" d d-flex justify-content-between col-xl-9">
-                        <div>
+                        <div class="inner">
                             <form asp-page-handler="Create">
                                 <div class="form-group">
                                     <label >Navn</label>
-                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control">
+                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control"> <br/>
                                 </div>
                                 <div class="form-group">
                                     <label >Email</label>
-                                    <input asp-for="@Model.CreateUserCommand.Email" type="email" class="form-control" >
+                                    <input asp-for="@Model.CreateUserCommand.Email" type="email" class="form-control" > <br/>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control" asp-for="CreateUserCommand.Role" asp-items="Model.Roles"></select>
+                                    <label>Rolle</label>
+                                    <select class="form-control" asp-for="CreateUserCommand.Role" asp-items="Model.Roles"></select><br/>
                                 </div>
-                                <button type="submit" class="btn btn-primary">opret</button>
+                                <button type="submit" class="btn btn-primary">Opret</button>
                             </form>
                         </div>
                     </div>
@@ -99,6 +137,7 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
                             </tr>
@@ -107,11 +146,15 @@
                             @foreach (var user in Model.ApplicationUserViewModels.ApplicationUserViewModels)
                             {
                                 <tr>
+                                    <td>
+                                        @user.Name
+                                    </td>
                                     <td><a asp-page="UserSingle" asp-route-id="@user.ApplicationUserId">@user.Email</a></td>
                                     <td>
                                         @foreach (var role in user.ActiveRoles)
                                         {
-                                            @role.Name @: <text> , </text>
+                                            @role.Name
+                                            @: <text> , </text>
                                         }
                                     </td>
                                 </tr>
@@ -129,7 +172,7 @@
     <div id="language" class="d-none col-xl-8">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Indstillinger</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Sprog</h6>
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
