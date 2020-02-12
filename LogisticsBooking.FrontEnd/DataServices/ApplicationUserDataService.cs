@@ -53,9 +53,28 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Response> UpdateUser(ApplicationUserViewModel applicationUserViewModel)
         {
-            var endpoint = UrlUser;   
+            var endpoint = UrlUser;  
+            
         
             var response = await PutAsync(endpoint, applicationUserViewModel);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(response,errorMsg);
+                }
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
+        
+        public async Task<Response> UpdateUser(UpdateUserWithRolesCommand updateUserWithRolesCommand )
+        {
+            var endpoint = UrlUser;   
+        
+            var response = await PutAsync(endpoint, updateUserWithRolesCommand);
 
             if (!response.IsSuccessStatusCode)
             {

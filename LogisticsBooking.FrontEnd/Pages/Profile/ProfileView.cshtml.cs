@@ -25,6 +25,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
         [BindProperty] public bool WareHouseRoleIsChecked { get; set; }
         [BindProperty] public bool TransporterRoleIsChecked { get; set; }
         [BindProperty] public bool ClientRoleIsChecked { get; set; }
+        [BindProperty] public bool AdminRoleIsChecked { get; set; } //TODO: Form check for admin - can be attacked
         
         
         public ProfileViewModel(IApplicationUserDataService applicationUserDataService)
@@ -47,6 +48,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
                 if (role.Name.ToLower() == "lager") WareHouseRoleIsChecked = true;
                 if (role.Name.ToLower() == "transporter") TransporterRoleIsChecked = true;
                 if (role.Name.ToLower() == "client") ClientRoleIsChecked = true;
+                if (role.Name.ToLower() == "admin") AdminRoleIsChecked = true;
             }
         }
 
@@ -60,14 +62,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
         public async Task<IActionResult> OnPostUpdateAsync(ApplicationUserViewModel LoggedInUser)
         {
             var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            var LoggedInId = Guid.Parse(LoggedInIdString);
-            var UpdateCmd = await _applicationUserDataService.GetUserById(new GetUserByIdCommand{Id = LoggedInId});
+            
+            var Roles = new List<string>();
+            var cmd = new UpdateUserWithRolesCommand();
+            cmd.ApplicationUserId = LoggedInIdString;
+            
+            if (ClientRoleIsChecked)Roles.Add("client");
+            if (OfficeRoleIsChecked) Roles.Add("kontor");
+            if (TransporterRoleIsChecked) Roles.Add("transporter");
+            if (WareHouseRoleIsChecked) Roles.Add("lager");
+            if (AdminRoleIsChecked) Roles.Add("admin");
+            
+            if (!string.IsNullOrWhiteSpace(LoggedInUser.Name)) cmd.Name = LoggedInUser.Name;
+            if (!string.IsNullOrWhiteSpace(LoggedInUser.Email)) cmd.Email = LoggedInUser.Email;
+            if (Roles.Count != 0) cmd.Roles = Roles;
 
-            if (!string.IsNullOrWhiteSpace(LoggedInUser.Name)) UpdateCmd.Name = LoggedInUser.Name;
-            if (!string.IsNullOrWhiteSpace(LoggedInUser.Email)) UpdateCmd.Email = LoggedInUser.Email;
-            if (ClientRoleIsChecked)
-            var result = await _applicationUserDataService.UpdateUser(UpdateCmd);
-            // if(!result.IsSuccesfull) throw new 
+            var result = await _applicationUserDataService.UpdateUser(cmd); //TODO: Error handle
             return Page();
         }
         

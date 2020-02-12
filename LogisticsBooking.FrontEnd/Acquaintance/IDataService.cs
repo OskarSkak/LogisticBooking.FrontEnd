@@ -138,7 +138,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<ApplicationUserViewModel> GetUserById(GetUserByIdCommand getUserByIdCommand);
 
         Task<Response> UpdateUser(ApplicationUserViewModel applicationUserViewModel);
-
+        Task<Response> UpdateUser(UpdateUserWithRolesCommand updateUserWithRolesCommand);
+        
         Task<Response> UpdateUserRole(UpdateRoleCommand updateRoleCommand);
 
         Task<Response> DeleteUser(Guid id);
