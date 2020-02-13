@@ -8,7 +8,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser
         public string Email { get; set; }
         public string Name { get; set; }
         
-        public List<string> Role { get; set; }
+        public List<string> Roles { get; set; }
         
         public Guid Id { get; set; }
     }

@@ -72,7 +72,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
             if (TransporterRoleIsChecked) Roles.Add("transporter");
             if (WareHouseRoleIsChecked) Roles.Add("lager");
             if (AdminRoleIsChecked) Roles.Add("admin");
-            
             if (!string.IsNullOrWhiteSpace(LoggedInUser.Name)) cmd.Name = LoggedInUser.Name;
             if (!string.IsNullOrWhiteSpace(LoggedInUser.Email)) cmd.Email = LoggedInUser.Email;
             if (Roles.Count != 0) cmd.Roles = Roles;

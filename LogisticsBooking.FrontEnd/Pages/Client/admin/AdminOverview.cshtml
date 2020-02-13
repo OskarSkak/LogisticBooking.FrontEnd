@@ -56,25 +56,49 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    
                     <div id="" class=" d d-flex justify-content-between col-xl-12">
-                        <div class="inner">
-                            <form asp-page-handler="Create">
-                                <div class="form-group">
-                                    <label >Navn</label>
-                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control"> <br/>
-                                </div>
+                        <form asp-page-handler="Create" style="width:100%">
+                            <div class="inner">
+                                <label >Navn</label>
+                                <input asp-for="CreateUserCommand.Name" name="CreateUserCommand.Name" class="form-control"> <br/>
                                 <div class="form-group">
                                     <label >Email</label>
-                                    <input asp-for="@Model.CreateUserCommand.Email" type="email" class="form-control" > <br/>
+                                    <input asp-for="CreateUserCommand.Email" name="CreateUserCommand.Email" class="form-control"> <br/>
                                 </div>
+                            
+                                <div class="wrapper">
+                                    <div class="form-group firstDiv">
+                                        <p>Kontor </p>
+                                        <input asp-for="OfficeRoleIsChecked"/>
+                                    </div>
+                                    <div class="form-group secondDiv">
+                                        <p>Standard medarbejder</p>
+                                        <input asp-for="ClientRoleIsChecked"/>
+                                    </div>
+                                </div>
+                            <div class="wrapper">
+                                <div class="form-group firstDiv">
+                                    <p>Lager </p>
+                                    <input asp-for="WareHouseRoleIsChecked"/>
+                                    <br/>
+                                </div>
+                            
+                            
+                                <div class="form-group secondDiv">
+                                    <p>Transportør </p>
+                                    <input asp-for="TransporterRoleIsChecked"/>
+                                </div>
+                            </div>
                                 <div class="form-group">
-                                    <label>Rolle</label>
-                                    <select class="form-control" asp-for="CreateUserCommand.Role" asp-items="Model.Roles"></select><br/>
+                                    <p>Admin</p>
+                                    <input asp-for="AdminRoleIsChecked"/>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Opret</button>
-                            </form>
+                                <button type="submit" class="btn btn-primary">Opret Bruger</button>
                         </div>
+                    </form>
                     </div>
+                    
                 </div>
             </div>
         </div>

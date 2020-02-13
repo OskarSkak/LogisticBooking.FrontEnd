@@ -43,8 +43,18 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 
         public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)
         {
+            var Roles = new List<string>();
+            if (ClientRoleIsChecked)Roles.Add("client");
+            if (OfficeRoleIsChecked) Roles.Add("kontor");
+            if (TransporterRoleIsChecked) Roles.Add("transporter");
+            if (WareHouseRoleIsChecked) Roles.Add("lager");
+            if (AdminRoleIsChecked) Roles.Add("admin");
+            if (Roles.Count != 0) createUserCommand.Roles = Roles;
+
             var result = await _applicationUserDataService.CreateUser(createUserCommand);
-            return Page();
+            
+            if(result.IsSuccesfull) return new RedirectToPageResult("AdminOverview");
+            return BadRequest();
         }
 
         public async Task<IActionResult> OnPostUpdateAsync(string OverviewName, string OverviewEmail, 
