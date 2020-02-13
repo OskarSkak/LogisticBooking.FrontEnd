@@ -144,6 +144,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
         Task<Response> DeleteUser(Guid id);
 
+        Task<Response> UpdatePassword(UpdatePasswordCommand cmd);
+
         Task<Response> CreateTransporter(CreateUserCommand createUserCommand);
     }
 

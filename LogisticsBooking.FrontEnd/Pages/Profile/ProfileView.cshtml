@@ -42,7 +42,6 @@
 
         <div class="list-group">
             <button id="UpdateClick" type="button" class="list-group-item list-group-item-action">Opdater Brugerdata</button>
-            <button id="UsersClick" type="button" class="list-group-item list-group-item-action">Administrer Brugere</button>
             <button id="PasswordClick" type="button" class="list-group-item list-group-item-action">Opdater Password</button>
             <button id="langClick" type="button" class="list-group-item list-group-item-action">Sprog</button>
             <button id="CreateClick" type="button" class="list-group-item list-group-item-action">Opret Bruger</button>
@@ -106,36 +105,7 @@
         </div>
     </div>
     
-    <div id="create" class="d-none col-xl-8">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Opret Bruger</h6>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div id="" class=" d d-flex justify-content-between col-xl-12">
-                        <div class="inner">
-                            <form asp-page-handler="Create">
-                                <div class="form-group">
-                                    <label >Navn</label>
-                                    <input asp-for="@Model.CreateUserCommand.Name" type="text" class="form-control"> <br/>
-                                </div>
-                                <div class="form-group">
-                                    <label >Email</label>
-                                    <input asp-for="@Model.CreateUserCommand.Email" type="email" class="form-control" > <br/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Rolle</label>
-                                    <select class="form-control" asp-for="CreateUserCommand.Role" asp-items="Model.Roles"></select><br/>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Opret</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
     <div id="password" class="d-none col-xl-8">
         <div class="card shadow mb-4">
@@ -144,57 +114,27 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div id="" class=" d d-flex justify-content-center col-xl-9">
-                        <p></p>
+                    
+                    <div id="" class=" d d-flex justify-content-between col-xl-12">
+                        <form asp-page-handler="Password" style="width:100%">
+                            <div class="inner">
+                                <label >Current Password</label>
+                                <input type="password" name="OldPass" class="form-control"> <br/>
+                                <label >New Password</label>
+                                <input type="password" name="newPass" class="form-control"> <br/>
+                                <label >Repeat New Password</label>
+                                <input type="password" name="newPassConfirm" class="form-control"> <br/>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                        </div>
+                    </form>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 
     
-        <div id="users" class="d-none col-xl-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Administrer Brugere</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var user in Model.ApplicationUserViewModels.ApplicationUserViewModels)
-                            {
-                                <tr>
-                                    <td>
-                                        @user.Name
-                                    </td>
-                                    <td><a asp-page="UserSingle" asp-route-id="@user.ApplicationUserId">@user.Email</a></td>
-                                    <td>
-                                        @foreach (var role in user.ActiveRoles)
-                                        {
-                                            @role.Name
-                                            @: <text> , </text>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                        <div class="col-xs-12 col-md-1 ">
-                        </div>
-        
-                    </div>
-                </div>
-            </div>
-        </div>
     
     <div id="language" class="d-none col-xl-8">
         <div class="card shadow mb-4">
@@ -312,22 +252,7 @@
             
         });
     
-    $('#UsersClick').on('click', function(){
-        $('.d').each(function(i, obj) {
-            $(this).addClass('d-none')
-                 
-        });
-            
-        $('.active').each(function(i, obj) {
-            $(this).removeClass('active')
-                              
-        });
-        $('#UsersClick').addClass('active');
-        $('#users').removeClass('d-none');
-        $('#users').addClass('d');
-            
-    });
-    
+        
     $('#langClick').on('click', function(){
         $('.d').each(function(i, obj) {
             $(this).addClass('d-none')

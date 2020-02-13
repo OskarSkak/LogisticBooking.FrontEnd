@@ -37,7 +37,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
         }
 
 
-        public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)
+      /*  public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             }
 
             return Page();
-        }
+        }*/
 
         public List<SelectListItem> CreateSelectList()
         {

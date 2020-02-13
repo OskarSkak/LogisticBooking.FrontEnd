@@ -15,11 +15,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
     public class ProfileViewModel : PageModel
     {
         private readonly IApplicationUserDataService _applicationUserDataService;
-        public CreateUserCommand CreateUserCommand { get; set; }
-        [BindProperty] public List<SelectListItem> Roles { get; set; }
-        [TempData] public string Message { get; set; }
-        public bool MessageIsNull => !String.IsNullOrEmpty(Message);
-        [BindProperty] public ListApplicationUserViewModels ApplicationUserViewModels { get; set; }
         [BindProperty] public ApplicationUserViewModel LoggedInUser { get; set; }
         [BindProperty] public bool OfficeRoleIsChecked { get; set; }
         [BindProperty] public bool WareHouseRoleIsChecked { get; set; }
@@ -31,13 +26,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
         public ProfileViewModel(IApplicationUserDataService applicationUserDataService)
         {
             _applicationUserDataService = applicationUserDataService;
-            ApplicationUserViewModels = _applicationUserDataService.GetAllUsers().Result;
             LoggedInUser = new ApplicationUserViewModel();
         }
         
         public async Task OnGet()
         {
-            Roles = CreateSelectList();
             //ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
             var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             var LoggedInId = Guid.Parse(LoggedInIdString);
@@ -50,13 +43,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
                 if (role.Name.ToLower() == "client") ClientRoleIsChecked = true;
                 if (role.Name.ToLower() == "admin") AdminRoleIsChecked = true;
             }
-        }
-
-        public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)
-        {
-            var result = await _applicationUserDataService.CreateUser(createUserCommand);
-            if (result.IsSuccesfull) Message = "User created. Check email for confirmation link";
-            return Page();
         }
 
         public async Task<IActionResult> OnPostUpdateAsync(ApplicationUserViewModel LoggedInUser)
@@ -79,19 +65,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
             var result = await _applicationUserDataService.UpdateUser(cmd); //TODO: Error handle
             return Page();
         }
-        
-        public List<SelectListItem> CreateSelectList()
+
+        public async Task<IActionResult> OnPostPasswordAsync(string oldPass, string oldPassConfirm, string newPass)
         {
-            List<SelectListItem> roles = new List<SelectListItem>();
-
-            roles.AddRange(new List<SelectListItem>
+            if (oldPass != oldPassConfirm || oldPass == null || newPass == null) return BadRequest();
+            var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            var LoggedInId = Guid.Parse(LoggedInIdString);
+            var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand{Id = LoggedInId});
+            var cmd = new UpdatePasswordCommand
             {
-                new SelectListItem("Kontor", "kontor"),
-                new SelectListItem("Lager", "Lager"),
-                new SelectListItem("Transportør", "transporter")
-            });
-
-            return roles;
+                NewPass = newPass,
+                OldPass = oldPass,
+                User = user
+            };
+            var result = await _applicationUserDataService.UpdatePassword(cmd);
+            if (result.IsSuccesfull) return new RedirectToPageResult("ProfileView");
+            return BadRequest();
         }
     }
 }

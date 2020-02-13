@@ -34,6 +34,13 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return result;
         }
 
+        public async Task<Response> UpdatePassword(UpdatePasswordCommand cmd)
+        {
+            var endpoint = UrlUser + "ChangePassword/";
+            var result = await PutAsync(endpoint, cmd);
+            return result.IsSuccessStatusCode ? Response.Succes() : Response.Unsuccesfull();
+        }
+
         public async Task<Response> CreateUser(CreateUserCommand createUserCommand)
         {
             var response = await PostAsync<CreateUserCommand>(UrlUser, createUserCommand);

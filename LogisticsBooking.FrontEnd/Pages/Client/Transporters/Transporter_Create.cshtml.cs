@@ -34,7 +34,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             
         }
 
-        public async Task<ActionResult> OnPost(TransporterViewModel transporterViewModel)
+       /* public async Task<ActionResult> OnPost(TransporterViewModel transporterViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -68,6 +68,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
 
             return BadRequest();
-        }
+        }*/
     }
 }
