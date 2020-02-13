@@ -14,9 +14,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
     {
         private readonly IApplicationUserDataService _applicationUserDataService;
         public CreateUserCommand CreateUserCommand { get; set; }
-        [BindProperty] public List<SelectListItem> Roles { get; set; }
-        [TempData] public string Message { get; set; }
-        public bool MessageIsNull => !String.IsNullOrEmpty(Message);
         [BindProperty] public ListApplicationUserViewModels ApplicationUserViewModels { get; set; }
         [BindProperty] public bool OfficeRoleIsChecked { get; set; }
         [BindProperty] public bool WareHouseRoleIsChecked { get; set; }
@@ -47,20 +44,41 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
         public async Task<IActionResult> OnPostCreateAsync(CreateUserCommand createUserCommand)
         {
             var result = await _applicationUserDataService.CreateUser(createUserCommand);
-            if (result.IsSuccesfull) Message = "User created. Check email for confirmation link";
             return Page();
         }
 
-        public async Task OnPostUdateAsync(string OverviewName, string OverviewEmail, 
+        public async Task<IActionResult> OnPostUpdateAsync(string OverviewName, string OverviewEmail, 
             bool OverviewIsAdmin, bool OverviewIsWarehouse, bool OverviewIsOffice, 
             bool OverviewIsClient, bool OverviewIsTransporter, string UserIdView)
         {
-            var la = "";
+            var Roles = new List<string>();
+            var cmd = new UpdateUserWithRolesCommand();
+            cmd.ApplicationUserId = UserIdView;
+            
+            if (OverviewIsClient)Roles.Add("client");
+            if (OverviewIsOffice) Roles.Add("kontor");
+            if (OverviewIsTransporter) Roles.Add("transporter");
+            if (OverviewIsWarehouse) Roles.Add("lager");
+            if (OverviewIsAdmin) Roles.Add("admin");
+            
+            if (!string.IsNullOrWhiteSpace(OverviewName)) cmd.Name = OverviewName;
+            if (!string.IsNullOrWhiteSpace(OverviewEmail)) cmd.Email = OverviewEmail;
+            if (Roles.Count != 0) cmd.Roles = Roles;
+
+            var result = await _applicationUserDataService.UpdateUser(cmd); //TODO: Error handle
+            return new RedirectToPageResult("AdminOverview");
         }
 
-        public async Task OnPostDeleteAsync(string UserIdView)
+        public async Task<IActionResult> OnPostDeleteAsync(string UserIdView)
         {
-            var la = "";
+            var result = await _applicationUserDataService.DeleteUser(Guid.Parse(UserIdView));
+
+            if (result.IsSuccesfull)
+            {
+                return new RedirectToPageResult("AdminOverview");
+            }
+
+            return BadRequest();
         }
 
        /* public async Task<IActionResult> OnPostUpdateAsync(ApplicationUserViewModel LoggedInUser)
