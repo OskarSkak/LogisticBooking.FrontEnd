@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 {
-    public class ProfileViewModel : PageModel
+    public class AdminOverviewModel : PageModel
     {
         private readonly IApplicationUserDataService _applicationUserDataService;
         public CreateUserCommand CreateUserCommand { get; set; }
@@ -18,35 +18,29 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
         [TempData] public string Message { get; set; }
         public bool MessageIsNull => !String.IsNullOrEmpty(Message);
         [BindProperty] public ListApplicationUserViewModels ApplicationUserViewModels { get; set; }
-        [BindProperty] public ApplicationUserViewModel LoggedInUser { get; set; }
         [BindProperty] public bool OfficeRoleIsChecked { get; set; }
         [BindProperty] public bool WareHouseRoleIsChecked { get; set; }
         [BindProperty] public bool TransporterRoleIsChecked { get; set; }
         [BindProperty] public bool ClientRoleIsChecked { get; set; }
         [BindProperty] public bool AdminRoleIsChecked { get; set; } //TODO: Form check for admin - can be attacked
+        [BindProperty] public List<ApplicationUserWithRoleBoolsViewModel> BoolUsers { get; set; }
+        [BindProperty] public ApplicationUserWithRoleBoolsViewModel BoolUser { get; set; }
         
         
-        public ProfileViewModel(IApplicationUserDataService applicationUserDataService)
+        public AdminOverviewModel(IApplicationUserDataService applicationUserDataService)
         {
             _applicationUserDataService = applicationUserDataService;
-            ApplicationUserViewModels = _applicationUserDataService.GetAllUsers().Result;
-            LoggedInUser = new ApplicationUserViewModel();
         }
         
         public async Task OnGet()
         {
-            Roles = CreateSelectList();
-            //ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
-            var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            var LoggedInId = Guid.Parse(LoggedInIdString);
-            LoggedInUser = await _applicationUserDataService.GetUserById(new GetUserByIdCommand{Id = LoggedInId});
-            foreach (var role in LoggedInUser.ActiveRoles)
+            ApplicationUserViewModels = _applicationUserDataService.GetAllUsers().Result;
+            BoolUsers = new List<ApplicationUserWithRoleBoolsViewModel>();
+            BoolUser = new ApplicationUserWithRoleBoolsViewModel(); //TODO: Implement after List of roles added to create user cmd
+            
+            foreach (var user in ApplicationUserViewModels.ApplicationUserViewModels)
             {
-                if (role.Name.ToLower() == "kontor") OfficeRoleIsChecked = true;
-                if (role.Name.ToLower() == "lager") WareHouseRoleIsChecked = true;
-                if (role.Name.ToLower() == "transporter") TransporterRoleIsChecked = true;
-                if (role.Name.ToLower() == "client") ClientRoleIsChecked = true;
-                if (role.Name.ToLower() == "admin") AdminRoleIsChecked = true;
+                BoolUsers.Add(new ApplicationUserWithRoleBoolsViewModel(user));
             }
         }
 
@@ -57,7 +51,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdateAsync(ApplicationUserViewModel LoggedInUser)
+        public async Task OnPostUdateAsync(string OverviewName, string OverviewEmail, 
+            bool OverviewIsAdmin, bool OverviewIsWarehouse, bool OverviewIsOffice, 
+            bool OverviewIsClient, bool OverviewIsTransporter, string UserIdView)
+        {
+            var la = "";
+        }
+
+        public async Task OnPostDeleteAsync(string UserIdView)
+        {
+            var la = "";
+        }
+
+       /* public async Task<IActionResult> OnPostUpdateAsync(ApplicationUserViewModel LoggedInUser)
         {
             var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             
@@ -77,20 +83,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 
             var result = await _applicationUserDataService.UpdateUser(cmd); //TODO: Error handle
             return Page();
-        }
-        
-        public List<SelectListItem> CreateSelectList()
-        {
-            List<SelectListItem> roles = new List<SelectListItem>();
-
-            roles.AddRange(new List<SelectListItem>
-            {
-                new SelectListItem("Kontor", "kontor"),
-                new SelectListItem("Lager", "Lager"),
-                new SelectListItem("Transportør", "transporter")
-            });
-
-            return roles;
-        }
+        }*/
     }
 }
