@@ -66,17 +66,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Profile
             return Page();
         }
 
-        public async Task<IActionResult> OnPostPasswordAsync(string oldPass, string oldPassConfirm, string newPass)
+        public async Task<IActionResult> OnPostPasswordAsync(string oldPass, string newPassConfirm, string newPass)
         {
-            if (oldPass != oldPassConfirm || oldPass == null || newPass == null) return BadRequest();
+            if (newPass != newPassConfirm || oldPass == null || newPass == null) return BadRequest();
             var LoggedInIdString = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            var LoggedInId = Guid.Parse(LoggedInIdString);
-            var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand{Id = LoggedInId});
             var cmd = new UpdatePasswordCommand
             {
                 NewPass = newPass,
                 OldPass = oldPass,
-                User = user
+                UserId = LoggedInIdString
             };
             var result = await _applicationUserDataService.UpdatePassword(cmd);
             if (result.IsSuccesfull) return new RedirectToPageResult("ProfileView");

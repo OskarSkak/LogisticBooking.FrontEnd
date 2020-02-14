@@ -4,6 +4,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser
     {
         public string OldPass { get; set; }
         public string NewPass { get; set; }
-        public ApplicationUserViewModel User { get; set; }
+        public string UserId { get; set; }
     }
 }
