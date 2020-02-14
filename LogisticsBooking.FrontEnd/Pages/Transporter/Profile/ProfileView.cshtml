@@ -1,0 +1,153 @@
+@page
+@using Microsoft.AspNetCore.Localization
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Profile.ProfileViewModel
+
+@{
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+    var culture = CultureInfo.CurrentCulture.Name;
+    Layout = "_Layout_Transporter";
+    }
+
+<style>
+    .inner {
+        display: table;
+        margin: 0 auto;
+        width: 60%;
+    }
+    
+    .wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .firstDiv {
+        width: 40%;
+        float: left;
+    }
+    
+    .secondDiv {
+        width: 40%;
+        overflow: hidden;
+    }
+</style>
+
+<h1 align="center">Profil Indstillinger</h1>
+
+<div class="row">
+  
+    <div class="ml-3 col-xl-3">
+
+        <div class="list-group">
+            <button id="UpdateClick" type="button" class="list-group-item list-group-item-action">Opdater Brugerdata</button>
+            <button id="PasswordClick" type="button" class="list-group-item list-group-item-action">Opdater Password</button>
+        </div>
+
+    </div>
+    <div id="update" class="d col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opdater brugerdata</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    
+                    <div id="" class=" d d-flex justify-content-between col-xl-12">
+                        <form asp-page-handler="Update" style="width:100%">
+                            <div class="inner">
+                                <label >Navn</label>
+                                <input asp-for="LoggedInUser.Name" name="LoggedInUser.Name" type="text" class="form-control" value="@Model.LoggedInUser.Name"> <br/>
+                                <div class="form-group">
+                                    <label >Email</label>
+                                    <input asp-for="LoggedInUser.Email" name="LoggedInUser.Email" class="form-control" value="@Model.LoggedInUser.Email"> <br/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Profil type: </label>
+                                    <p>Transportør</p>
+                                </div>
+                            <input type="hidden" asp-for="LoggedInUser.ApplicationUserId" name="LoggedInUser.ApplicationUserId"/>
+                                <button type="submit" class="btn btn-primary">Opdater din brugerdata</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div id="password" class="d-none col-xl-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Opdater Password</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    
+                    <div id="" class=" d d-flex justify-content-between col-xl-12">
+                        <form asp-page-handler="Password" style="width:100%">
+                            <div class="inner">
+                                <label >Current Password</label>
+                                <input type="password" name="oldPass" class="form-control"> <br/>
+                                <label >New Password</label>
+                                <input type="password" name="newPass" class="form-control"> <br/>
+                                <label >Repeat New Password</label>
+                                <input type="password" name="newPassConfirm" class="form-control"> <br/>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                        </div>
+                    </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script>
+    $('#PasswordClick').on('click', function(){
+        $('.d').each(function(i, obj) {
+            $(this).addClass('d-none')
+           
+        });
+      
+        $('.active').each(function(i, obj) {
+                            $(this).removeClass('active')
+                          
+                        });
+        
+  
+      
+        $('#PasswordClick').addClass('active');
+         $('#password').addClass('d');
+        $('#password').removeClass('d-none');
+        
+    });
+    
+    
+    $('#UpdateClick').on('click', function(){
+            $('.d').each(function(i, obj) {
+                $(this).addClass('d-none')
+                 
+            });
+            
+            $('.active').each(function(i, obj) {
+                                $(this).removeClass('active')
+                              
+                            });
+            $('#UpdateClick').addClass('active');
+            $('#update').removeClass('d-none');
+             $('#update').addClass('d');
+            
+        });
+    
+        
+    
+    
+    
+    </script>
+}
