@@ -9,6 +9,33 @@
         <strong>@Model.ResponseMessage</strong> 
     </div>
 }
+<style>
+    #leftbox { 
+        float:left;
+        width:33%;
+    } 
+    #middlebox{ 
+        float:left;  
+        width:33%; 
+    } 
+    #rightbox{ 
+        float:right; 
+        width:33%; 
+    } 
+    
+    #leftbox45P { 
+        float:left;
+        width:45%;
+    } 
+    #middlebox10P{ 
+        float:left;  
+        width:10%; 
+    } 
+    #rightbox45P{ 
+        float:right; 
+        width:45%; 
+    }
+</style>
 
 <div class="py-5 text-center">
     <div class="container">
@@ -28,22 +55,57 @@
     </div>
 </div>
 
-@if (Model.SuppliersListView.Suppliers.Any())
-{
-    <div class="py-5" style="">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="list-group" style="">
-                        @foreach (var item in Model.SuppliersListView.Suppliers)
-                        {
-                            <text>
-                                <a asp-page="Supplier_Single" asp-route-id="@item.SupplierId" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
-                            </text>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="py-5">
+    <div class="container">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Booking tidspunkt</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.SuppliersListView.Suppliers)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="Supplier_Single" asp-route-id="@item.SupplierId" class="list-group-item-action">
+                            <div id="leftbox">
+                                <div>@item.Name</div>
+                                <div>@item.Email</div>
+                            </div>
+                            <div id="middlebox">
+                                @if (@item.Telephone == 0)
+                                {
+                                    <div>N/A</div>
+                                }
+                                @if (item.Telephone != 0)
+                                {
+                                    <div>@item.Telephone</div>
+                                }
+                                <div><p>  </p></div>
+                            </div>
+                            <div id="rightbox">
+                                <div id="leftbox45P">Start levering</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryStart.TimeOfDay</div>
+                                <div id="leftbox45P">Slut levering</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryEnd.TimeOfDay</div>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
     </div>
+</div>
+
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
 }
