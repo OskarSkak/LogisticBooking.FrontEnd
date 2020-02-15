@@ -241,7 +241,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);
             createBookingcommand.IntervalId = Guid.Parse(interval);
             createBookingcommand.TransporterId = Guid.Parse(currentLoggedInUserId);
-
+            
             var result = await _bookingDataService.CreateBooking(createBookingcommand);
 
             if (result.IsSuccesfull)
