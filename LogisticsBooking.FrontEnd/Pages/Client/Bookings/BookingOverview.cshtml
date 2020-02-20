@@ -1,13 +1,14 @@
 ﻿@page "{id?}"
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @using LogisticsBooking.FrontEnd.Services
+@using Microsoft.AspNetCore.Antiforgery
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<BookingOverviewModel> localizer
 @inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
-
+@inject IAntiforgery AntiForgery;
 
 @section Styles
 {
@@ -56,23 +57,23 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <form method="post" asp-page-handler="Update">
+                      
 
-                            <table id="example" class="table" width="100%">
+                            <table id="example" class="border-0 table table-bordered" width="100%">
                                 <thead>
                                 <tr>
                                     <th> </th>
-                                    <th class="bootbox-alert">Dato</th>
-                                    <th>ID</th>
-                                    <th>Paller</th>
-                                    <th>Navn</th>
-                                    <th>Kontakt</th>
-                                    <th>Port</th>
-                                    <th>AnkomstTid</th>
-                                    <th>Faktisk<br/>Ankomst</th>
-                                    <th>Start<br/>Læsning</th>
-                                    <th>Slut<br/>Læsning</th>
-                                    <th>Update</th>
+                                    <th class="border-none" style="font-size: 14px">Dato</th>
+                                    <th style="font-size: 14px">ID</th>
+                                    <th style="font-size: 14px">Paller</th>
+                                    <th style="font-size: 14px">Navn</th>
+                                    <th style="font-size: 14px">Kontakt</th>
+                                    <th style="font-size: 14px">Port</th>
+                                    <th style="font-size: 14px">Ankomst<br/>Tid</th>
+                                    <th style="font-size: 14px">Faktisk<br/>Ankomst</th>
+                                    <th style="font-size: 14px">Start<br/>Læsning</th>
+                                    <th style="font-size: 14px">Slut<br/>Læsning</th>
+                                    <th style="font-size: 14px">Update</th>
 
                                 </tr>
                                 </thead>
@@ -85,7 +86,7 @@
 
                             </table>
 
-                        </form>
+               
                     </div>
                 </div>
             </div>
@@ -112,10 +113,12 @@
           <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/da.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-        <script src="~/js/DateRingePicker.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script src="~/js/DateRingePicker.js"></script>
+<script> src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"</script>
         
 <script>
     
@@ -123,10 +126,16 @@
 
 
         
-        $(function () {
+
+$(function () {
+            $.fn.dataTable.moment( 'DD/MM/YYYY' );
        var table = $('#example').DataTable( {
-           "processing": true,
-           "destroy": true,
+           
+           "autoWidth": true,
+           
+            "columnDefs": [
+               { "width": "5%", "targets": 0 }
+             ],
            "serverSide": false,
                "ajax": {
                                "url": "BookingOverview?handler=Today",
@@ -154,7 +163,8 @@
                        "data": "bookingTime" , render: function(data ) {
                            return moment(data).format("DD/MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                        },
-                       width:"70px"
+                       width:"70px",
+                       
                    },
                    { "data": "externalId" },
                   
@@ -168,9 +178,11 @@
                        return moment(data).format("HH:mm")
                        
                    }},
-                   {"data" : "actualArrival" , render: function(data){
+                   {
+                   "data" : "actualArrival" , render: function(data){
                         return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
-                   } },
+                   },
+                    },
                                                                   
                    {"data" : "startLoading" , render: function(data){
                                                                     return '<input class="time form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
@@ -179,19 +191,58 @@
                                                                   return  ' <input  class="time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                                                              }},
                     {"data" : null , render: function(data){
-                                                                  return  '<Button  class=" btn btn-secondary"  >Rediger</button> </form> '
+                                                                  return  '<Button  class="btn-sm btn btn-secondary"  >Opdater</button> </form> '
                                                               }},
                    
                    
                ]
-           } );
+           } )
+           
+           
+           ;
        
      
      
-     $('#example tbody').on( 'click', 'button', function () {
-             var data = table.row( $(this).parents('tr') ).data();
-             alert( data[0] +"'s salary is: "+ data[ 5 ] );
-         } );
+      $('#example tbody').on( 'click', 'button', function (funсtion) {
+          UpdateTimeModel = {
+              Times : [],
+              Id : null
+          };
+          var data = table.row( $(this).parents('tr').find("input.form-control").each(function(e, f){
+         
+          UpdateTimeModel.Times.push(f.value);
+           }) );
+           var data = table.row( $(this).parents('tr') ).data();
+           UpdateTimeModel.Id = data.internalId;
+          var currentLocation = window.location;
+  
+          var location = currentLocation + '?handler=UpdateNew';
+            
+              $.ajax({
+                  type: "POST",
+          
+                  url: location,
+                  beforeSend: function(xhr) {
+                     xhr.setRequestHeader('RequestVerificationToken', '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken');
+                  },
+                  
+                  data: JSON.stringify(UpdateTimeModel),
+                  contentType: "application/json",
+                  dataType: "json",
+                  success: function(data) {
+                      console.log("succes")
+                      location.reload();
+          
+                  },
+                  failure: function(data) {
+                      console.log("fail")
+                      location.reload();
+          
+                  }
+              });
+           
+                         
+           } );
             
     // Add event listener for opening and closing details
          $('#example tbody').on('click', 'td.details-control', function () {
@@ -308,9 +359,13 @@ $(function() {
             $('.SubmitButton').off('click');
             $('#start').val(picker.startDate.format('MM/DD/YYYY'));
             $('#end').val(picker.endDate.format('MM/DD/YYYY'));
+            
+              $.fn.dataTable.moment('DD/MM/YYYY');
+           
             var table = $('#example').DataTable( {
                 "processing": true,
                 "serverSide": false,
+                ordering: true,
                 "ajax": {
                     "url": "BookingOverview?handler=custom",
                     "type": "GET",
@@ -339,12 +394,11 @@ $(function() {
                     },
                     {
                         "data": "bookingTime" , render: function(data ) {
-                            return moment(data).format(" DD/MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                            return moment(data).format("DD/MM/YYYY") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                         },
-                        width:"70px",
-                        "type": 'datetime-moment',
-                        sort: 'bookingTime',
-                        orderData: [1, 7]
+                        
+                        width:"70px"
+                 
                     },
                     { "data": "externalId" },
         
@@ -355,8 +409,9 @@ $(function() {
                     {"data" : "interval.startTime" , render: function(data) {
                            return moment(data).format("HH:mm")
                         },
-                        orderData: [1, 7],
-                        "type": 'datetime-moment',
+                        orderData: [1, 7]
+                        
+                        
                         },
                     {"data" : "actualArrival" , render: function(data){
                             return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
@@ -369,7 +424,7 @@ $(function() {
                             return  ' <input  class=" time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                         }},
                     {"data" : null , render: function(data){
-                            return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
+                            return  '<Button  class=" SubmitButton btn btn-secondary"  >Opdater</button> </form> '
                         }},
         
         
@@ -377,7 +432,50 @@ $(function() {
             } );
         
            
-        
+             
+     
+      $('#example tbody').on( 'click', 'button', function (funсtion) {
+          console.log()
+          UpdateTimeModel = {
+              Times : [],
+              Id : null
+          };
+          var data = table.row( $(this).parents('tr').find("input.form-control").each(function(e, f){
+         console.log(f.value);
+          UpdateTimeModel.Times.push(f.value);
+           }) );
+           var data = table.row( $(this).parents('tr') ).data();
+           UpdateTimeModel.Id = data.internalId;
+          var currentLocation = window.location;
+  
+          var location = currentLocation + '?handler=UpdateNew';
+            
+              $.ajax({
+                  type: "POST",
+          
+                  url: location,
+                  beforeSend: function(xhr) {
+                     xhr.setRequestHeader('RequestVerificationToken', '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken');
+                  },
+                  
+                  data: JSON.stringify(UpdateTimeModel),
+                  contentType: "application/json",
+                  dataType: "json",
+                  success: function(data) {
+                      console.log("succes")
+                      location.reload();
+          
+                  },
+                  failure: function(data) {
+                      console.log("fail")
+                      location.reload();
+          
+                  }
+              });
+           
+                         
+           } );
+            
             // Add event listener for opening and closing details
             $('#example tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
@@ -410,59 +508,62 @@ $(function() {
     
 });
         
-        
-        (function (factory) {
-            if (typeof define === "function" && define.amd) {
-                define(["jquery", "moment", "datatables.net"], factory);
-            } else {
-                factory(jQuery, moment);
-            }
-        }(function ($, moment) {
-         
-        $.fn.dataTable.moment = function ( format, locale, reverseEmpties ) {
-            var types = $.fn.dataTable.ext.type;
-         
-            // Add type detection
-            types.detect.unshift( function ( d ) {
-                if ( d ) {
-                    // Strip HTML tags and newline characters if possible
-                    if ( d.replace ) {
-                        d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
-                    }
-         
-                    // Strip out surrounding white space
-                    d = $.trim( d );
-                }
-         
-                // Null and empty values are acceptable
-                if ( d === '' || d === null ) {
-                    return 'moment-'+format;
-                }
-         
-                return moment( d, format, locale, true ).isValid() ?
-                    'moment-'+format :
-                    null;
-            } );
-         
-            // Add sorting method - use an integer for the sorting
-            types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
-                if ( d ) {
-                    // Strip HTML tags and newline characters if possible
-                    if ( d.replace ) {
-                        d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
-                    }
-         
-                    // Strip out surrounding white space
-                    d = $.trim( d );
-                }
-                 
-                return !moment(d, format, locale, true).isValid() ?
-                    (reverseEmpties ? -Infinity : Infinity) :
-                    parseInt( moment( d, format, locale, true ).format( 'x' ), 10 );
-            };
-        };
-         
-        }));
+      // UMD
+      (function( factory ) {
+          "use strict";
+       
+          if ( typeof define === 'function' && define.amd ) {
+              // AMD
+              define( ['jquery'], function ( $ ) {
+                  return factory( $, window, document );
+              } );
+          }
+          else if ( typeof exports === 'object' ) {
+              // CommonJS
+              module.exports = function (root, $) {
+                  if ( ! root ) {
+                      root = window;
+                  }
+       
+                  if ( ! $ ) {
+                      $ = typeof window !== 'undefined' ?
+                          require('jquery') :
+                          require('jquery')( root );
+                  }
+       
+                  return factory( $, root, root.document );
+              };
+          }
+          else {
+              // Browser
+              factory( jQuery, window, document );
+          }
+      }
+      (function( $, window, document ) {
+       
+       
+      $.fn.dataTable.render.moment = function ( from, to, locale ) {
+          // Argument shifting
+          if ( arguments.length === 1 ) {
+              locale = 'en';
+              to = from;
+              from = 'YYYY-MM-DD';
+          }
+          else if ( arguments.length === 2 ) {
+              locale = 'en';
+          }
+       
+          return function ( d, type, row ) {
+              var m = window.moment( d, from, locale, true );
+       
+              // Order and type get a number value from Moment, everything else
+              // sees the rendered value
+              return m.format( type === 'sort' || type === 'type' ? 'x' : to );
+          };
+      };
+       
+       
+      }));
 
         
     

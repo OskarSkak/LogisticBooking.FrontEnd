@@ -40,7 +40,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center"  asp-page="/Client/Dashboard">
          <div class="sidebar-brand-text font-weight-bold mx-3">LT</div>
       </a>
 
@@ -114,7 +114,7 @@
             <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/InactiveBooking/InactiveBookingOverview">Inaktive Bookings</a>
             
             
-            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
+            
             
           </div>
         </div>
@@ -225,10 +225,15 @@
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Settings
                 </a>
-                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/admin/AdminOverview">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Admin
-                </a>
+                @if (User.IsInRole("admin"))
+                {
+                  <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/admin/AdminOverview">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Admin
+                  </a>
+                  
+                }
+                
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

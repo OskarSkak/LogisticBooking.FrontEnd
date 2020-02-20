@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking.CommandModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.CombinedModels.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Dashboard;
 using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.CommandModels;
@@ -23,6 +24,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
+using LogisticsBooking.FrontEnd.DataServices.Models.Validation;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using OrderViewModel = LogisticsBooking.FrontEnd.DataServices.Models.OrderViewModel;
 
@@ -36,6 +38,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> UpdateBooking(UpdateBookingCommand booking);
         Task<Response> DeleteBooking(Guid id);
         Task<BookingsListViewModel> GetBookingsInbetweenDates(DateTime from, DateTime to);
+        Task<Response> UpdateArrivalInformations(UpdateArrivalInformationsCommand command);
     }
 
     public interface IInactiveBookingDataService
@@ -60,6 +63,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> CreateSchedule(CreateScheduleCommand schedule);
         
         Task<Response> CreateScheduleFromMAster(CreateScheduleFromMasterCommand schedule);
+
+        Task<SchedulesListViewModel> GenerateScheduleFromCurrentBooking(GenerateScheduleForNewBookingCommand command);
         
         Task<Response> CreateScheduleFromSchedule(CreateScheduleFromActiveSchedule schedule);
         Task<SchedulesListViewModel> GetSchedules();
@@ -153,11 +158,21 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IDashboardDataService
     {
         Task<DashboardViewModel> GetDashboard();
+        Task<TransporterDashboardViewModel> GetTransporterDashboard(Guid id);
     }
 
     public interface ITransporterBookingsDataService
     {
         Task<BookingsListViewModel> GetOldBookingsByTransporter(Guid TransporterId);
         Task<BookingsListViewModel> GetBookingsByTransporter(Guid TransporterId);
+    }
+
+    public interface IBookingValidationDataService
+    {
+        Task<ValidationMessage> CheckIfDateIsAllowed(BookingDayValidationCommand bookingDayValidationCommand);
+
+        Task<ValidationMessage> CheckIfSuppliersOverlap(
+            BookingSuppliersOverlapValidationCommand bookingSuppliersOverlapValidationCommand);
+
     }
 }

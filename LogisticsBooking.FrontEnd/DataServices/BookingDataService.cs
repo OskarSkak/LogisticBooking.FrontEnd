@@ -8,6 +8,7 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking.CommandModels;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -52,6 +53,25 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var response = await GetAsync(endpoint);
             var result = await TryReadAsync<BookingsListViewModel>(response);
             return result;
+        }
+
+        public async Task<Response> UpdateArrivalInformations(UpdateArrivalInformationsCommand command)
+        {
+            
+            var endpoint = baseurl + "updatearrival";   
+        
+            var response = await PutAsync(endpoint, command);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(response,errorMsg);
+                }
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
+            }
+            return Response.Succes();
         }
 
         public async Task<Response> UpdateBooking(UpdateBookingCommand booking)

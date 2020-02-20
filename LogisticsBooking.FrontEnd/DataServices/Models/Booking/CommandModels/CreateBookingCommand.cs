@@ -20,5 +20,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public Guid IntervalId { get; set; }
         
         public string InOut { get; set; }
+        public bool IsValidated { get; set; }
     }
 }

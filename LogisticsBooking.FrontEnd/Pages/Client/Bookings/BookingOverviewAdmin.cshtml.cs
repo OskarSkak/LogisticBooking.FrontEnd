@@ -22,7 +22,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
 
         [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } 
-
+        [BindProperty]
+        public DateTime Start { get; set; }
+        [BindProperty]
+        public DateTime End { get; set; }
 
         public BookingOverviewAdminModel(IBookingDataService bookingDataService)
         {
@@ -59,6 +62,18 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         {
             Console.WriteLine(id);
             return new RedirectToPageResult("BookingSingle", new {id = id});
+        }
+        
+        public async Task<IActionResult> OnGetCustom(DateTime start, DateTime end)
+        {
+            Start = start;
+            End = end;
+
+            var bookings = await _bookingDataService.GetBookingsInbetweenDates(start,end);
+
+            var json = new JsonResult(bookings);
+
+            return json;
         }
     }
 }

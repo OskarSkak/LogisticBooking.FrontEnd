@@ -27,7 +27,7 @@
                     <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
                     <form method="post" class="text-left">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookTime">
+                            <label for="form18">Leverings Dato</label> <input type="text" asp-for="Booking.BookingTime" class="date form-control" id="form18" name="ViewBookTime">
                         </div>
                         <div class="form-group">
                             <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets">
@@ -52,9 +52,9 @@
                         </div>
                         <div class="row d-flex justify-content-end">
                              <input  asp-for="Booking.EndLoading" type="hidden" class="form-control m-2" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
-                             <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" value="Opdater">Opdater</button>
+                             <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-primary m-2" >Opdater</button>
                              
-                             <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-primary m-2">Slet</div>
+                             <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-danger m-2">Slet</div>
                              
                         </div>
                        
@@ -130,9 +130,9 @@
             <div class="modal-footer">
                 
                 <form method="post">
-                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">Bekræft</button>
+                    <button asp-page-handler="delete" type="submit" class="btn btn-danger">Bekræft</button>
                 </form>
-                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Luk</button>
             </div>
         </div>
     </div>
@@ -140,6 +140,8 @@
 
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script src="~/js/DateRingePicker.js"></script>
 
 
     <script>

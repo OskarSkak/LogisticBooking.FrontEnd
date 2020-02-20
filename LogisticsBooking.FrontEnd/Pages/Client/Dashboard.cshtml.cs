@@ -35,6 +35,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         [BindProperty]
         public DashboardViewModel DashboardViewModel { get; set; }
         
+        [TempData]
+        public String Message { get; set; }
+        
+        public bool ShowResponseMessage => !String.IsNullOrEmpty(Message);
+        
         [BindProperty]
         public int ShowPercent { get; set; }
 

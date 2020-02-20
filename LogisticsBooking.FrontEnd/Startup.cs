@@ -205,7 +205,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IDashboardDataService, DashboardDataservice>();
             services.AddTransient<IInactiveBookingDataService, InactiveBookingsDataService>();
             services.AddSingleton<CommonLocalizationService>();
-            
+            services.AddTransient<IBookingValidationDataService, BookingValidationDataService>();
             
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

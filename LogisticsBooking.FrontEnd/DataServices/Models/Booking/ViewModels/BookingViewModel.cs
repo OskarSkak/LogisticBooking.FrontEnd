@@ -55,8 +55,12 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         
         public IntervalViewModel Interval { get; set; }
         
+        public bool IsValidated { get; set; }
+        
         public void CreateMappings(Profile configuration)
         {
+            
+
             configuration.CreateMap<BookingViewModel, CreateBookingCommand>()
                 .ForMember(  dest => dest.ExternalId,
                     opt => opt.MapFrom(src => src.ExternalId))
