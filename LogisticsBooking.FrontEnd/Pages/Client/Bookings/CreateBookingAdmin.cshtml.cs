@@ -13,6 +13,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using LogisticsBooking.FrontEnd.Documents;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -75,7 +76,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         public async Task<IActionResult> OnPostCreate(string TransporterId, BookingViewModel Booking)
         {
             Booking.TransporterId = Guid.Parse(TransporterId);
-            Booking.ExternalId  = utilBookingDataService.GetBookingNumber().Result.bookingid;
+            var bookingNumber = await utilBookingDataService.GetBookingNumber();
+            Booking.ExternalId = bookingNumber.bookingid;
             var i = 1;
             foreach (var order in Booking.OrdersListViewModel)
             {
@@ -83,8 +85,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             }
 
             var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            TempData.Set(id, Booking);
-            return new RedirectToPageResult("select_time");
+            
+            HttpContext.Session.SetObject(id, Booking);
+            
+            return new RedirectToPageResult("select_timeAdmin");
             /*CreateBookingCommand = new CreateBookingCommand
             {
                 DeliveryDate = Booking.BookingTime, 

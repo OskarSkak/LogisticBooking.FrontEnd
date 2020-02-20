@@ -15,7 +15,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="Booking.BookingTime">
+                            <label for="form18">Leverings Dato</label> <input  class="date form-control" id="form18" name="Booking.BookingTime">
                         </div>
                         <div class="form-group">
                             <label for="form18">Transportør &nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -55,7 +55,7 @@
                                 <label for="form18">Indgående/Udgående</label> <input asp-for="Booking.OrdersListViewModel[0].InOut" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].InOut">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Ordre nummer</label> <input asp-for="Booking.OrdersListViewModel[0].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].OrderNumber">
+                                <label for="form18">Reference nummer</label> <input asp-for="Booking.OrdersListViewModel[0].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].OrderNumber">
                             </div>
                             <div class="form-group">
                                 <label for="form18">Totalt antal paller</label> <input asp-for="Booking.OrdersListViewModel[0].TotalPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].TotalPallets">
@@ -114,7 +114,8 @@
 
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="~/js/DateRingePicker.js"></script>
 
     <script>
         $(function () {

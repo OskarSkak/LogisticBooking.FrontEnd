@@ -24,10 +24,25 @@ $(function() {
 $(function() {
     $("input.date").daterangepicker({
         singleDatePicker: true,
-        startDate: moment().startOf('hour'),
+        "showISOWeekNumbers": true,
+        startDate: moment().format("DD/MM/YYY"),
+        locale:{
+            format: "DD/MM/YYY",
+            daysOfWeek: [
+                "Sø",
+                "Ma",
+                "Ti",
+                "On",
+                "To",
+                "Fr",
+                "Lø"
+            ],
+            "firstDay": 1
+        },
         endDate: moment().startOf('hour').add(32, 'hour'),
         showDropdowns: true,
         minYear: 1901,
+        setDate: new Date(),
         maxYear: new Date().getFullYear()+1
     });
     $("input.date").on('apply.daterangepicker', function(ev, picker) {

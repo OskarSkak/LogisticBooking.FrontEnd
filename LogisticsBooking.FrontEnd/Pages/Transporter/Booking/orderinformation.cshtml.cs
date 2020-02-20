@@ -9,6 +9,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
+using LogisticsBooking.FrontEnd.DataServices.Models.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,10 +19,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class orderinformation : PageModel 
     {
-        private readonly ISupplierDataService _supplierDataService;
-        private readonly IUtilBookingDataService _utilBookingDataService;
-
-
+        
+        /*************************************************************** PROPERTIES **************************************************************/
+        
+        
         [BindProperty]
         public BookingViewModel BookingViewModel { get; set; }
         
@@ -44,16 +45,25 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public bool ShowOrderMessage { get; set; }
         
-        public bool IsFirstOrder => !BookingViewModel.OrdersListViewModel.Any();
+        private bool IsFirstOrder => !BookingViewModel.OrdersListViewModel.Any();
         
+        
+        private readonly ISupplierDataService _supplierDataService;
+        private readonly IUtilBookingDataService _utilBookingDataService;
+        private readonly IBookingValidationDataService _bookingValidationDataService;
 
-       
-
-        public orderinformation(ISupplierDataService supplierDataService , IUtilBookingDataService utilBookingDataService)
+        
+        /*************************************************************** CONSTRUCTOR **************************************************************/
+        
+        public orderinformation(ISupplierDataService supplierDataService , IUtilBookingDataService utilBookingDataService , IBookingValidationDataService bookingValidationDataService)
         {
             _supplierDataService = supplierDataService;
             _utilBookingDataService = utilBookingDataService;
+            _bookingValidationDataService = bookingValidationDataService;
         }
+        
+        /*************************************************************** CONTROLLER METHODS **************************************************************/
+        
         public async Task<IActionResult> OnGetAsync()
         {
             await GenerateBookingViewModel();
@@ -61,78 +71,49 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         }
 
+        /**
+         * When a user adds a order to the booking this controller is called
+         */
         public async Task<IActionResult> OnPostCreateOrderAsync(OrderViewModel orderViewModel )
         {
-
-            // We have to remove totalpallets form the modelstate in order to check if the state is valid, because totalpallets is being carried over from last page
-            ModelState.Remove("TotalPallets");
-            if (!ModelState.IsValid)
+            if (!await ModelIsValid())
             {
-                var result = await GenerateBookingViewModel();
-                if (!result)
-                {
-                    return new RedirectToPageResult("/Transporter/Booking/BookOrder");
-                }
-                ShowOrderMessage = true;
-                OrderMessage = "Der var en fejl på ordren, klik på opret ordre for at se hvilke.";
-                return Page();
+                return Page();  
             }
-       
-            // Gets currenr BookingModel from session
+            
             BookingViewModel = GetBookingViewModelFromSession();
-
-            // If it is first order, the supplier overlap check isnt neccesary'
+            
+            
             if (IsFirstOrder)
             {
                 AddOrderToBookingViewModel(orderViewModel, BookingViewModel);
-                IsBookingAllowed = true;
             }
             else
             {
-                
-                if (await CheckIfSupplierTimeOverlap(BookingViewModel, orderViewModel))
-                {
-                    AddOrderToBookingViewModel(orderViewModel, BookingViewModel);
-                    IsBookingAllowed = true;
-                }
-                else
-                {
-                    // If the suppliers doesnt overlap, they cant be on the same booking, therefore set bookingAllowed to false and show error message
-                    IsBookingAllowed = false;
-                    SetBookingViewModelToSession(BookingViewModel);
-                    Message = "Det er ikke muligt at booke de kundder på samme ordre";
-                }
+               await AddOrderToBookingViewModelWithCheck(orderViewModel , BookingViewModel);
+               
             }
+            
             
             SetBookingViewModelToSession(BookingViewModel);
             return new RedirectToPageResult("orderinformation");
 
         }
-
         
         public IActionResult OnPostDelete(OrderViewModel orderViewModel)
         {
-            var currentBookingViewModel = GetBookingViewModelFromSession();
-
-            RemoveOrderViewModelFromBookingViewModel(currentBookingViewModel , orderViewModel.ExternalId);
-            
-            SetBookingViewModelToSession(currentBookingViewModel);
-            
-            
-            // Has to decrease the current order id for the next order
-            var currentOrderId = GetCurrentOrderId();
-            SetCurrentOrderId(--currentOrderId);
-            
+            RemoveOrderViewModelFromBookingViewModel(orderViewModel.ExternalId);
             return new RedirectToPageResult("");
         }
         
-
+        
         public IActionResult OnPostEditOrder(OrderViewModel orderViewModel , string comment)
         {
             ModelState.Remove("TotalPallets");
 
             if (!ModelState.IsValid)
             {
+                
                 return new RedirectToPageResult("");
             }
 
@@ -143,12 +124,49 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             EditOrderViewModel(currentBookingViewModel , orderViewModel );
             
             SetBookingViewModelToSession(currentBookingViewModel);
-            
-            
-            
+
             return new RedirectToPageResult("");
   
         }
+
+        
+        
+        /*************************************************************** INTERNAL METHODS **************************************************************/
+
+        private async Task<bool> ModelIsValid()
+        {
+            ModelState.Remove("TotalPallets");
+            if (!ModelState.IsValid)
+            {
+                var result = await GenerateBookingViewModel();
+                if (!result)
+                {
+                    return false;
+                }
+                ShowOrderMessage = true;
+                OrderMessage = "Der var en fejl på ordren, klik på opret ordre for at se hvilke.";
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task AddOrderToBookingViewModelWithCheck(OrderViewModel orderViewModel, BookingViewModel bookingViewModel)
+        {
+            if (await IfSupplierTimeOverlap(BookingViewModel, orderViewModel))
+            {
+                AddOrderToBookingViewModel(orderViewModel, BookingViewModel);
+            }
+            else
+            {
+                // If the suppliers doesnt overlap, they cant be on the same booking, therefore set bookingAllowed to false and show error message
+                IsBookingAllowed = false;
+                SetBookingViewModelToSession(BookingViewModel);
+                Message = "Det er ikke muligt at booke de kundder på samme ordre";
+            }
+        }
+        
         
         /**
          * Add a order to the booking
@@ -178,10 +196,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                
 
             });
-
-
             // Has to increment the orderId for the next order
             SetCurrentOrderId(++orderId);
+            IsBookingAllowed = true;
         }
         
         
@@ -189,33 +206,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
          * Method to check if two suplliers is in the same time range
          * return false if they are not in the same time range 
          */
-        private async Task<bool> CheckIfSupplierTimeOverlap(BookingViewModel bookingViewModel , OrderViewModel orderViewModel)
+        private async Task<bool> IfSupplierTimeOverlap(BookingViewModel bookingViewModel , OrderViewModel orderViewModel)
         {
-            var orderViewModelsInCurrentBooking = new List<SupplierViewModel>();
-            
-            foreach (var order in bookingViewModel.OrdersListViewModel)
-            {
-                orderViewModelsInCurrentBooking.Add(await _supplierDataService.GetSupplierById(order.SupplierViewModel.SupplierId));
-            }
-            
-            var SupplierTryingToBook = await _supplierDataService.GetSupplierById(orderViewModel.SupplierViewModel.SupplierId);
 
-            orderViewModelsInCurrentBooking.OrderBy(x => x.DeliveryStart);
+            var response = await _bookingValidationDataService.CheckIfSuppliersOverlap(
+                new BookingSuppliersOverlapValidationCommand
+                    {BookingViewModel = bookingViewModel, OrderViewModel = orderViewModel});
 
-            bool overlap = true;
-            foreach (var supplier in orderViewModelsInCurrentBooking)
-            {
-                if (!Overlap(SupplierTryingToBook, supplier))
-                {
-                    overlap = false;
-                    break;
-                }
-            }
-
-            return overlap;
-            
-            
-            
+            return response.IsSuccess;
         }
 
 
@@ -237,7 +235,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private string GetLoggedInUserId()
         {
             return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            
         }
         
         
@@ -252,20 +249,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             }
         }
 
-        
-        /**
-         * Return true if a supplier overlaps with another supplier
-         */
-        private bool Overlap(SupplierViewModel supplierViewModelTryingToBook,
-            SupplierViewModel supplierViewModel)
-        {
-            TimeSpan start = supplierViewModel.DeliveryStart.TimeOfDay; // 10 PM
-            TimeSpan end = supplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
-            TimeSpan start1 = supplierViewModelTryingToBook.DeliveryStart.TimeOfDay;
-            TimeSpan end1 = supplierViewModelTryingToBook.DeliveryEnd.TimeOfDay;
-
-            return TimeUtility.IsOverlapping(start, end, start1, end1);
-        }
         
         /**
          * Gets the current order id from the session
@@ -300,27 +283,37 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             order.TotalPallets = orderViewModel.TotalPallets;
             order.BottomPallets = orderViewModel.BottomPallets;
             order.InOut = orderViewModel.InOut;
-
-
+            
         }
         
 
         /**
          * The method removes a order from the booking with the specific ID
          */
-        private void RemoveOrderViewModelFromBookingViewModel(BookingViewModel bookingViewModel, string orderId)
+        private void RemoveOrderViewModelFromBookingViewModel( string orderId)
         {
+            var currentBookingViewModel = GetBookingViewModelFromSession();
 
-            var orderViewModel = bookingViewModel.OrdersListViewModel.FirstOrDefault(x => x.ExternalId.Equals(orderId));
+            var orderViewModel = currentBookingViewModel.OrdersListViewModel.FirstOrDefault(x => x.ExternalId.Equals(orderId));
 
-            bookingViewModel.OrdersListViewModel.Remove(orderViewModel);
+            currentBookingViewModel.OrdersListViewModel.Remove(orderViewModel);
+            
+            SetBookingViewModelToSession(currentBookingViewModel);
+            // Has to decrease the current order id for the next order
+            
+            UpdateOrderId();
+            
+            
 
         }
 
-        /**
-         * Iterate every order and counts total pallets, and updates the booking with correct numers.
-         * The method is run on each refresh
-         */
+        private void UpdateOrderId()
+        {
+            var currentOrderId = GetCurrentOrderId();
+            SetCurrentOrderId(--currentOrderId);
+        }
+
+
         private void UpdateTotalPallets(BookingViewModel bookingViewModel)
         {
             
@@ -346,7 +339,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
          */
         private async Task<bool> GenerateBookingViewModel()
         {
-            
+             
             BookingViewModel = GetBookingViewModelFromSession();
             if (!BookingViewModel.SuppliersListViewModel.Suppliers.Any())
             {

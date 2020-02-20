@@ -12,12 +12,14 @@ using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
+using LogisticsBooking.FrontEnd.DataServices.Utilities;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
+namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
-    public class select_time : PageModel
+    public class select_timeAdmin : PageModel
     {
         private readonly IBookingDataService _bookingDataService;
         private readonly IScheduleDataService _scheduleDataService;
@@ -32,10 +34,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         [TempData]
         public string ErrorMessage { get; set; }
+        
+        [TempData]
+        public string Message { get; set; }
 
         public bool ShowErrorMessage => !String.IsNullOrEmpty(ErrorMessage);
 
-        public select_time(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService , IMapper mapper , IMasterScheduleDataService masterScheduleDataService)
+        public select_timeAdmin(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService , IMapper mapper , IMasterScheduleDataService masterScheduleDataService)
         {
             _bookingDataService = bookingDataService;
             _scheduleDataService = scheduleDataService;
@@ -45,61 +50,48 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         public async Task<IActionResult> OnGetAsync()
         {
-            var currentLoggedInUserId = GetLoggedInUserId();
-
-            // Get the current booking View Model from the session created at previous page
-            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
-
+            var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
+            
+            // Get the schedule that match the booking. (Chech has already been made at the first page)
+            
             
             // remove the intervals that does not overlap with the suppliers time range. 
             // It is only possible to book a time with that match the selected suppliers on the orders. 
 
+            SchedulesListViewModel =  await _scheduleDataService.GenerateScheduleFromCurrentBooking(new GenerateScheduleForNewBookingCommand{BookingTime = currentBooking.BookingTime, SupplierViewModels = currentBooking.SuppliersListViewModel});
 
             
-            // USE THIS
-            SchedulesListViewModel =  await _scheduleDataService.GenerateScheduleFromCurrentBooking(new GenerateScheduleForNewBookingCommand{BookingTime = currentBooking.BookingTime, SupplierViewModels = currentBooking.SuppliersListViewModel});
-            
-            
+
             return Page();
             
         }
 
-        
-
-
-        
         public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
         {
-            var currentLoggedInUserId = GetLoggedInUserId();
-
-            // Get the current booking View Model from the session created at previous page
+            var currentLoggedInUserId = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
-            
 
             var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);
             createBookingcommand.IntervalId = Guid.Parse(interval);
-            createBookingcommand.TransporterId = Guid.Parse(currentLoggedInUserId);
+            createBookingcommand.TransporterId = currentBooking.TransporterId;
             createBookingcommand.IsValidated = true;
             var result = await _bookingDataService.CreateBooking(createBookingcommand);
 
             if (result.IsSuccesfull)
             {
-                return RedirectToPage("confirm"); 
+                Message = "Bookingen er oprettet";
+                return new RedirectToPageResult("/Client/Dashboard"); 
             }
 
             ErrorMessage = "Der skete en fejl, prøv igen";
             return new RedirectToPageResult("");
-        }
-        
-        /**
-         * gets the current logged in user
-         */
-        private string GetLoggedInUserId()
-        {
-            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            
+
             
         }
-
-
+        
+    
+       
     }
 }

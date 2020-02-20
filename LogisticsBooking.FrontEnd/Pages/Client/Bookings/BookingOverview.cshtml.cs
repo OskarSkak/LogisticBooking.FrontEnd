@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Itenso.TimePeriod;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking.CommandModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
@@ -16,6 +18,12 @@ using Microsoft.Extensions.Logging;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
+    
+    public class UpdateTimeModel
+    {
+        public Guid Id { get; set; }
+        public List<TimeSpan> Times { get; set; }
+    }
     public class BookingOverviewModel : PageModel
     {
         [BindProperty] 
@@ -137,6 +145,27 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             return new RedirectToPageResult("BookingOverview");
         }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostUpdateNew([FromBody] UpdateTimeModel updateTimeModel)
+        {
+            var bookingToUpdate = await bookingDataService.GetBookingById(updateTimeModel.Id);
+            UpdateArrivalInformationsCommand updateArrivalInformationsCommand = new UpdateArrivalInformationsCommand();
+            AddTimesToBooking(updateArrivalInformationsCommand, updateTimeModel);
+            updateArrivalInformationsCommand.InternalId = updateTimeModel.Id;
+            var response = await bookingDataService.UpdateArrivalInformations(updateArrivalInformationsCommand);
+            return new ObjectResult(HttpStatusCode.OK);
+        }
+
+        private void AddTimesToBooking(UpdateArrivalInformationsCommand bookingToUpdate, UpdateTimeModel updateTimeModel)
+        {
+            if (updateTimeModel.Times.Count != 3) return;
+            bookingToUpdate.ActualArrival = new DateTime(bookingToUpdate.ActualArrival.Year , bookingToUpdate.ActualArrival.Month , bookingToUpdate.ActualArrival.Day , updateTimeModel.Times[0].Hours ,updateTimeModel.Times[0].Minutes , updateTimeModel.Times[0].Seconds  );
+            bookingToUpdate.StartLoading = new DateTime(bookingToUpdate.StartLoading.Year , bookingToUpdate.StartLoading.Month , bookingToUpdate.StartLoading.Day , updateTimeModel.Times[1].Hours ,updateTimeModel.Times[1].Minutes , updateTimeModel.Times[1].Seconds );
+            bookingToUpdate.EndLoading = new DateTime(bookingToUpdate.EndLoading.Year , bookingToUpdate.EndLoading.Month , bookingToUpdate.EndLoading.Day , updateTimeModel.Times[2].Hours ,updateTimeModel.Times[2].Minutes , updateTimeModel.Times[2].Seconds );
+
+        }
+
 
         private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
         {

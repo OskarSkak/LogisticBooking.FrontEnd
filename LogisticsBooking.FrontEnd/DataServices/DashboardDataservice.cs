@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
@@ -22,6 +23,15 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             var response = await GetAsync(baseurl);
             var result = await TryReadAsync<DashboardViewModel>(response);
+
+            return result;
+        }
+
+        public async Task<TransporterDashboardViewModel> GetTransporterDashboard(Guid id)
+        {
+            var endpoint = baseurl + "transporters/" + id;
+            var response = await GetAsync(endpoint);
+            var result = await TryReadAsync<TransporterDashboardViewModel>(response);
 
             return result;
         }

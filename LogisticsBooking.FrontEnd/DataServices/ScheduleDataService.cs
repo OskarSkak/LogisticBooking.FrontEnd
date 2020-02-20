@@ -51,6 +51,22 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 return new Response(false);
             }
             
+            public async Task<SchedulesListViewModel> GenerateScheduleFromCurrentBooking(GenerateScheduleForNewBookingCommand command)
+            {
+                var endpoint = baseurl + "generate";
+                var response = await PostAsync<GenerateScheduleForNewBookingCommand>(endpoint, command);
+
+            
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await TryReadAsync<SchedulesListViewModel>(response);
+
+                    return result;
+                }
+
+                return null;
+            }
+            
             public async Task<Response> CreateScheduleFromSchedule(CreateScheduleFromActiveSchedule schedule)
             {
                 var endpoint = baseurl + "schedule";
