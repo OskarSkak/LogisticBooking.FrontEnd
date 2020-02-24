@@ -18,6 +18,10 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             {
                 return new  RedirectToPageResult("/Client/Dashboard");
             }  
+            if (User.HasClaim("role", "superadmin"))
+            {
+                return new  RedirectToPageResult("/superadmin/superadmin");
+            }  
             if (User.HasClaim("role", "kontor"))
             {
                 return new  RedirectToPageResult("/Client/Dashboard");

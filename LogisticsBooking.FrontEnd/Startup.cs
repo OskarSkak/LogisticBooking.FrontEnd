@@ -58,7 +58,7 @@ namespace LogisticsBooking.FrontEnd
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
             Log.Logger = new LoggerConfiguration()
-                //.Enrich.WithCorrelationId()
+                .Enrich.WithCorrelationId()
                 //.Enrich.WithHttpContextData()
                 .Enrich.WithProperty("Totaltime" , 0)
                 .MinimumLevel.Information()
@@ -127,7 +127,7 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
-
+                    
                     options.Scope.Add("logisticbookingapi");
                     options.Scope.Add("IdentityServerApi");
                     options.SignInScheme = "Cookies";
@@ -206,7 +206,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IInactiveBookingDataService, InactiveBookingsDataService>();
             services.AddSingleton<CommonLocalizationService>();
             services.AddTransient<IBookingValidationDataService, BookingValidationDataService>();
-            
+            services.AddTransient<ICustomerDataService, CustomerDataService>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(o =>
@@ -260,7 +260,6 @@ namespace LogisticsBooking.FrontEnd
                 app.UseStatusCodePagesWithReExecute("/NotFound");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-                
             }
 
             loggerFactory.AddSerilog();

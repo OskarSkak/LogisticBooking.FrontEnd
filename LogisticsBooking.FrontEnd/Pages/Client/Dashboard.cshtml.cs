@@ -52,6 +52,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         
         public async Task<IActionResult> OnGet()
         {
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine(claim.Type + ": " + claim.Value);
+            }
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             var result = await _masterScheduleDataService.GetActiveMasterSchedule();

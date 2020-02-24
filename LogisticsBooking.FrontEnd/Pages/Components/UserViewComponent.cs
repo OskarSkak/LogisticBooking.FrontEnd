@@ -39,8 +39,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Components
                 HttpContext.Session.SetObject(id, user);
                 return View(user);
             }
-            return View(currentUser);
+            else if (currentUser.Name == null)
+            {
+                var user = await _applicationUserDataService.GetUserById(new GetUserByIdCommand
+                {
+                    Id = Guid.Parse(id)
+                });
+                HttpContext.Session.SetObject(id, user);
+                return View(user);
+            }
 
+            return View(currentUser);
         }
     }
     

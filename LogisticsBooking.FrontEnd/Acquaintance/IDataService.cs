@@ -9,6 +9,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking.CommandModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.CombinedModels.ViewModels;
+using LogisticsBooking.FrontEnd.DataServices.Models.Customer;
 using LogisticsBooking.FrontEnd.DataServices.Models.Dashboard;
 using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.CommandModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.ViewModels;
@@ -174,5 +175,10 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<ValidationMessage> CheckIfSuppliersOverlap(
             BookingSuppliersOverlapValidationCommand bookingSuppliersOverlapValidationCommand);
 
+    }
+
+    public interface ICustomerDataService
+    {
+        Task<Response> CreateCustomer(CreateCustomerCommand command);
     }
 }

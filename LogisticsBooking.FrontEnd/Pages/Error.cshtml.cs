@@ -20,9 +20,9 @@ namespace LogisticsBooking.FrontEnd.Pages
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             var id = HttpContext.Response.StatusCode;
-            
-            
+
             Console.WriteLine();
+            
         }
 
         public async Task OnPost()

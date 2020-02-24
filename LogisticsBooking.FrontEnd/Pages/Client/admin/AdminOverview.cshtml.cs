@@ -51,7 +51,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             if (AdminRoleIsChecked) Roles.Add("admin");
             if (Roles.Count != 0) createUserCommand.Roles = Roles;
 
-            var result = await _applicationUserDataService.CreateUser(createUserCommand);
+            var result = await _applicationUserDataService.CreateTransporter(createUserCommand);
             
             if(result.IsSuccesfull) return new RedirectToPageResult("AdminOverview");
             return BadRequest();
