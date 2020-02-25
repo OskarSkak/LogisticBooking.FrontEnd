@@ -7,28 +7,28 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto col-lg-6 col-10">
-                <h1>Ny Kunde</h1>
-                <p class="mb-3">Formular til at oprette kunder</p>
+                <h1>@localizer.Get("New Customer")</h1>
+                
                 <form method="post" class="text-left">
                     <div class="form-group">
-                        <label for="form16">Kundenavn</label> <input type="text" class="form-control" id="form16" placeholder="Netto" name="Name">
+                        <label for="form16">@localizer.Get("Customer name")</label> <input type="text" class="form-control" id="form16" placeholder="Netto" name="Name">
                     </div>
                     <div class="form-group">
-                        <label for="form17">Kunde Nr</label> <input type="text" class="form-control" id="form17" placeholder="40458745874" name="Telephone">
+                        <label for="form17">Customer number</label> <input type="text" class="form-control" id="form17" placeholder="40458745874" name="Telephone">
                     </div>
                     <div class="form-group">
-                        <label for="form18">Kontakt</label> <input type="email" class="form-control" id="form18" placeholder="Netto@netto.dk" name="Email">
+                        <label for="form18">@localizer.Get("Contact")</label> <input type="email" class="form-control" id="form18" placeholder="Netto@netto.dk" name="Email">
                     </div>
 
                     <div class="form-group">
-                        <label for="form19">Leveringstidspunkt start</label> <input type="text" class="time form-control" id="form19" name="DeliveryStart">
+                        <label for="form19">@localizer.Get("Start delivery")</label> <input type="text" class="time form-control" id="form19" name="DeliveryStart">
                     </div>
                     <div class="form-group">
-                        <label for="form20">Leveringstidspunkt Slut</label> <input type="text" class="time form-control" id="form20" name="DeliveryEnd">
+                        <label for="form20">@localizer.Get("End delivery")</label> <input type="text" class="time form-control" id="form20" name="DeliveryEnd">
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">Opret</button>
+                    <button type="submit" class="btn btn-primary">@localizer.Get("Create")</button>
 
                 </form>
             </div>

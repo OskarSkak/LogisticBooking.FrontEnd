@@ -3,7 +3,9 @@
 @using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingSingleModel
 
-
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
 
 @if (Model.MessegeIsSet)
 {
@@ -23,38 +25,38 @@
                 </div>
                 <div class="card-body">
 
-                    <h1>Booking fra @Model.Booking.TransporterName</h1>
-                    <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                    <h1>@localizer.Get("Booking from")  @Model.Booking.TransporterName</h1>
+                    <p class="mb-3">@localizer.Get("Update the desired information by edit in the fields and click 'update'") </p>
                     <form method="post" class="text-left">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input type="text" asp-for="Booking.BookingTime" class="date form-control" id="form18" name="ViewBookTime">
+                            <label for="form18">@localizer.Get("Delivery date") </label> <input type="text" asp-for="Booking.BookingTime" class="date form-control" id="form18" name="ViewBookTime">
                         </div>
                         <div class="form-group">
-                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets">
+                            <label for="form18">@localizer.Get("Number of pallets")</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets">
                         </div>
                         <div class="form-group">
                             <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="ViewPort">
                         </div>
                         <div class="form-group">
-                            <label for="form18" style="width: 12em">Faktisk ankomst</label>
+                            <label for="form18" style="width: 12em">@localizer.Get("Actually arrival")</label>
                             <input type="number" class="form-control d-inline" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 4.5em" max="23" min="0" required/>
                             : <input type="number" class="form-control d-inline" asp-for="@Model.ArrivalMinute" name="ActualArrivalMinute" style="width: 4.5em" max="59" min="0" required/>
                         </div>
                         <div class="form-group">
-                            <label for="form18" style="width: 12em">Start Læsning</label>
+                            <label for="form18" style="width: 12em"> @localizer.Get("Start loading")</label>
                             <input type="number" class="form-control d-inline" asp-for="@Model.StartHour" style="width: 4.5em; " name="startHour" max="23" min="0" required/>
                             : <input type="number" class="form-control d-inline" asp-for="@Model.StartMinute" name="startMinute" style="width: 4.5em" max="59" min="0" required/>
-                        </div>
+                        </div>Start loading
                         <div class="form-group">
-                            <label for="form18" style="width: 12em">Slut Læsning</label>
+                            <label for="form18" style="width: 12em">@localizer.Get("End loading")</label>
                             <input type="number" class="form-control d-inline" asp-for="@Model.EndHour" name="endHour" style="width: 4.5em" max="23" min="0" required/>
                             : <input type="number" class="form-control d-inline" asp-for="@Model.EndMinute" name="endMinute" style="width: 4.5em" max="59" min="0" required/>
                         </div>
                         <div class="row d-flex justify-content-end">
                              <input  asp-for="Booking.EndLoading" type="hidden" class="form-control m-2" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
-                             <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-primary m-2" >Opdater</button>
+                             <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-primary m-2" >@localizer.Get("Update")</button>
                              
-                             <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-danger m-2">Slet</div>
+                             <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-danger m-2">@localizer.Get("Delete")</div>
                              
                         </div>
                        
@@ -76,7 +78,7 @@
             <div class="col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Ordrer på booking</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Order on booking")</h6>
                     </div>
                     <div class="card-body">
     
@@ -87,11 +89,11 @@
                                           {
                                               foreach (var order in @Model.Booking.OrdersListViewModel)
                                               {
-                                                  <a asp-page="./OrderSingle" asp-route-id="@order.OrderId" asp-route-bookingId="@Model.Booking.InternalId" class="list-group-item list-group-item-action d-flex justify-content-between">
-                                                      <div>OrdNr: @order.OrderNumber</div>
-                                                      <div>Id: @order.ExternalId</div>
+                                                  <a asp-page="./OrderSingle" asp-route-culture="@culture"  asp-route-id="@order.OrderId" asp-route-bookingId="@Model.Booking.InternalId" class="list-group-item list-group-item-action d-flex justify-content-between">
+                                                      <div>@localizer.Get("Reference number") @order.OrderNumber</div>
+                                                      <div>@localizer.Get("Order") ID @order.ExternalId</div>
                                                       <div>@order.InOut</div>
-                                                      <div>Paller: @order.TotalPallets</div>
+                                                      <div>@localizer.Get("Pallets") @order.TotalPallets</div>
                                                   </a>
                                               }
                                           }
@@ -119,20 +121,20 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Booking</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@localizer.Get("Delete booking")</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+                <p class="spaced-typography">@localizer.Get("You are about to delete this booking. This is a permanently action. Click 'confirm' to continue with this action")</p>
             </div>
             <div class="modal-footer">
                 
                 <form method="post">
-                    <button asp-page-handler="delete" type="submit" class="btn btn-danger">Bekræft</button>
+                    <button asp-page-handler="delete" type="submit" class="btn btn-danger">@localizer.Get("Confirm")</button>
                 </form>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Luk</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">@localizer.Get("Close")</button>
             </div>
         </div>
     </div>

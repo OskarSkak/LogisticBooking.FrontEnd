@@ -8,11 +8,18 @@
 
     <div class="d-sm-flex align-items-center justify-content-end mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
-            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
-        </form>
-            
-    
+        
+           <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
+   
+   <input hidden="hidden" id="start" name="Start"/>
+   <input hidden="hidden" id="end" name="End"/>
+        <!--       <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>@localizer.Get("Export to Excel")</button> -->
+           </form>
+   
+               
+           
+           <input readonly="readonly" style="max-width: 240px;" name="custom" type="text" class="date-range ml-3 d-none form-control d-sm-inline-block shadow-sm" /> 
+       
         
     </div>
 
@@ -25,21 +32,20 @@
             
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Booking Overview</h6>
+                <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Booking Overview")</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                        
-
+                    
                     <table id="example" class="table" width="100%">
                         <thead>
                         <tr>
                             <th> </th>
-                            <th class="bootbox-alert">Dato</th>
-                            <th>ID</th>
-                            <th>Paller</th>
+                            <th>@localizer.Get("Date")</th>
+                            <th>Booking <br/> ID </th>
+                            <th >@localizer.Get("Pallets")</th>
                             <th>Port</th>
-                            <th>AnkomstTid</th>
+                            <th>@localizer.Get("Arrival")<br/>@localizer.Get("Time")</th>
                                    
                         </tr>
                         </thead>
@@ -65,16 +71,42 @@
 
 @section Scripts
 {
-    
-<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
+      <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+          <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/da.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script src="~/js/DateRingePicker.js"></script>
+<script> src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"</script>
 
 <script>
+
+var language = '@localizer.Get("English")';
+console.log(language);
+var lang = "";
+if (language === 'Danish') {
+    lang = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json";
+}else if (language === 'English') {
+ lang = '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
+}
+
+$.fn.dataTable.moment( 'DD/MM/YYYY' );
         $(function () {
+            
        var table = $('#example').DataTable( {
+       columnDefs: [{
+         target: 1, //index of column
+         type: 'datetime-moment'
+       }],
+       "language": {
+                              "url": lang
+                          },
            "processing": true,
            "serverSide": false,
                "ajax": {
@@ -91,6 +123,7 @@
                                         "orderable": false,
                                         "data": "internalId",
                                         "defaultContent": '',
+                                        "type": 'datetime-moment',
                                         "render": function (data) {
                                             return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
                                         },
@@ -98,9 +131,10 @@
                                     },
                    { 
                        "data": "bookingTime" , render: function(data ) {
-                           return moment(data).format(" DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                           return moment(data).format("DD/MM/YYYY") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                        },
-                       width:"70px"
+                       width:"100px"
+                        
                    },
                    { "data": "externalId" },
                   
@@ -211,12 +245,145 @@
              // `d` is the original data object for the row
             
         }
+        
+        
+        $("input.date-range").on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY -') + picker.endDate.format(' DD/MM/YYYY'));
+                
+                    $('#example').DataTable().clear().destroy();
+                    $('#example tbody').off('click');
+                    $('.SubmitButton').off('click');
+                    $('#start').val(picker.startDate.format('MM/DD/YYYY'));
+                    $('#end').val(picker.endDate.format('MM/DD/YYYY'));
+                    
+                      $.fn.dataTable.moment('DD/MM/YYYY');
+                      
     
- 
+                         var table = $('#example').DataTable( {
+                             columnDefs: [{
+                               target: 1, //index of column
+                               type: 'datetime-moment'
+                             }],
+                             "language": {
+                                                    "url": lang
+                                                },
+                                 "processing": true,
+                                 "serverSide": false,
+                                     "ajax": {
+                                                     "url": "Bookings?handler=Custom",
+                                                     "type": "GET",
+                                                     "datatype": "application/json",
+                                                     "dataSrc": "bookings",
+                                                     "data": function (d) {
+                                                                             console.log(picker.startDate.format('MM/DD/YYYY'));
+                                                                             d.start = picker.startDate.format('MM/DD/YYYY');
+                                                                             d.end =  picker.endDate.format('MM/DD/YYYY');
+                                                                             
+                                                                             
+                                                                         }
+                                                 },
+                                                 
+                                     "columns": [
+                                         {
+                                                              "className": 'details-control',
+                                                              "orderable": false,
+                                                              "data": "internalId",
+                                                              "defaultContent": '',
+                                                              "type": 'datetime-moment',
+                                                              "render": function (data) {
+                                                                  return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                                                              },
+                                                              width:"15px"
+                                                          },
+                                         { 
+                                             "data": "bookingTime" , render: function(data ) {
+                                                 return moment(data).format("DD/MM/YYYY") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                                             },
+                                             width:"100px"
+                                              
+                                         },
+                                         { "data": "externalId" },
+                                        
+                                         { "data": "totalPallets" },
+                                         {"data" : "port"},
+                                         {"data" : "interval.startTime" , render: function(data) {
+                                             return moment(data).format("DD/MM -  HH:mm")
+                                         }}
+                                         
+                                         
+                                     ]
+                                 });
+                              
+                              
+                               $('#example tbody').on('click', 'td.details-control', function () {
+                                                   console.log("hej")
+                                                   var tr = $(this).closest('tr');
+                                                   var tdi = tr.find("i.fa");
+                                                   var row = table.row(tr);
+                                                   console.log(row.data())
+                                                   if (row.child.isShown()) {
+                                                       // This row is already open - close it
+                                                       row.child.hide();
+                                                       tr.removeClass('shown');
+                                                       tdi.first().removeClass('fas fa-caret-up');
+                                                       tdi.first().addClass('fas fa-caret-down');
+                                                   }
+                                                   else {
+                                                       // Open this row
+                                                       row.child(format(row.data())).show();
+                                                       tr.addClass('shown');
+                                                       tdi.first().removeClass('fas fa-caret-down');
+                                                       tdi.first().addClass('fas fa-caret-up');
+                                                   }
+                                               });
+                                     
+                                        table.on("user-select", function (e, dt, type, cell, originalEvent) {
+                                                    if ($(cell.node()).hasClass("details-control")) {
+                                                        e.preventDefault();
+                                                    }
+                                                });
+                                                
+                                        
+                              
+                              
+                              
+                              
+                              
+                                      
+                              function toggle(className) {
+                                  var x = '.' + className;
+                                  if ($(x).is(":hidden")) {
+                                      show(className)
+                                  } else {
+                                      hide(className)
+                                  }
+                              }
+                        
+                       
+                              function hide(className) {
+                                  var x = '.' + className;
+                                  $(x).hide();
+                              }
+                         
+                      
+                      
+                              function show(className) {
+                                  var x = '.' + className;
+                                  $(x).show();
+                          }
+
+
+                          
+                      
+                      
+ });
         
         
            
            </script>
+
+
+
     
 }
 

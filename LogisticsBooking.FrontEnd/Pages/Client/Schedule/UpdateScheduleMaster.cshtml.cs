@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -126,7 +127,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 //TODO Skriv det ikke lykkedes
             }
 
-            return new RedirectToPageResult("CalendarOverview");
+            return new RedirectToPageResult("CalendarOverview" , new {culture = CultureInfo.CurrentCulture.Name});
         }
 
 

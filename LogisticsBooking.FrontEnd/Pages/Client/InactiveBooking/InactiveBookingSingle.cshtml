@@ -11,26 +11,26 @@
             <div class="col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Booking fra PLACEHOLDER</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Booking from")</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input asp-for="Booking.BookingTime" class="form-control" id="form18" name="Booking.BookingTime">
+                            <label for="form18">@localizer.Get("Delivery date")</label> <input asp-for="Booking.BookingTime" class="form-control" id="form18" name="Booking.BookingTime">
                         </div>
                         <div class="form-group">
-                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="Booking.TotalPallets">
+                            <label for="form18">@localizer.Get("Number of pallets")</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="Booking.TotalPallets">
                         </div>
                         <div class="form-group">
                             <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="Booking.Port">
                         </div>
                         <div class="form-group">
-                            <label for="form18">Eksternt ID</label> <input asp-for="Booking.ExternalId" class="form-control" id="form18" name="Booking.ExternalId">
+                            <label for="form18">Booking Id</label> <input asp-for="Booking.ExternalId" class="form-control" id="form18" name="Booking.ExternalId">
                         </div>
                         <div class="row d-flex justify-content-end">
                             <input asp-for="Booking.InternalId" type="hidden" class="form-control m-2" id="form18" name="PageInternalId" value="@Model.Booking.InternalId">
-                            <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" value="Opdater">Opdater</button>
-                            <button type="submit" asp-page-handler="Create" class="btn btn-lg btn-info m-2" value="Opret">Opret som Aktiv Booking</button>
-                            <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-primary m-2">Slet</div>
+                            <button type="submit" asp-page-handler="Update" class="btn btn-lg btn-info m-2" value="Opdater"> @localizer.Get("Update")</button>
+                            <button type="submit" asp-page-handler="Create" class="btn btn-lg btn-info m-2" value="Opret">@localizer.Get("Create as active booking")</button>
+                            <div id="test" data-toggle="modal" data-target="#popup" class="btn-lg btn btn-primary m-2">@localizer.Get("Delete")</div>
                         </div>
 
                     </div>
@@ -48,30 +48,28 @@
             <div class="col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Ordre fra PLACEHOLDER</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Order from") PLACEHOLDER</h6>
                     </div>
                     <div class="card-body">
                             <div class="form-group">
-                                <label for="form18">Eksternt ID</label> <input asp-for="Booking.InactiveOrders[i].ExternalId" class="form-control" id="form18" name="Booking.InactiveOrders[@i].ExternalId">
+                                <label for="form18">@localizer.Get("Order") Id</label> <input asp-for="Booking.InactiveOrders[i].ExternalId" class="form-control" id="form18" name="Booking.InactiveOrders[@i].ExternalId">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Kommentar</label> <input asp-for="Booking.InactiveOrders[i].Comment" class="form-control" id="form18" name="Booking.InactiveOrders[@i].Comment">
+                                <label for="form18">@localizer.Get("Comment")</label> <input asp-for="Booking.InactiveOrders[i].Comment" class="form-control" id="form18" name="Booking.InactiveOrders[@i].Comment">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Bund paller</label> <input asp-for="Booking.InactiveOrders[i].BottomPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].BottomPallets">
+                                <label for="form18">@localizer.Get("Bottom pallets")</label> <input asp-for="Booking.InactiveOrders[i].BottomPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].BottomPallets">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Indgående/Udgående</label> <input asp-for="Booking.InactiveOrders[i].InOut" class="form-control" id="form18" name="Booking.InactiveOrders[@i].InOut">
+                                <label for="form18">@localizer.Get("In/Out")</label> <input asp-for="Booking.InactiveOrders[i].InOut" class="form-control" id="form18" name="Booking.InactiveOrders[@i].InOut">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Ordre nummer</label> <input asp-for="Booking.InactiveOrders[i].OrderNumber" class="form-control" id="form18" name="Booking.InactiveOrders[@i].OrderNumber">
+                                <label for="form18">@localizer.Get("Reference number")</label> <input asp-for="Booking.InactiveOrders[i].OrderNumber" class="form-control" id="form18" name="Booking.InactiveOrders[@i].OrderNumber">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Totalt antal paller</label> <input asp-for="Booking.InactiveOrders[i].TotalPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].TotalPallets">
+                                <label for="form18">@localizer.Get("Total pallets")</label> <input asp-for="Booking.InactiveOrders[i].TotalPallets" class="form-control" id="form18" name="Booking.InactiveOrders[@i].TotalPallets">
                             </div>
-                            <div class="form-group">
-                                <label for="form18">Vare nummer</label> <input asp-for="Booking.InactiveOrders[i].WareNumber" class="form-control" id="form18" name="Booking.InactiveOrders[@i].WareNumber">
-                            </div>
+                            
                     </div>
                 </div>
             </div>
@@ -87,20 +85,22 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Booking</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@localizer.Get("Delete") Booking</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+                <p class="spaced-typography">@localizer.Get("You are about to delete this booking. This is a permanently action. Click 'confirm' to continue with this action")</p>
             </div>
             <div class="modal-footer">
                 
                 <form method="post">
-                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">Bekræft</button>
+                    <button asp-page-handler="delete" type="submit" class="btn btn-primary">@localizer.Get("Confirm")</button>
                 </form>
-                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal">
+                    @localizer.Get("Close")
+                </button>
             </div>
         </div>
     </div>

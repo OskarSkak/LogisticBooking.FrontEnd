@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
@@ -39,7 +40,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
             }
             var result = await _supplierDataService.UpdateSupplier(SupplierViewModel.SupplierId, supplierViewModel);
 
-            if (result.IsSuccesfull) return new RedirectToPageResult("./Suppliers");
+            if (result.IsSuccesfull) return new RedirectToPageResult("./Suppliers" , new {culture = CultureInfo.CurrentCulture.Name});
             
             return new RedirectToPageResult("Error");
         }

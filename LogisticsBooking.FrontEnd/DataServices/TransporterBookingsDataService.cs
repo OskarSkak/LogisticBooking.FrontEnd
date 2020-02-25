@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -15,12 +16,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
         private string baseurl;
         public TransporterBookingsDataService(IHttpContextAccessor httpContextAccessor, IOptions<BackendServerUrlConfiguration> config) : base(httpContextAccessor, config)
         {
-            baseurl = _APIServerURL + "/api/transporters/oldbookings/";
+            baseurl = _APIServerURL + "/api/transporters/bookings/";
         }
 
-        public async Task<BookingsListViewModel> GetOldBookingsByTransporter(Guid TransporterId)
+
+        public async Task<BookingsListViewModel> GetBookingsByTransporterBetweenDates(GetBookingsByTransporterBetweenDatesQuery query)
         {
-            var endpoint = baseurl + TransporterId;
+            var endpoint = baseurl + query.FromDate.ToString("MM-dd-yyyy") + "/" + query.ToDate.ToString("MM-dd-yyyy") + "/"+ query.TransporterId;
+           
             var result = await GetAsync(endpoint);
             return await TryReadAsync<BookingsListViewModel>(result);
         }

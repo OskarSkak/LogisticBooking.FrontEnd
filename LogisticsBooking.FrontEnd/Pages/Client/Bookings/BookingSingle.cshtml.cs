@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             var result = await bookingDataService.DeleteBooking(guid);
             
-            return new RedirectToPageResult("BookingOverViewAdmin");
+            return new RedirectToPageResult("BookingOverViewAdmin" , new {culture = CultureInfo.CurrentCulture.Name});
         }
 
         public async Task<IActionResult> OnPostUpdate(DateTime ViewBookTime,
@@ -85,7 +86,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             if (result.IsSuccesfull)
             {
                 Message = "Bookingen er opdateret korrekt";
-                return new RedirectToPageResult("BookingSingle" , new {id = ViewBookingId});
+                return new RedirectToPageResult("BookingSingle" , new {id = ViewBookingId , culture = CultureInfo.CurrentCulture.Name});
             }
 
             return new RedirectToPageResult("Error");

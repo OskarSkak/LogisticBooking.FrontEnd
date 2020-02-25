@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
@@ -75,7 +76,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             if (result.IsSuccesfull)
             {
-                return new RedirectToPageResult("");
+                return new RedirectToPageResult("" , new {culture = CultureInfo.CurrentCulture.Name});
             }
             
             return new RedirectToPageResult("");
@@ -88,7 +89,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             if (result.IsSuccesfull)
             {
-                return new RedirectToPageResult("");
+                return new RedirectToPageResult("" , new {culture = CultureInfo.CurrentCulture.Name});
             }
             
             return new RedirectToPageResult("");
@@ -114,7 +115,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public async Task<IActionResult> OnPostDeleteMasterScheduleAsync(Guid id)
         {
             var result = await _masterScheduleDataService.DeleteMasterScheduleStandard(id);
-            return new RedirectToPageResult("");
+            return new RedirectToPageResult("" , new {culture = CultureInfo.CurrentCulture.Name});
         }
         
         

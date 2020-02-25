@@ -5,7 +5,6 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
 @model LogisticsBooking.FrontEnd.Pages.Client.TransportersModel
-@inject IStringLocalizer<BookingOverviewModel> localizer
 @inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
 @inject CommonLocalizationService CommonLocalizationService
 @{
@@ -25,13 +24,13 @@
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-lg-5 col-md-7 col-10">
-                    <h1>Transportører</h1>
-                    <p class="mb-3">Klik i listen for at redigere en transportør</p>
+                    <h1>@localizer.Get("Transporters")</h1>
+                    <p class="mb-3">@localizer.Get("Click on a name to edit the transporter")/p>
                 </div>
             </div>
             <div class="row">
                 <div class="mx-auto col-lg-5 col-md-7 col-10">
-                    <a asp-page="Transporter_Create"><button class="btn btn-primary btn-floating">Opret Transportør</button></a> 
+                    <a asp-page="Transporter_Create"><button class="btn btn-primary btn-floating">@localizer.Get("Create Transporter")</button></a> 
                 </div>
             </div>
         </div>

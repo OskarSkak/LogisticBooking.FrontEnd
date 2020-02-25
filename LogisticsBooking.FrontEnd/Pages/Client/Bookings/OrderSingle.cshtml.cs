@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,14 +60,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
             
             Message = "Ordren er opdateret korrekt";
-            return new RedirectToPageResult("BookingSingle" , new {id = bookingId});
+            return new RedirectToPageResult("BookingSingle" , new {id = bookingId , culture = CultureInfo.CurrentCulture.Name});
         }
 
         public async Task<IActionResult> OnPostDelete(string id , string bookingId)
         {
             var result = await _orderDataService.DeleteOrder(Guid.Parse(id));
             Message = "Ordren er slettet";
-            return new RedirectToPageResult("BookingSingle" , new {id = bookingId});
+            return new RedirectToPageResult("BookingSingle" , new {id = bookingId , culture = CultureInfo.CurrentCulture.Name});
         }
         
 

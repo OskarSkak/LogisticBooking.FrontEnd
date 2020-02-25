@@ -57,11 +57,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         
         public async Task OnGet()
         {
-
             
-            
-            _logger.LogInformation(_localizer["Hello"]);
-            _logger.LogInformation(_localizer["Hello"].SearchedLocation);
 
 
             //var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
@@ -143,7 +139,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
            
             
 
-            return new RedirectToPageResult("BookingOverview");
+            return new RedirectToPageResult("BookingOverview" , new {culture = CultureInfo.CurrentCulture.Name});
         }
 
         [ValidateAntiForgeryToken]

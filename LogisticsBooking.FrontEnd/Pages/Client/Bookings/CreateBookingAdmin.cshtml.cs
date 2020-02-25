@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,7 +89,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
             HttpContext.Session.SetObject(id, Booking);
             
-            return new RedirectToPageResult("select_timeAdmin");
+            return new RedirectToPageResult("select_timeAdmin" , new {culture = CultureInfo.CurrentCulture.Name});
             /*CreateBookingCommand = new CreateBookingCommand
             {
                 DeliveryDate = Booking.BookingTime, 

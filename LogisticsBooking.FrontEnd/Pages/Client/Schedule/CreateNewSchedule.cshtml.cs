@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -60,7 +61,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals,  string name , Shift shift , List<string> day)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals,  string name , Shift shift , List<string> day )
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
@@ -85,25 +86,34 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 Shifts = shift,
                 CreatedBy = GetLoggedInUserId(),
                 IsActive = false,
-                MischellaneousPallets = schedule.MischellaneousPallets,
                 MasterScheduleStandardId = Guid.NewGuid(),
                 MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals),
                 ActiveDays = SetMasterDayViewModel(day)
                 
             };
+
+            var d = new CreateNewMasterScheduleStandardCommand
+            {
+                Name = masterScheduleViewModel.Name,
+                Shifts = masterScheduleViewModel.Shifts,
+                ActiveDays = masterScheduleViewModel.ActiveDays,
+                CreatedBy = masterScheduleViewModel.CreatedBy,
+                IsActive = masterScheduleViewModel.IsActive,
+                MasterScheduleStandardId = masterScheduleViewModel.MasterScheduleStandardId,
+                MasterIntervalStandardViewModels = masterScheduleViewModel.MasterIntervalStandardViewModels
+            };
             
-            
-            var result = await _masterScheduleDataService.CreateNewMasterSchedule(_mapper.Map<CreateNewMasterScheduleStandardCommand>(masterScheduleViewModel));
+            var result = await _masterScheduleDataService.CreateNewMasterSchedule(d);
 
             if (result.IsSuccesfull)
             {
                 CompleteMessage = "Planen er oprettet korrekt";
-                return new RedirectToPageResult("AllSchedules");
+                return new RedirectToPageResult("AllSchedules" , new  {culture = CultureInfo.CurrentCulture.Name});
             }
 
 
             Message = "Planen blev ikke oprettet korrekt, prøv igen";
-            return new RedirectToPageResult("ScheduleOverview");
+            return new RedirectToPageResult("ScheduleOverview" ,new  {culture = CultureInfo.CurrentCulture.Name} );
 
         }
         
@@ -214,8 +224,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             foreach (var internalInterval in intervals)
             {
-                if (internalInterval.BottomPallets != 0 && internalInterval.StartTime != DateTime.MinValue
-                    && internalInterval.EndTime != DateTime.MinValue)
+                if (internalInterval.StartTime.TimeOfDay != TimeSpan.Zero
+                    && internalInterval.EndTime.TimeOfDay != TimeSpan.Zero)
                 {
                     var interval = new IntervalViewModel
                     {
@@ -223,7 +233,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                         StartTime = internalInterval.StartTime, 
                         EndTime = internalInterval.EndTime,
                         RemainingPallets = internalInterval.BottomPallets,
-                        IntervalId = Guid.NewGuid() 
+                        IntervalId = Guid.NewGuid(),
+                        MiscellaneousPallets = internalInterval.MiscPallets
                     };
                     
                     Schedule.Intervals.Add(interval);
@@ -288,6 +299,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public int InternalId { get; set; }
         public int BottomPallets { get; set; }
         public bool IsShown { get; set; }
+        
+        public int MiscPallets { get; set; }
 
         public void CreateMappings(global::AutoMapper.Profile configuration)
         {
@@ -298,6 +311,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     opt => opt.MapFrom(src => src.EndTime))
                 .ForMember(dest => dest.StartTime,
                     opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.MischellaneousPallets,
+                opt => opt.MapFrom(src => src.MiscPallets))
                 ;
         }
     }

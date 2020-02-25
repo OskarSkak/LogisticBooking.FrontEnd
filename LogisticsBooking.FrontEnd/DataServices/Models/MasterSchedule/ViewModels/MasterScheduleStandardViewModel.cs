@@ -14,13 +14,13 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModel
         public Guid MasterScheduleStandardId { get; set; }
         
         public Guid CreatedBy { get; set; }
-        public int MischellaneousPallets { get; set; }
+        
         public Shift Shifts { get; set; }
         public string Name { get; set; }
         
         public bool IsActive { get; set; }
-        
-        public List<MasterIntervalStandardViewModel> MasterIntervalStandardViewModels { get; set; }
+
+        public  List<MasterIntervalStandardViewModel> MasterIntervalStandardViewModels { get; set; }
         
         public List<MasterDayViewModel> ActiveDays { get; set; }
         public void CreateMappings(Profile configuration)
@@ -34,13 +34,12 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModel
                     opt => opt.MapFrom(src => src.CreatedBy))
                 .ForMember(dest => dest.MasterIntervalStandardViewModels,
                     opt => opt.MapFrom(src => src.MasterIntervalStandardViewModels))
-                .ForMember(dest => dest.MischellaneousPallets,
-                    opt => opt.MapFrom(src => src.MischellaneousPallets))
                 .ForMember(dest => dest.IsActive,
                     opt => opt.MapFrom(src => src.IsActive));
 
-            
-            
+
+
+
         }
     }
 }

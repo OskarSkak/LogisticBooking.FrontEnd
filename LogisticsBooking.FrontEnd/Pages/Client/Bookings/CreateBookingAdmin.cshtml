@@ -15,16 +15,16 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="form18">Leverings Dato</label> <input  class="date form-control" id="form18" name="Booking.BookingTime">
+                            <label for="form18">@localizer.Get("Delivery date")</label> <input  class="date form-control" id="form18" name="Booking.BookingTime">
                         </div>
-                        <div class="form-group">
-                            <label for="form18">Transportør &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="form-group">@localizer.Get("")
+                            <label for="form18">@localizer.Get("Transporter") &nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <select name="TransporterId" asp-items="Model.TransporterOptions" asp-for="Booking.TransporterId">
-                                <option value="">Vælg en Transportør</option>
+                                <option value="">@localizer.Get("Choose a transporter")</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="Booking.TotalPallets">
+                            <label for="form18">@localizer.Get("Number of pallets")</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="Booking.TotalPallets">
                         </div>
                     </div>
                 </div>
@@ -37,28 +37,28 @@
             <div class="col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Ordre</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Order")</h6>
                     </div>
                     <div class="card-body">
                             <div class="form-group">
-                                <label for="form18">Kunde &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[0].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions" asp-for="Booking.OrdersListViewModel[0].SupplierViewModel.SupplierId">
-                                    <option value="">Vælg en kunde</option>
+                                <label for="form18">@localizer.Get("Supplier") &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[0].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions" asp-for="Booking.OrdersListViewModel[0].SupplierViewModel.SupplierId">
+                                    <option value="">@localizer.Get("Choose a customer")</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="form18">Kommentar</label> <input asp-for="Booking.OrdersListViewModel[0].Comment" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].Comment">
+                                <label for="form18">@localizer.Get("Comment")</label> <input asp-for="Booking.OrdersListViewModel[0].Comment" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].Comment">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Bund paller</label> <input asp-for="Booking.OrdersListViewModel[0].BottomPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].BottomPallets">
+                                <label for="form18">@localizer.Get("Bottom pallets")</label> <input asp-for="Booking.OrdersListViewModel[0].BottomPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].BottomPallets">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Indgående/Udgående</label> <input asp-for="Booking.OrdersListViewModel[0].InOut" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].InOut">
+                                <label for="form18">@localizer.Get("In/Out")</label> <input asp-for="Booking.OrdersListViewModel[0].InOut" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].InOut">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Reference nummer</label> <input asp-for="Booking.OrdersListViewModel[0].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].OrderNumber">
+                                <label for="form18">@localizer.Get("Reference number")</label> <input asp-for="Booking.OrdersListViewModel[0].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].OrderNumber">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Totalt antal paller</label> <input asp-for="Booking.OrdersListViewModel[0].TotalPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].TotalPallets">
+                                <label for="form18">@localizer.Get("Total pallets")</label> <input asp-for="Booking.OrdersListViewModel[0].TotalPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[0].TotalPallets">
                             </div>
                     </div>
                 </div>
@@ -71,28 +71,28 @@
             <div class="col-xl-8">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Ordre</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Order")</h6>
                     </div>
                     <div class="card-body">
                             <div class="form-group">
-                                <label for="form18">Kunde &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[1].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions" asp-for="Booking.OrdersListViewModel[1].SupplierViewModel.SupplierId">
-                                    <option value="">Vælg en kunde</option>
+                                <label for="form18">@localizer.Get("Supplier")  &nbsp;&nbsp;&nbsp;&nbsp; </label><select name="Booking.OrdersListViewModel[1].SupplierViewModel.SupplierId" asp-items="Model.SupplierOptions" asp-for="Booking.OrdersListViewModel[1].SupplierViewModel.SupplierId">
+                                    <option value="">@localizer.Get("Choose a customer")</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="form18">Kommentar</label> <input asp-for="Booking.OrdersListViewModel[1].Comment" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].Comment">
+                                <label for="form18">@localizer.Get("Comment")</label> <input asp-for="Booking.OrdersListViewModel[1].Comment" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].Comment">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Bund paller</label> <input asp-for="Booking.OrdersListViewModel[1].BottomPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].BottomPallets">
+                                <label for="form18">@localizer.Get("Bottom pallets")</label> <input asp-for="Booking.OrdersListViewModel[1].BottomPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].BottomPallets">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Indgående/Udgående</label> <input asp-for="Booking.OrdersListViewModel[1].InOut" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].InOut">
+                                <label for="form18">@localizer.Get("In/Out")</label> <input asp-for="Booking.OrdersListViewModel[1].InOut" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].InOut">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Ordre nummer</label> <input asp-for="Booking.OrdersListViewModel[1].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].OrderNumber">
+                                <label for="form18">@localizer.Get("Reference number")</label> <input asp-for="Booking.OrdersListViewModel[1].OrderNumber" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].OrderNumber">
                             </div>
                             <div class="form-group">
-                                <label for="form18">Totalt antal paller</label> <input asp-for="Booking.OrdersListViewModel[1].TotalPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].TotalPallets">
+                                <label for="form18">@localizer.Get("Total pallets")</label> <input asp-for="Booking.OrdersListViewModel[1].TotalPallets" class="form-control" id="form18" name="Booking.OrdersListViewModel[1].TotalPallets">
                             </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
         <div class="row">
             <div class="col-xl-2"></div>
             <div class="col-xl-8">
-                <button asp-page-handler="Create" type="submit" class="btn btn-primary">Opret Bookning</button>
+                <button asp-page-handler="Create" type="submit" class="btn btn-primary">@localizer.Get("Create booking")</button>
             </div>
         </div>
     </div>

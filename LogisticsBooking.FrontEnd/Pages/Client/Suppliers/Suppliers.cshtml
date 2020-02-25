@@ -42,13 +42,13 @@
         <div class="row">
             <div class="mx-auto col-lg-5 col-md-7 col-10">
                 <h1></h1>
-                <p class="mb-3">En liste over alle kunder, klik for at ændre en kunde</p>
+                <p class="mb-3">@localizer.Get("A list of all customers, click to edit a customer")</p>
             </div>
         </div>
         <div class="row">
             <div class="mx-auto col-lg-5 col-md-7 col-10">
                 <a asp-page="/Client/Suppliers/Supplier_Create">
-                    <button class="btn btn-primary">Opret ny kunde</button>
+                    <button class="btn btn-primary">@localizer.Get("Create new customer")</button>
                 </a>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <table id="example" class="display" style="width:100%">
             <thead>
             <tr>
-                <th>Booking tidspunkt</th>
+                <th>Booking @localizer.Get("Time")</th>
             </tr>
             </thead>
             <tbody>
@@ -85,8 +85,8 @@
                                 <div><p>  </p></div>
                             </div>
                             <div id="rightbox">
-                                <div id="leftbox45P">Start levering</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryStart.TimeOfDay</div>
-                                <div id="leftbox45P">Slut levering</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryEnd.TimeOfDay</div>
+                                <div id="leftbox45P">@localizer.Get("Start delivery")</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryStart.TimeOfDay</div>
+                                <div id="leftbox45P">@localizer.Get("End delivery")</div><div id="middlebox10P"> - </div><div id="rightbox45P">@item.DeliveryEnd.TimeOfDay</div>
                             </div>
                         </a>
                     </td>
@@ -103,8 +103,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script>
+    
+    
+var language = '@localizer.Get("English")';
+console.log(language);
+var lang = "";
+if (language === 'Danish') {
+    lang = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json";
+}else if (language === 'English') {
+ lang = '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
+}
+        
         $(function () {
-            $("#example").DataTable();
+            $("#example").DataTable({
+            "language": {
+                                   "url": lang
+                               }
+                               
+            });
         });
 
     </script>

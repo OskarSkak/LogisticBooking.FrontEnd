@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
@@ -55,7 +56,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             AddBookingViewModelToSession();
 
             // If all is success - navigate to order information page
-            return new RedirectToPageResult("orderinformation");
+            return new RedirectToPageResult("orderinformation" , new {culture = CultureInfo.CurrentCulture.Name});
         }
 
 
@@ -75,13 +76,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         private void AddBookingViewModelToSession()
         {
+            HttpContext.Session.Remove(GetUserId());
             // Set the updated BookingViewModel to the session. The key is the current logged in user. 
-            HttpContext.Session.SetObject(GetUserId(), BookingViewModel);
+            HttpContext.Session.SetObject("booking", BookingViewModel);
         }
 
         private string GetUserId()
         {
-            return User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
+            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
         }
     }
 }

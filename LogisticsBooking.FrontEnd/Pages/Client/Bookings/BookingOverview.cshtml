@@ -5,10 +5,10 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<BookingOverviewModel> localizer
 @inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 @inject IAntiforgery AntiForgery;
+@inject CommonLocalizationService localizer
 
 @section Styles
 {
@@ -31,7 +31,7 @@
 
 <input hidden="hidden" id="start" name="Start"/>
 <input hidden="hidden" id="end" name="End"/>
-            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
+            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>@localizer.Get("Export to Excel")</button>
         </form>
 
             
@@ -53,7 +53,7 @@
             
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Booking Overview</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Booking overview")</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -63,17 +63,17 @@
                                 <thead>
                                 <tr>
                                     <th> </th>
-                                    <th class="border-none" style="font-size: 14px">Dato</th>
-                                    <th style="font-size: 14px">ID</th>
-                                    <th style="font-size: 14px">Paller</th>
-                                    <th style="font-size: 14px">Navn</th>
-                                    <th style="font-size: 14px">Kontakt</th>
+                                    <th class="border-none" style="font-size: 14px">@localizer.Get("Date")</th>
+                                    <th style="font-size: 14px">Booking <br/> ID </th>
+                                    <th style="font-size: 14px">@localizer.Get("Pallets")</th>
+                                    <th style="font-size: 14px">@localizer.Get("Transporter") <br/>@localizer.Get("Name")  </th>
+                                    <th style="font-size: 14px">@localizer.Get("Contact") </th>
                                     <th style="font-size: 14px">Port</th>
-                                    <th style="font-size: 14px">Ankomst<br/>Tid</th>
-                                    <th style="font-size: 14px">Faktisk<br/>Ankomst</th>
-                                    <th style="font-size: 14px">Start<br/>Læsning</th>
-                                    <th style="font-size: 14px">Slut<br/>Læsning</th>
-                                    <th style="font-size: 14px">Update</th>
+                                    <th style="font-size: 14px">@localizer.Get("Arrival")<br/>@localizer.Get("Time")</th>
+                                    <th style="font-size: 14px">@localizer.Get("Actually")<br/>@localizer.Get("Arrival")</th>
+                                    <th style="font-size: 14px">Start<br/>@localizer.Get("Loading")</th>
+                                    <th style="font-size: 14px">@localizer.Get("End")<br/>@localizer.Get("Loading")</th>
+                                    <th style="font-size: 14px"></th>
 
                                 </tr>
                                 </thead>
@@ -106,7 +106,8 @@
 
 
 @section Scripts{
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
       <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -117,20 +118,29 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
-<script src="~/js/DateRingePicker.js"></script>
 <script> src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"</script>
-        
+
+
 <script>
     
 
 
-
+var language = '@localizer.Get("English")';
+console.log(language);
+var lang = "";
+if (language === 'Danish') {
+    lang = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json";
+}else if (language === 'English') {
+ lang = '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
+}
         
 
 $(function () {
             $.fn.dataTable.moment( 'DD/MM/YYYY' );
        var table = $('#example').DataTable( {
-           
+           "language": {
+                       "url": lang
+                   },
            "autoWidth": true,
            
             "columnDefs": [
@@ -180,26 +190,45 @@ $(function () {
                    }},
                    {
                    "data" : "actualArrival" , render: function(data){
-                        return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                        return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="text" /> '
                    },
                     },
                                                                   
                    {"data" : "startLoading" , render: function(data){
-                                                                    return '<input class="time form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                                                                    return '<input class="time  form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="text" /> '
                                                                }},
                    {"data" : "endLoading" , render: function(data){
-                                                                  return  ' <input  class="time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                                                                  return  ' <input  class="time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="text" />  '
                                                              }},
                     {"data" : null , render: function(data){
-                                                                  return  '<Button  class="btn-sm btn btn-secondary"  >Opdater</button> </form> '
+                                                                  return  '<Button  class="btn-sm btn btn-secondary"  >@localizer.Get("Update")</button> </form> '
                                                               }},
                    
                    
                ]
-           } )
-           
-           
-           ;
+           } );
+       
+       
+    
+       
+      $('#example tbody').on( 'focus', '.time', function (funсtion) {
+          $(this).daterangepicker({
+                                timePicker : true,
+                                singleDatePicker:true,
+                                timePicker24Hour : true,
+                                timePickerIncrement : 1,
+                                timePickerSeconds : true,
+                                locale : {
+                                    format : 'HH:mm'
+                                }
+                                
+                            }).on('show.daterangepicker', function(ev, picker) {
+                                picker.container.find(".calendar-table").hide();
+                                
+                                
+                                
+                            });
+          });
        
      
      
@@ -315,11 +344,11 @@ $(function () {
                                                               '<thead class="thead-dark">' + 
                                                               '<tr>' + 
                                                               '<td> ID </td>' + 
-                                                               '<td> Kunde  </td>' +
-                                                                  '<td> Kunde tlf  </td>' +
-                                                                '<td> Total pallets </td>' +
-                                                                '<td> Bottom Pallets </td>' +
-                                                                '<td> Comment </td>' +
+                                                               '<td>  @localizer.Get("Kunde") </td>' +
+                                                                  '<td> @localizer.Get("Supplier mobile number")  </td>' +
+                                                                '<td> @localizer.Get("Total pallets")  </td>' +
+                                                                '<td> @localizer.Get("Bottom pallets")  </td>' +
+                                                                '<td> @localizer.Get("Comment") </td>' +
                                                                 '</tr>' + 
                                                                 '</thead>' + 
                                                                 '<tbody>' + 
@@ -363,6 +392,9 @@ $(function() {
               $.fn.dataTable.moment('DD/MM/YYYY');
            
             var table = $('#example').DataTable( {
+            "language": {
+                                   "url": lang
+                               },
                 "processing": true,
                 "serverSide": false,
                 ordering: true,
@@ -424,7 +456,7 @@ $(function() {
                             return  ' <input  class=" time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                         }},
                     {"data" : null , render: function(data){
-                            return  '<Button  class=" SubmitButton btn btn-secondary"  >Opdater</button> </form> '
+                            return  '<Button  class=" SubmitButton btn btn-secondary"  >@localizer.Get("Update")</button> </form> '
                         }},
         
         

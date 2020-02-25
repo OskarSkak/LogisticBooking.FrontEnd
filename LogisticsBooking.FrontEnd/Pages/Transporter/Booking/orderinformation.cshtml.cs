@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.InkML;
@@ -96,7 +97,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             
             SetBookingViewModelToSession(BookingViewModel);
-            return new RedirectToPageResult("orderinformation");
+            return new RedirectToPageResult("orderinformation" , new {culture = CultureInfo.CurrentCulture.Name});
 
         }
         
@@ -114,7 +115,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             if (!ModelState.IsValid)
             {
                 
-                return new RedirectToPageResult("");
+                return new RedirectToPageResult("" , new {culture = CultureInfo.CurrentCulture.Name});
             }
 
             orderViewModel.Comment = comment;
@@ -125,7 +126,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             SetBookingViewModelToSession(currentBookingViewModel);
 
-            return new RedirectToPageResult("");
+            return new RedirectToPageResult("" , new {culture = CultureInfo.CurrentCulture.Name});
   
         }
 
@@ -221,12 +222,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private BookingViewModel GetBookingViewModelFromSession()
         {
             // Gets the current booking from the session.
-            return HttpContext.Session.GetObject<BookingViewModel>(GetLoggedInUserId());
+            return HttpContext.Session.GetObject<BookingViewModel>("booking");
         }
 
         private void SetBookingViewModelToSession(BookingViewModel bookingViewModel)
         {
-            HttpContext.Session.SetObject(GetLoggedInUserId() , bookingViewModel);
+            HttpContext.Session.SetObject("booking" , bookingViewModel);
         }
         
         /**

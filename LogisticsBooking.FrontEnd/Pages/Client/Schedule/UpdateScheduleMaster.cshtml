@@ -3,6 +3,10 @@
 @using Microsoft.EntityFrameworkCore.Internal
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.UpdateScheduleMaster
 
+
+@{
+  var culture = CultureInfo.CurrentCulture;
+}
 <style>
     .input-group-res {
         width: 100%;
@@ -72,7 +76,7 @@
 
 <div class="card mb-4">
 <div class="card-header">
-    <h2>Opret ny plan</h2>
+    <h2>@localizer.Get("Update existing plan")</h2>
 </div>
 <div class="card-body">
 
@@ -86,13 +90,14 @@
                 <div class="card-body p-1">
                     <table>
                         <tr>
-                            <th>Angiv antal bundpaller for alle intervaller</th>
-                            <th>Angiv navnet for tidsplanen</th>
+                            <th>@localizer.Get("nput total pallets for all intervals")</th>
+                            <th>@localizer.Get("Input the name of the plan")</th>
+                            
 
                         </tr>
                         <tr>
                             <td class="d-flex justify-content-start">
-                                <div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/>
+                                <div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">@localizer.Get("Confirm")</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/>
                             </td>
                             <td>
                                 <input value="@Model.MasterScheduleStandardViewModel.Name" type="text" class="form-control" name="nameOfPlan"/>
@@ -110,12 +115,36 @@
         <div class="col-md-12">
             <div class="list-group" style="">
 
-                <div class="list-group-item list-group-item-action d-flex justify-content-between parent">
-                    <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen" class="kiddo-25">+/-</p>
-                    <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="kiddo-25">Paller</p>
-                    <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="kiddo-25">Start</p>
-                    <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="kiddo-25">Slut</p>
-                </div>
+                <div class="list-group-item list-group-item-action d-flex ">
+                                    <div class="">
+                                        <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="mr-3">@localizer.Get("Show/Hide")</p>   
+                                    </div>
+                                    <div class=" parent">
+                                        <div class="row">
+                
+                                            <div class="col-2">
+                                                <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="">@localizer.Get("Pallets")</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="">Start</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="">@localizer.Get("End")</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen" class="">@localizer.Get("Bookings")</p>
+                                            </div>
+                
+                
+                
+                                        </div>
+                                    </div>
+                                    
+                
+                
+                
+                
+                                </div>
 
                 @foreach (var interval in Model.MasterScheduleStandardViewModel.MasterIntervalStandardViewModels)
                 {
@@ -149,8 +178,8 @@
                     </div>
                 }
                 <div>
-                    <div class="addclick btn btn-secondary">Tilføj felt</div>
-                    <div class="removeclick btn btn-secondary">Fjern felt</div>
+                    <div class="addclick btn btn-secondary">@localizer.Get("Add field")</div>
+                                       <div class="removeclick btn btn-secondary">@localizer.Get("Remove field")</div>
                 </div>
                 
 
@@ -167,7 +196,7 @@
         <div class="col-12">
 
             <div class="d-flex justify-content-center">
-                <h3>Angiv hvilke dage denne plan skal være gældene for</h3>
+                 <h3>@localizer.Get("Select which days this plan should be allowed to be booked on")</h3>
             </div>
         </div>
     </div>
@@ -180,7 +209,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="monday">
                     <label class="form-check-label">
-                        Mandag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Monday) 
                     </label>
                 </div>
             }
@@ -189,7 +218,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="monday">
                     <label class="form-check-label">
-                        Mandag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Monday) 
                     </label>
                 </div>
             }
@@ -199,7 +228,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="tuesday">
                     <label class="form-check-label">
-                        Tirsdag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Tuesday) 
                     </label>
                 </div>
             }
@@ -208,7 +237,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="tuesday">
                     <label class="form-check-label">
-                        Tirsdag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Tuesday) 
                     </label>
                 </div>
             }
@@ -217,7 +246,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="wednesday">
                     <label class="form-check-label">
-                        Onsdag
+                    @culture.DateTimeFormat.GetDayName(DayOfWeek.Wednesday) 
                     </label>
                 </div>
             }
@@ -226,7 +255,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="wednesday">
                     <label class="form-check-label">
-                        Onsdag
+                          @culture.DateTimeFormat.GetDayName(DayOfWeek.Wednesday) 
                     </label>
                 </div>
             }
@@ -235,7 +264,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="thursday">
                     <label class="form-check-label">
-                        Torsdag
+                          @culture.DateTimeFormat.GetDayName(DayOfWeek.Thursday) 
                     </label>
                 </div>
             }
@@ -244,7 +273,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="thursday">
                     <label class="form-check-label">
-                        Torsdag
+                        @culture.DateTimeFormat.GetDayName(DayOfWeek.Thursday) 
                     </label>
                 </div>
             }
@@ -253,7 +282,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="friday">
                     <label class="form-check-label">
-                        Fredag
+                         @culture.DateTimeFormat.GetDayName(DayOfWeek.Friday) 
                     </label>
                 </div>
             }
@@ -262,7 +291,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="friday">
                     <label class="form-check-label">
-                        Fredag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Friday) 
                     </label>
                 </div>
             }
@@ -271,7 +300,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="saturday">
                     <label class="form-check-label">
-                        Lørdag
+                       @culture.DateTimeFormat.GetDayName(DayOfWeek.Saturday) 
                     </label>
                 </div>
             }
@@ -280,7 +309,7 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="saturday">
                     <label class="form-check-label">
-                        Lørdag
+                          @culture.DateTimeFormat.GetDayName(DayOfWeek.Saturday) 
                     </label>
                 </div>
             }
@@ -289,7 +318,7 @@
                 <div class="form-check">
                     <input checked="checked" class="form-check-input" name="day" type="checkbox" value="sunday">
                     <label class="form-check-label">
-                        Søndag
+                           @culture.DateTimeFormat.GetDayName(DayOfWeek.Sunday) 
                     </label>
                 </div>
             }
@@ -298,13 +327,13 @@
                 <div class="form-check">
                     <input class="form-check-input" name="day" type="checkbox" value="sunday">
                     <label class="form-check-label">
-                        Søndag
+                        @culture.DateTimeFormat.GetDayName(DayOfWeek.Sunday) 
                     </label>
                 </div>
             }
 
 
-            <button asp-page-handler="Update" type="submit" class="btn btn-primary">Opret</button>
+            <button asp-page-handler="Update" type="submit" class="btn btn-primary">@localizer.Get("Update")</button>
 
 
         </div>

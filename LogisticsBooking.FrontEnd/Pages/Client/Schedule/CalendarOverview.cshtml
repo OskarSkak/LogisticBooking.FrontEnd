@@ -3,6 +3,9 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CalendarOverview
 @addTagHelper *, WebOptimizer.Core
 
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
 
 @if (Model.Message != null)
 {
@@ -60,7 +63,7 @@
                             <div class="circle-active">
                                 ?
                             </div>
-                            <span> En eller to planer eksisterer på den dag</span>
+                            <span> @localizer.Get("One or two plans exists on the day")</span>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -68,7 +71,7 @@
                             <div class="circle-inactive">
                                 ?
                             </div>
-                            <span> Der kan ikke bookes på denne dag</span>
+                            <span> @localizer.Get("Bookings cannot be booked this day")</span>
                         </div>
                         
                         
@@ -79,7 +82,7 @@
                             <div class="circle-master">
                                 ?
                             </div>
-                            <span> Blå farve indikerer at der ikke er nogen plan, men hvis der bookes på denne dag bliver standard planen taget i brug</span>
+                            <span> @localizer.Get("Blue color indicates that there is no active plan, but if a booking is made on this day, the master plan will be used")</span>
                         </div>
                                             
                                             
@@ -103,7 +106,7 @@
                             </div>
 
                             <div class="col d-flex justify-content-center">
-                                <div class="circle day">O</div>
+                                <div class="circle day">@localizer.Get("W")</div>
                             </div>
 
                             <div class="col d-flex justify-content-center">
@@ -115,7 +118,7 @@
                             </div>
 
                             <div class="col d-flex justify-content-center">
-                                <div class="circle day">L</div>
+                                <div class="circle day">@localizer.Get("S")</div>
                             </div>
 
                             <div class="col d-flex justify-content-center">
@@ -277,12 +280,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-6">
-                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                <a asp-page="UpdateSchedule" asp-route-culture="@culture" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
                                                                         <table class="table table-sm">
                                                                             <thead>
                                                                             <tr>
-                                                                                <th scope="col">Tider</th>
-                                                                                <th scope="col">Antal Paller</th>
+                                                                              <th scope="col">@localizer.Get("Times")</th>
+                                                                                                                           <th scope="col">@localizer.Get("Number of pallets")</th>
                                 
                                                                             </tr>
                                                                             </thead>
@@ -324,12 +327,12 @@
                             </div>
                         
                             <div class="col-lg-6">
-                                                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[1].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
+                                                                <a asp-page="UpdateSchedule" asp-route-culture="@culture" asp-route-createdBy="@schedules[1].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[1].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[1].Name</a>
                                 <table class="table table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Tider</th>
-                                        <th scope="col">Antal Paller</th>
+                                        <th scope="col">@localizer.Get("Times")</th>
+                                                                                     <th scope="col">@localizer.Get("Number of pallets")</th>
                                                                                                      
                                     </tr>
                                     </thead>
@@ -386,12 +389,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                                                                <a asp-page="UpdateSchedule" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
+                                                                <a asp-page="UpdateSchedule" asp-route-culture="@culture" asp-route-createdBy="@schedules[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@schedules[0].ScheduleId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@schedules[0].Name</a>
                        <table class="table table-sm">
                                          <thead>
                                          <tr>
-                                             <th scope="col">Tider</th>
-                                             <th scope="col">Antal Paller</th>
+                                             <th scope="col">@localizer.Get("Times")</th>
+                                                                                          <th scope="col">@localizer.Get("Number of pallets")</th>
                                                                                       
                                          </tr>
                                          </thead>
@@ -448,12 +451,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                                                                <a asp-page="UpdateScheduleMaster" asp-route-createdBy="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].MasterScheduleStandardId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].Name</a>
+                                                                <a asp-page="UpdateScheduleMaster" asp-route-culture="@culture" asp-route-createdBy="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].CreatedBy" asp-route-date="@date.Date" asp-route-id="@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].MasterScheduleStandardId" class="text-xs font-weight-bold text-primary text-uppercase mb-1">@Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels[0].Name</a>
                        <table class="table table-sm">
                                          <thead>
                                          <tr>
-                                             <th scope="col">Tider</th>
-                                             <th scope="col">Antal Paller</th>
+                                             <th scope="col">@localizer.Get("Times")</th>
+                                             <th scope="col">@localizer.Get("Number of pallets")</th>
                                                                                       
                                          </tr>
                                          </thead>
@@ -488,7 +491,7 @@
                                          </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk Vindue</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@localizer.Get("Close")</button>
                    
                 </div>
             </div>

@@ -14,7 +14,7 @@
     <div class="d-sm-flex align-items-center justify-content-end mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <form class="ml-auto" asp-page-handler="ExportExcel" method="post">
-            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Export to Excel</button>
+            <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> @localizer.Get("Export to Excel")</button>
         </form>
            <input readonly="readonly" style="max-width: 240px;" name="custom" type="text" class="date-range ml-3 d-none form-control d-sm-inline-block shadow-sm" /> 
           
@@ -31,7 +31,7 @@
             
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Booking Overview</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@localizer.Get("Booking overview")</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -41,17 +41,18 @@
                                 <thead>
                                 <tr>
                                     <th> </th>
-                                    <th class="bootbox-alert">Dato</th>
-                                    <th>ID</th>
-                                    <th>Paller</th>
-                                    <th>Navn</th>
-                                    <th>Kontakt</th>
-                                    <th>Port</th>
-                                    <th>AnkomstTid</th>
-                                    <th>Faktisk<br/>Ankomst</th>
-                                    <th>Start<br/>Læsning</th>
-                                    <th>Slut<br/>Læsning</th>
-                                    <th>Update</th>
+                                     <th class="border-none" style="font-size: 14px">@localizer.Get("Date")</th>
+                                                                        <th style="font-size: 14px">Booking <br/> ID </th>
+                                                                        <th style="font-size: 14px">@localizer.Get("Pallets")</th>
+                                                                        <th style="font-size: 14px">@localizer.Get("Transporter") <br/>@localizer.Get("Name")  </th>
+                                                                        <th style="font-size: 14px">@localizer.Get("Contact") </th>
+                                                                        <th style="font-size: 14px">Port</th>
+                                                                        <th style="font-size: 14px">@localizer.Get("Arrival")<br/>@localizer.Get("Time")</th>
+                                                                        <th style="font-size: 14px">@localizer.Get("Actually")<br/>@localizer.Get("Arrival")</th>
+                                                                        <th style="font-size: 14px">Start<br/>@localizer.Get("Loading")</th>
+                                                                        <th style="font-size: 14px">@localizer.Get("End")<br/>@localizer.Get("Loading")</th>
+                                    <th style="font-size: 14px"></th>
+                                    
 
                                 </tr>
                                 </thead>
@@ -103,12 +104,22 @@
     
 
 
-
+var language = '@localizer.Get("English")';
+console.log(language);
+var lang = "";
+if (language === 'Danish') {
+    lang = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json";
+}else if (language === 'English') {
+ lang = '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
+}
         
 
 $(function () {
             $.fn.dataTable.moment( 'DD/MM/YYYY' );
        var table = $('#example').DataTable( {
+       "language": {
+                                          "url": lang
+                                      },
            "processing": true,
            "destroy": true,
            "serverSide": false,
@@ -154,17 +165,17 @@ $(function () {
                        
                    }},
                    {"data" : "actualArrival" , render: function(data){
-                        return '<input class="time form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                        return '<p class="">' + moment(data).format("HH:mm") + '</p> '
                    } },
                                                                   
                    {"data" : "startLoading" , render: function(data){
-                                                                    return '<input class="time form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                                                                     return '<p class="">' + moment(data).format("HH:mm") + '</p> '
                                                                }},
                    {"data" : "endLoading" , render: function(data){
-                                                                  return  ' <input  class="time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                                                                  return '<p class="">' + moment(data).format("HH:mm") + '</p> '
                                                              }},
                     {"data" : null , render: function(data){
-                                                                  return  '<Button  class=" btn btn-secondary"  >Rediger</button> </form> '
+                                                                  return  '<Button  class=" btn btn-secondary"  >@localizer.Get("Edit")</button> </form> '
                                                               }},
                    
                    
@@ -251,11 +262,11 @@ $(function () {
                                                               '<thead class="thead-dark">' + 
                                                               '<tr>' + 
                                                               '<td> ID </td>' + 
-                                                               '<td> Kunde  </td>' +
-                                                                  '<td> Kunde tlf  </td>' +
-                                                                '<td> Total pallets </td>' +
-                                                                '<td> Bottom Pallets </td>' +
-                                                                '<td> Comment </td>' +
+      '<td>  @localizer.Get("Kunde") </td>' +
+                                                                  '<td> @localizer.Get("Supplier mobile number")  </td>' +
+                                                                '<td> @localizer.Get("Total pallets")  </td>' +
+                                                                '<td> @localizer.Get("Bottom pallets")  </td>' +
+                                                                '<td> @localizer.Get("Comment") </td>' +
                                                                 '</tr>' + 
                                                                 '</thead>' + 
                                                                 '<tbody>' + 
@@ -299,6 +310,9 @@ $(function() {
               $.fn.dataTable.moment('DD/MM/YYYY');
            
             var table = $('#example').DataTable( {
+            "language": {
+                                               "url": lang
+                                           },
                 "processing": true,
                 "serverSide": false,
                 ordering: true,
@@ -360,7 +374,7 @@ $(function() {
                             return  ' <input  class=" time form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                         }},
                     {"data" : null , render: function(data){
-                            return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >Opdater</button> </form> '
+                            return  '<Button  class=" SubmitButton btn btn-secondary"  type="submit" >@localizer.Get("Edit")</button> </form> '
                         }},
         
         

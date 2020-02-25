@@ -1,4 +1,8 @@
 ﻿
+
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +39,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-page="/Transporter/TDashboard">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-route-culture="@culture" asp-page="/Transporter/TDashboard">
          <div class="sidebar-brand-text font-weight-bold mx-3">LT</div>
       </a>
 
@@ -44,7 +48,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-      <a class="nav-link" asp-page="/Transporter/TDashboard" >
+      <a class="nav-link" asp-route-culture="@culture" asp-page="/Transporter/TDashboard" >
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -54,20 +58,20 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-         Booking
+         @localizer.Get("Booking")
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Bookinger</span>
+          <i class="fas fa-calendar-alt"></i>
+          <span>@localizer.Get("Bookings")</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" asp-page="/Transporter/Booking/BookOrder"  >Opret Booking</a>
-            <a class="collapse-item" asp-route-id="All" asp-page="/Transporter/Bookings"  > Bookinger</a>
-            <a class="collapse-item" asp-page="/Transporter/OldBookings"  >Tidligere Bookinger</a>
+          <a class="collapse-item" asp-route-culture="@culture" asp-page="/Transporter/Booking/BookOrder"  >@localizer.Get("Create booking")</a>
+            <a class="collapse-item" asp-route-culture="@culture" asp-page="/Transporter/Bookings"  > @localizer.Get("Bookings")</a>
+           
             
 
 
@@ -100,39 +104,12 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
+
 
             <!-- Nav Item - Alerts -->
            
@@ -144,22 +121,18 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" asp-page="/Transporter/Profile/ProfileView">
+                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Transporter/Profile/ProfileView">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
+                  @localizer.Get("Profile")
                 </a>
-                <a class="dropdown-item" asp-page="/Client/Settings/SettingsOverview">
+                <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/Settings/SettingsOverview">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
+                  @localizer.Get("Settings")
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
+                 @localizer.Get("Logout")
                 </a>
               </div>
             </li>
@@ -205,15 +178,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+<h5 class="modal-title" id="exampleModalLabel">@localizer.Get("Ready to Leave")?</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-body">@localizer.Get("Select 'Logout' below if you are ready to end your current session")</div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" asp-page="/User/Home" asp-page-handler="Logout">Logout</a>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">@localizer.Get("Close")</button>
+        <a class="btn btn-primary" asp-page="/User/Home" asp-page-handler="Logout">@localizer.Get("Logout")</a>
       </div>
     </div>
   </div>

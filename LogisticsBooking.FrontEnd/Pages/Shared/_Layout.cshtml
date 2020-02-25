@@ -40,7 +40,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center"  asp-page="/Client/Dashboard">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-route-culture="@culture"  asp-page="/Client/Dashboard">
          <div class="sidebar-brand-text font-weight-bold mx-3">LT</div>
       </a>
 
@@ -65,7 +65,7 @@
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
+         <i class="far fa-list-alt"></i>
           <span>@localizer.Get("Plans")</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -83,32 +83,19 @@
       </li>
       
       
-      <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTrans" aria-expanded="true" aria-controls="collapseTrans">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>@localizer.Get("Transporters")</span>
-              </a>
-              <div id="collapseTrans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                  <a class="collapse-item" asp-route-culture="@culture"  asp-page="/Client/Transporters/Transporters"  >@localizer.Get("Transporters")</a>
-                  
-                  
-                </div>
-              </div>
-            </li>
-      
-      
-
+       <hr class="sidebar-divider">
+       <div class="sidebar-heading">
+               @localizer.Get("Bookings")
+            </div>
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
+          <i class="fas fa-calendar-alt"></i>
           <span>@localizer.Get("Bookings")</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-<a class="collapse-item" asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
+<a class="collapse-item" asp-route-culture="@culture"  asp-page="/Client/Bookings/CreateBookingAdmin">Opret Bookning</a>
             <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/BookingOverview">@localizer.Get("Booking overview")</a>
             <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/Bookings/BookingOverviewAdmin">@localizer.Get("Administrate orders")</a>
             <a class="collapse-item" asp-route-culture="@culture" asp-page="/Client/InactiveBooking/InactiveBookingOverview">Inaktive Bookings</a>
@@ -122,10 +109,27 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
+       <div class="sidebar-heading">
+                     @localizer.Get("Transporters")
+                  </div>
+       <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTrans" aria-expanded="true" aria-controls="collapseTrans">
+                      <i class="fas fa-truck"></i>
+                      <span>@localizer.Get("Transporters")</span>
+                    </a>
+                    <div id="collapseTrans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                      <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" asp-route-culture="@culture"  asp-page="/Client/Transporters/Transporters"  >@localizer.Get("Transporters")</a>
+                        
+                        
+                      </div>
+                    </div>
+                  </li>
 
+      <hr class="sidebar-divider">
       <!-- Heading -->
       <div class="sidebar-heading">
-         Ordrer
+         @localizer.Get("Customers ")
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -171,39 +175,12 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
+           
 
               <!-- Nav Item - Messages -->
 
@@ -219,11 +196,11 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Profile/ProfileView">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
+                  @localizer.Get("Profile")
                 </a>
                 <a class="dropdown-item" asp-route-culture="@culture" asp-page="/Client/Settings/SettingsOverview">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
+                  @localizer.Get("Settings")
                 </a>
                 @if (User.IsInRole("admin"))
                 {
@@ -237,7 +214,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
+                  @localizer.Get("Logout")
                 </a>
               </div>
             </li>
@@ -283,15 +260,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">@localizer.Get("Ready to Leave")?</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-body">@localizer.Get("Select 'Logout' below if you are ready to end your current session")</div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" asp-page="/User/Home" asp-page-handler="Logout">Logout</a>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">@localizer.Get("Close")</button>
+        <a class="btn btn-primary" asp-page="/User/Home" asp-page-handler="Logout">@localizer.Get("Logout")</a>
       </div>
     </div>
   </div>

@@ -137,10 +137,6 @@
     <value>Kunder</value>
   </data>
 
-  <data name="Transporters"   xml:space="preserve">
-    <value>Transportører</value>
-  </data>
-
   <data name="Create Plan"   xml:space="preserve">
     <value>Opret Plan</value>
   </data>
@@ -149,5 +145,470 @@
     <value>Velkommen</value>
   </data>
 
+  <data name="Export to Excel"   xml:space="preserve">
+    <value>Eksporter til excel</value>
+  </data>
 
+  <data name="Date"   xml:space="preserve">
+    <value>Dato</value>
+  </data>
+
+  <data name="Pallets"   xml:space="preserve">
+    <value>Paller</value>
+  </data>
+
+  <data name="Name"   xml:space="preserve">
+    <value>Navn</value>
+  </data>
+
+  <data name="Contact"   xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+
+  <data name="Arrival"   xml:space="preserve">
+    <value>Ankomst</value>
+  </data>
+
+  <data name="Time"   xml:space="preserve">
+    <value>Tid</value>
+  </data>
+
+
+  <data name="Actually"   xml:space="preserve">
+    <value>Faktisk</value>
+  </data>
+
+  <data name="Loading"   xml:space="preserve">
+    <value>Læsning</value>
+  </data>
+
+
+  <data name="End"   xml:space="preserve">
+    <value>Slut</value>
+  </data>
+
+  <data name="Update"   xml:space="preserve">
+    <value>Opdater</value>
+  </data>
+
+  <data name="Supplier mobile number"   xml:space="preserve">
+    <value>Kunde tlf </value>
+  </data>
+  <data name="Total pallets"   xml:space="preserve">
+    <value>Paller totalt</value>
+  </data>
+
+  <data name="Bottom pallets"   xml:space="preserve">
+    <value>Bundpaller</value>
+  </data>
+
+  <data name="Comment"   xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+
+  <data name="English"   xml:space="preserve">
+    <value>Danish</value>
+  </data>
+
+  <data name="Edit"   xml:space="preserve">
+    <value>Rediger</value>
+  </data>
+
+  <data name="Booking from"   xml:space="preserve">
+    <value>Booking fra</value>
+  </data>
+
+  <data name="Update the desired information by edit in the fields and click 'update'"   xml:space="preserve">
+    <value>Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater</value>
+  </data>
+  <data name="Delivery date"   xml:space="preserve">
+    <value>Leveringsdato</value>
+  </data>
+
+  <data name="Actually arrival"   xml:space="preserve">
+    <value>Faktisk ankomst</value>
+  </data>
+
+  <data name="Start loading"   xml:space="preserve">
+    <value>Start læsning</value>
+  </data>
+
+  <data name="End loading"   xml:space="preserve">
+    <value>Slut læsning</value>
+  </data>
+
+  <data name="Delete"   xml:space="preserve">
+    <value>Slet</value>
+  </data>
+
+  <data name="Order on booking"   xml:space="preserve">
+    <value>Ordrer på booking</value>
+  </data>
+
+  <data name="Reference number"   xml:space="preserve">
+    <value>Referencenummer</value>
+  </data>
+
+  <data name="Order"   xml:space="preserve">
+    <value>Ordre</value>
+  </data>
+
+  <data name="Delete booking"   xml:space="preserve">
+    <value>Slet booking</value>
+  </data>
+
+  <data name="You are about to delete this booking. This is a permanently action. Click 'confirm' to continue with this action"   xml:space="preserve">
+    <value>Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere</value>
+  </data>
+
+  <data name="Confirm"   xml:space="preserve">
+    <value>Bekræft</value>
+  </data>
+
+  <data name="Close"   xml:space="preserve">
+    <value>Luk</value>
+  </data>
+
+
+  <data name="Create booking"   xml:space="preserve">
+    <value>Opret booking</value>
+  </data>
+
+  <data name="In/Out"   xml:space="preserve">
+    <value>Indgående/Udgående</value>
+  </data>
+
+  <data name="Choose a customer"   xml:space="preserve">
+    <value>Vælg en kunde</value>
+  </data>
+
+  <data name="Choose a transporter"   xml:space="preserve">
+    <value>Vælg en transportør</value>
+  </data>
+
+  <data name="Customer number"   xml:space="preserve">
+    <value>Kunde nummer</value>
+  </data>
+
+  <data name="Order number"   xml:space="preserve">
+    <value>Ordre nummer</value>
+  </data>
+  
+
+  <data name="Delete Order"   xml:space="preserve">
+    <value>Slet ordre</value>
+  </data>
+
+
+  <data name="The following times is available"   xml:space="preserve">
+    <value>Følgende tider er ledige</value>
+  </data>
+
+  <data name="Inactive bookings"   xml:space="preserve">
+    <value>Inaktive bookinger</value>
+  </data>
+
+  <data name="Go to"   xml:space="preserve">
+    <value>Gå til</value>
+  </data>
+
+
+
+  <data name="Create as active booking"   xml:space="preserve">
+    <value>Opret som Aktiv Booking</value>
+  </data>
+
+  <data name="Order from"   xml:space="preserve">
+    <value>Ordre fra</value>
+  </data>
+
+  <data name="One or two plans exists on the day"   xml:space="preserve">
+    <value>En eller to planer eksisterer på den dag</value>
+  </data>
+
+
+  <data name="Bookings cannot be booked this day"   xml:space="preserve">
+    <value>Der kan ikke bookes på denne dag</value>
+  </data>
+
+
+
+  <data name="Blue color indicates that there is no active plan, but if a booking is made on this day, the master plan will be used"   xml:space="preserve">
+    <value>Blå farve indikerer at der ikke er nogen plan, men hvis der bookes på denne dag bliver standard planen taget i brug</value>
+  </data>
+
+  <data name="W"   xml:space="preserve">
+    <value>O</value>
+  </data>
+
+  <data name="S"   xml:space="preserve">
+    <value>L</value>
+  </data>
+
+  <data name="Input total pallets for all intervals"   xml:space="preserve">
+    <value>Angiv antal bundpaller for alle intervaller</value>
+  </data>
+
+  <data name="Input the name of the plan"   xml:space="preserve">
+    <value>Angiv navnet for planen</value>
+  </data>
+
+  <data name="Update existing plan"   xml:space="preserve">
+    <value>Opdater eksisterende plan</value>
+  </data>
+
+
+  <data name="Show/Hide"   xml:space="preserve">
+    <value>Vis/Skjul</value>
+  </data>
+
+
+  <data name="Remove field"   xml:space="preserve">
+    <value>Fjern felt</value>
+  </data>
+
+  <data name="Add field"   xml:space="preserve">
+    <value>Tilføj felt</value>
+  </data>
+
+  <data name="Select which days this plan should be allowed to be booked on"   xml:space="preserve">
+    <value>Angiv hvilke dage det skal være muligt at lave en booking på denne plan</value>
+  </data>
+
+
+  <data name="Night plans"   xml:space="preserve">
+    <value>Nat planer</value>
+  </data>
+
+  <data name="Day plans"   xml:space="preserve">
+    <value>Dag planer</value>
+  </data>
+
+  <data name="Active"   xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+
+  <data name="Make active"   xml:space="preserve">
+    <value>Gør aktiv</value>
+  </data>
+
+  <data name="Make inactive"   xml:space="preserve">
+    <value>Gør inaktiv</value>
+  </data>
+
+  <data name="Make inactive"   xml:space="preserve">
+    <value>Gør inaktiv</value>
+  </data>
+
+
+  <data name="Start time"   xml:space="preserve">
+    <value>Starttid</value>
+  </data>
+
+  <data name="End time"   xml:space="preserve">
+    <value>Sluttid</value>
+  </data>
+
+  <data name="Create new plan"   xml:space="preserve">
+    <value>Opret ny plan</value>
+  </data>
+
+  <data name="Create new customer"   xml:space="preserve">
+    <value>Opret ny kunde</value>
+  </data>
+
+  <data name="A list of all customers, click to edit a customer"   xml:space="preserve">
+    <value>En liste over alle kunder, klik for at ændre en kunde</value>
+  </data>
+
+
+
+  <data name="Start delivery"   xml:space="preserve">
+    <value>Start levering</value>
+  </data>
+
+  <data name="End delivery"   xml:space="preserve">
+    <value>Slut levering</value>
+  </data>
+
+  <data name="Existing customer"   xml:space="preserve">
+    <value>Eksisterende kunde</value>
+  </data>
+
+  <data name="Update informations by changing the values"   xml:space="preserve">
+    <value>Opdater informationer ved at udskifte de genererede værdier i felterne under</value>
+  </data>
+
+  <data name="Customer name"   xml:space="preserve">
+    <value>Kundenavn</value>
+  </data>
+
+  <data name="New Customer"   xml:space="preserve">
+    <value>Ny kunde</value>
+  </data>
+
+
+
+  <data name="Click on a name to edit the transporter"   xml:space="preserve">
+    <value>Klik på en transportør for at redigerer den</value>
+  </data>
+
+
+
+  <data name="Create Transporter"   xml:space="preserve">
+    <value>Opret transportør</value>
+  </data>
+
+
+
+  <data name="Address"   xml:space="preserve">
+    <value>Addresse</value>
+  </data>
+
+  <data name="Telephone number"   xml:space="preserve">
+    <value>Telefonnummer</value>
+  </data>
+
+  <data name="Existing transporter"   xml:space="preserve">
+    <value>Eksisterende transportør</value>
+  </data>
+
+
+  <data name="Add"   xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+
+  <data name="Remove"   xml:space="preserve">
+    <value>Fjern</value>
+  </data>
+
+
+
+  <data name="All customers"   xml:space="preserve">
+    <value>Alle kunder</value>
+  </data>
+
+  <data name="Active customers"   xml:space="preserve">
+    <value>Aktive kunder</value>
+  </data>
+
+
+  <data name="Ready to Leave"   xml:space="preserve">
+    <value>Klar til at forlade hjemmesiden</value>
+  </data>
+
+
+  <data name="Select 'Logout' below if you are ready to end your current session"   xml:space="preserve">
+    <value>Vælg 'Logud' hvis du er klar til at forlade hjemmesiden</value>
+  </data>
+
+
+  <data name="Profile"   xml:space="preserve">
+    <value>Profil</value>
+  </data>
+
+  <data name="Settings"   xml:space="preserve">
+    <value>indstillinger</value>
+  </data>
+
+
+  <data name="Earlier Bookings"   xml:space="preserve">
+    <value>Tidligere bookinger</value>
+  </data>
+
+  <data name="Delivery day"   xml:space="preserve">
+    <value>Leveringsdag</value>
+  </data>
+  <data name="Delivery time"   xml:space="preserve">
+    <value>Leveringstidspunkt</value>
+  </data>
+
+
+  <data name="Completed"   xml:space="preserve">
+    <value>Gennemført</value>
+  </data>
+
+
+  <data name="Select the delivery date"   xml:space="preserve">
+    <value>Angiv venligst leveringsdatoen i dette felt</value>
+  </data>
+
+
+  <data name="Select how many pallets there are on this booking. Max is 33 pallets"   xml:space="preserve">
+    <value>Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33</value>
+  </data>
+
+
+
+  <data name="New order"   xml:space="preserve">
+    <value>Ny ordre</value>
+  </data>
+
+
+
+
+
+  <data name="Total pallets"   xml:space="preserve">
+    <value>Paller i alt</value>
+  </data>
+
+
+  <data name="In"   xml:space="preserve">
+    <value>Ind</value>
+  </data>
+
+
+  <data name="Out"   xml:space="preserve">
+    <value>Ud</value>
+  </data>
+
+
+  <data name="Add order"   xml:space="preserve">
+    <value>Tilføj ordre</value>
+  </data>
+
+  <data name="Edit Order"   xml:space="preserve">
+    <value>Rediger ordre</value>
+  </data>
+
+
+  <data name="Update order"   xml:space="preserve">
+    <value>Opdater ordre</value>
+  </data>
+
+
+  <data name="Number of bottom pallets"   xml:space="preserve">
+    <value>Antal bundpaller</value>
+  </data>
+
+
+  <data name="The booking is completed"   xml:space="preserve">
+    <value>Bookingen er gennemført</value>
+  </data>
+
+
+  <data name="You will recieve an email with all the details"   xml:space="preserve">
+    <value>Der vil blive sendt en email med alle detaljer</value>
+  </data>
+
+
+  <data name="Deliveries today"   xml:space="preserve">
+    <value>Leveringer idag</value>
+  </data>
+
+  <data name="Select the delivery day"   xml:space="preserve">
+    <value>Angiv leveringsdagen</value>
+  </data>
+
+  <data name="Create order"   xml:space="preserve">
+    <value>Opret ordre</value>
+  </data>
+
+  <data name="Miscellaneous pallets"   xml:space="preserve">
+    <value>Diverse paller</value>
+  </data>
+
+
+  
+  
 </root>

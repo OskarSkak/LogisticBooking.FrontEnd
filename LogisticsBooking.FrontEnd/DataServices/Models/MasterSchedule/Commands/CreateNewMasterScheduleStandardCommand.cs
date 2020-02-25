@@ -12,7 +12,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands
         public Guid MasterScheduleStandardId { get; set; }
         
         public Guid CreatedBy { get; set; }
-        public int MischellaneousPallets { get; set; }
+        
         public Shift Shifts { get; set; }
         public string Name { get; set; }
         

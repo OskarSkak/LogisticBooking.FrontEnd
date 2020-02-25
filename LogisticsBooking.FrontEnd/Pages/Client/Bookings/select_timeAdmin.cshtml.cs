@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -81,7 +82,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             if (result.IsSuccesfull)
             {
                 Message = "Bookingen er oprettet";
-                return new RedirectToPageResult("/Client/Dashboard"); 
+                return new RedirectToPageResult("/Client/Dashboard" ,new {culture = CultureInfo.CurrentCulture.Name}); 
             }
 
             ErrorMessage = "Der skete en fejl, prøv igen";

@@ -15,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
         public bool IsBooked { get; set; }
         public int BottomPallets { get; set; }
         public int RemainingPallets { get; set; }
-        
+        public int MiscellaneousPallets { get; set; }
         
         
         // ************************************* Relations ******************************
@@ -28,7 +28,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
 
         public void CreateMappings(Profile configuration)
         {
-            configuration.CreateMap<IntervalViewModel, MasterIntervalStandardViewModel>();
+            
         }
     }
 }

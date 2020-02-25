@@ -5,6 +5,8 @@
 
 @{
     Layout = "_Layout_Transporter";
+    var culture = CultureInfo.CurrentCulture.Name;
+
 }
 
 <style xmlns="http://www.w3.org/1999/html">
@@ -35,7 +37,7 @@ border-bottom: 1px solid #dee2e6;
                 <div class="md-step-circle">
                     <span></span><i class="fas fa-check"></i>
                 </div>
-                <div class="md-step-title">Leveringsdag</div>
+       <div class="md-step-title">@localizer.Get("Delivery day")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -43,7 +45,7 @@ border-bottom: 1px solid #dee2e6;
                 <div class="md-step-circle">
                     <span></span><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i>
                 </div>
-                <div class="md-step-title">Opret Ordrer</div>
+<div class="md-step-title">@localizer.Get("Create order")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -51,7 +53,7 @@ border-bottom: 1px solid #dee2e6;
                 <div class="md-step-circle">
                     <span>3</span>
                 </div>
-                <div class="md-step-title">Leveringstidspunkt</div>
+                <div class="md-step-title">@localizer.Get("Delivery time")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -59,7 +61,7 @@ border-bottom: 1px solid #dee2e6;
                 <div class="md-step-circle">
                     <span>4</span>
                 </div>
-                <div class="md-step-title">Gennemført</div>
+                <div class="md-step-title">@localizer.Get("Completed")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -74,16 +76,16 @@ border-bottom: 1px solid #dee2e6;
             <div class="col">
                 <div class="py-4">
                     <div>
-                        <h2 class="">Booking Oversigt</h2>
-                        <small class="d-block">Leveringsdag @Model.BookingViewModel.BookingTime.ToString("d MMMM") </small>
+                        <h2 class="">@localizer.Get("Booking overview")</h2>
+                        <small class="d-block">@localizer.Get("Delivery date") @Model.BookingViewModel.BookingTime.ToString("d MMMM") </small>
                         <small class="d-block">Booking ID<strong> @Model.BookingViewModel.ExternalId </strong> </small>
                         @if (@Model.BookingViewModel.PalletsCurrentlyOnBooking > @Model.BookingViewModel.TotalPallets)
                         {
-                            <small class="text-danger">Paller @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
+                            <small class="text-danger">@localizer.Get("Pallets") @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
                         }
                         else
                         {
-                            <small>Paller @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
+                            <small>@localizer.Get("Pallets") @Model.BookingViewModel.PalletsCurrentlyOnBooking / @Model.BookingViewModel.TotalPallets</small>
                         }
 
                     </div>
@@ -99,7 +101,7 @@ border-bottom: 1px solid #dee2e6;
                 <div class="d-flex justify-content-end m-3 ">
                     <button type="button" class="btn btn-lg btn-success" data-toggle="modal"
                             data-target="#exampleModal">
-                        New Order
+                        @localizer.Get("New order")
                     </button>
                 </div>
 
@@ -113,11 +115,11 @@ border-bottom: 1px solid #dee2e6;
             <table class="table table-hover ">
                 <thead>
                 <tr>
-                    <th scope="col">Ordre ID</th>
-                    <th scope="col">Ordre Nummer</th>
-                    <th scope="col">Leverandør</th>
-                    <th scope="col">Bundpaller</th>
-                    <th scope="col">Paller i alt</th>
+                    <th scope="col">@localizer.Get("Order") ID</th>
+                    <th scope="col">@localizer.Get("Order number")</th>
+                    <th scope="col">@localizer.Get("Supplier")</th>
+                    <th scope="col">@localizer.Get("Bottom pallets")</th>
+                    <th scope="col">@localizer.Get("Total pallets")</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -135,7 +137,7 @@ border-bottom: 1px solid #dee2e6;
                             <td>@orderViewModel.BottomPallets</td>
                             <td>@orderViewModel.TotalPallets</td>
                             <td class="d-flex">
-                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-secondary">Edit</button>
+                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-secondary">@localizer.Get("Edit")</button>
                             
                                 <form method="post">
                                     <input type="hidden" asp-for="@orderViewModel.ExternalId"/>
@@ -155,9 +157,9 @@ border-bottom: 1px solid #dee2e6;
         </div>
         @if (Model.BookingViewModel.PalletsRemaining == 0)
         {
-            <div class="row d-flex justify-content-center">
+            <div class="mb-5 row d-flex justify-content-center">
                 <form method="get">
-                    <button type="submit" asp-page="/Transporter/Booking/select_time" class="btn btn-success">Bekræft Booking</button>
+                    <button type="submit" asp-route-culture="@culture"  asp-page="/Transporter/Booking/select_time" class="btn btn-success">@localizer.Get("Confirm") Booking</button>
                 </form>
             </div>
         }
@@ -178,7 +180,7 @@ border-bottom: 1px solid #dee2e6;
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New Order</h5>
+                <h5 class="modal-title">@localizer.Get("New order")</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -190,10 +192,10 @@ border-bottom: 1px solid #dee2e6;
 
 
                         <div class="input-group mt-3">
-                            <label class="w-100">Leverandør</label>
+                            <label class="w-100">@localizer.Get("Supplier")</label>
                             <select class="form-control" asp-for="OrderViewModel.SupplierViewModel.SupplierId" asp-items="@Model.Suppliers"></select>
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
                             </div>
@@ -201,10 +203,10 @@ border-bottom: 1px solid #dee2e6;
 
 
                         <div class="input-group mt-3">
-                            <label class="w-100">Bundpaller</label>
-                            <input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="Antal Paller">
+                            <label class="w-100">@localizer.Get("Bopttom pallets")</label>
+                            <input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="@localizer.Get("Number of pallets")">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
                             </div>
@@ -213,10 +215,10 @@ border-bottom: 1px solid #dee2e6;
 
 
                         <div class="input-group mt-3">
-                            <label class="w-100">Pallern totalt</label>
-                            <input asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller">
+                            <label class="w-100">@localizer.Get("Total pallets")</label>
+                            <input asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="@localizer.Get("Number of bottom pallets")">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
                             </div>
@@ -225,10 +227,10 @@ border-bottom: 1px solid #dee2e6;
 
 
                         <div class="input-group mt-3">
-                            <label class="w-100">Ordre referencenummer </label>
-                            <input asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr">
+                            <label class="w-100">@localizer.Get("Reference number") </label>
+                            <input asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="@localizer.Get("Reference number")">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
 
@@ -238,10 +240,10 @@ border-bottom: 1px solid #dee2e6;
 
 
                         <div class="input-group mt-3">
-                            <label class="w-100">Kommentar</label>
+                            <label class="w-100">@localizer.Get("Comment")</label>
                             <textarea  asp-for="OrderViewModel.Comment" class="form-control"></textarea>
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
                             </div>
@@ -252,11 +254,11 @@ border-bottom: 1px solid #dee2e6;
                         <div class="input-group mt-3 mb-3">
                             <label class="w-100">Type</label>
                             <select class="form-control" asp-for="OrderViewModel.InOut">
-                                <option value="Ind">Ind</option> <option value="Ud">Ud</option>
+                                <option value="Ind">@localizer.Get("In")</option> <option value="Ud">@localizer.Get("Out")</option>
                             </select>
 
                             <div class="input-group-prepend">
-                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="">
                                     <i class="fas fa-question"></i>
                                 </span>
                             </div>
@@ -265,7 +267,7 @@ border-bottom: 1px solid #dee2e6;
 
                     </div>
                     <div class="modal-footer">
-                        <button asp-page-handler="CreateOrder" type="submit" class="btn btn-success">Tilføj ordre</button>
+                        <button  asp-page-handler="CreateOrder" type="submit" class="btn btn-success">@localizer.Get("Add order")</button>
                     </div>
                 </form>
             </div>
@@ -283,7 +285,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Order</h5>
+                    <h5 class="modal-title">@localizer.Get("Edit Order")</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -293,7 +295,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
                         <div class="container-fluid">
 
                             <div class="input-group mt-3">
-                                <label class="w-100">Leverandør</label>
+                                <label class="w-100">@localizer.Get("Supplier")</label>
                                 <select class="form-control" asp-for="OrderViewModel.SupplierViewModel.SupplierId" asp-items="@Model.Suppliers"></select>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" data-toggle="popover" title="Leverandør" data-content="Angiv leverandør">
@@ -304,7 +306,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
 
 
                             <div class="input-group mt-3">
-                                <label class="w-100">Bundpaller</label>
+                                <label class="w-100">@localizer.Get("Bottom pallets")</label>
                                 <input value="@order.BottomPallets" asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="Antal Paller">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på Ordren. Max antal paller er 33">
@@ -316,7 +318,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
 
 
                             <div class="input-group mt-3">
-                                <label class="w-100">Pallern totalt</label>
+                                <label class="w-100">@localizer.Get("Total pallets")</label>
                                 <input value="@order.TotalPallets" asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" data-toggle="popover" title="Paller i Alt" data-content="Angiv hvor mange paller der er ialt på ordren. Én bundpalle plads kan godt indeholde flere paller">
@@ -328,7 +330,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
 
 
                             <div class="input-group mt-3">
-                                <label class="w-100">Ordre referencenummer </label>
+                                <label class="w-100">@localizer.Get("Reference number") </label>
                                 <input value="@order.OrderNumber" asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" data-toggle="popover" title="Ordrereference" data-content="Angiv venligst ordrereferencenummer til ordren">
@@ -341,7 +343,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
 
 
                             <div class="input-group mt-3">
-                                <label class="w-100">Kommentar</label>
+                                <label class="w-100">@localizer.Get("Comment")</label>
                                 <textarea  name="comment" id="comment"  class="form-control">@order.Comment </textarea>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" data-toggle="popover" title="Kommentar" data-content="Angiv en kommentar til ordren. Dette er valgfrit">
@@ -355,7 +357,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
                             <div class="input-group mt-3 mb-3">
                                 <label class="w-100">Type</label>
                                 <select class="form-control" asp-for="OrderViewModel.InOut">
-                                    <option value="Ind">Ind</option> <option value="Ud">Ud</option>
+                                    <option value="Ind">@localizer.Get("In")</option> <option value="Ud">@localizer.Get("Out")</option>
                                 </select>
 
                                 <div class="input-group-prepend">
@@ -369,7 +371,7 @@ foreach (var order in Model.BookingViewModel.OrdersListViewModel)
                         </div>
                         <div class="modal-footer">
 
-                            <button asp-page-handler="EditOrder" type="submit" class="btn btn-success">Opdate order</button>
+                            <button  asp-page-handler="EditOrder" asp-route-culture="@culture" type="submit" class="btn btn-success">@localizer.Get("Update order")</button>
 
 
                         </div>

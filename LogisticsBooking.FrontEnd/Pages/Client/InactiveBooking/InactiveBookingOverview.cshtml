@@ -5,16 +5,20 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.InactiveBooking.InactiveBookingOverviewModel
 @inject IAntiforgery AntiForgery;
 
-<h1>Inaktive Bookings</h1>
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
+
+<h1>@localizer.Get("Inactive bookings")</h1>
 <table id="example" class="display" style="width:100%">
     <thead>
     <tr>
-        <th>Booking tidspunkt</th>
-        <th>Paller</th>
-        <th>Transportør</th>
-        <th>Id</th>
-        <th>Slet</th>
-        <th>Gå til</th>
+         <th>@localizer.Get("Date")</th>
+        <th>@localizer.Get("Pallets")</th>
+        <th >@localizer.Get("Transporter") <br/>@localizer.Get("Name")  </th>
+        <th>Booking Id</th>
+        <th>@localizer.Get("Delete")</th>
+        <th>@localizer.Get("Go to")</th>
     </tr>
     </thead>
     <tbody>
@@ -31,7 +35,7 @@
                 </form>
             </td>
             <td>
-                <a asp-page="./InactiveBookingSingle" asp-route-id="@booking.InternalId" class="btn btn-primary"><i class="fas fa-angle-right"></i></a>
+                <a asp-route-culture="@culture"  asp-page="./InactiveBookingSingle" asp-route-id="@booking.InternalId" class="btn btn-primary"><i class="fas fa-angle-right"></i></a>
             </td>
         </tr>
     }
@@ -44,11 +48,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script>
+    
+    var language = '@localizer.Get("English")';
+    console.log(language);
+    var lang = "";
+    if (language === 'Danish') {
+        lang = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json";
+    }else if (language === 'English') {
+     lang = '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
+    }
+            
+    
         $(function() {
             $("#example").DataTable({
                 "columnDefs": [
                     { "width": "6%", "targets": [1, 4, 5] }
-                ]
+                ],
+                "language": {
+                                       "url": lang
+                                   },
+                                   
             });
         });
 

@@ -23,32 +23,32 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto col-lg-6 col-10">
-                <h1>Eksisterende Transportør</h1>
-                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                <h1>@localizer.Get("Existing transporter")</h1>
+                <p class="mb-3">@localizer.Get("Update the desired information by edit in the fields and click 'update'")</p>
                 <form method="post" class="text-left">
                     <div class="form-group"> 
-                        <label for="form16">Firma</label>
+                        <label for="form16">@localizer.Get("Name")</label>
                         <input asp-for="TransporterViewModel.Name" class="form-control" />
                         
                     </div>
                     <input type="hidden" asp-for="TransporterViewModel.TransporterId"/>
                     <div class="form-group"> <label for="form18">Email</label> <input asp-for="TransporterViewModel.Email" type="email" class="form-control" id="form18"  > </div>
-                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="TransporterViewModel.Address" class="form-control" id="form18" > </div>
-                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="TransporterViewModel.Telephone" class="form-control" id="form18"  > </div>
+                    <div class="form-group"> <label for="form18">@localizer.Get("Address")</label> <input asp-for="TransporterViewModel.Address" class="form-control" id="form18" > </div>
+                    <div class="form-group"> <label for="form18">@localizer.Get("Telephone number")</label> <input asp-for="TransporterViewModel.Telephone" class="form-control" id="form18"  > </div>
                     
                     <div class="form-group">
                         <div class="row">
                             <div class="col-5">
-                                <label>Aktive Kunder</label>
+                                <label> @localizer.Get("Active customers")</label>
                                 <select class="form-control" asp-for="ActiveSelectedSupplier" asp-items="Model.ActiveTransportersSelectList"></select>
                             </div>
                             <div class="col-2 ">
                                 
-                                <button asp-page-handler="AddSupplier" class=" mt-5 m-2 btn btn-primary btn-sm">Tilføj</button>
-                                <button asp-page-handler="RemoveSupplier" class=" m-2 btn btn-primary btn-sm">Fjern</button>
+                                <button asp-page-handler="AddSupplier" class=" mt-5 m-2 btn btn-primary btn-sm">@localizer.Get("Add")</button>
+                                <button asp-page-handler="RemoveSupplier" class=" m-2 btn btn-primary btn-sm">@localizer.Get("Remove")</button>
                             </div>
                             <div class="col-5">
-                                <label>Alle Kunder</label>
+                                 <label> @localizer.Get("All customers")</label>
                                 <select class="form-control" asp-for="SelectedSupplier" asp-items="@Model.SelectList"></select>
                             </div>
                         </div>
@@ -62,10 +62,10 @@
                     </div>
                     
 
-                    <input type="submit" asp-page-handler="Update" class="btn btn-primary"  value="Opdater"/>
+                    <Button type="submit" asp-page-handler="Update" class="btn btn-primary"  >@localizer.Get("Update")</Button>
                  
                 </form>
-                   <!--<button data-toggle="modal" data-target="#popup"  class="btn btn-primary">Slet</button> -->
+          
                 
               
             </div>
@@ -74,29 +74,6 @@
 </div>
 
 
-  <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-            <p class="spaced-typography">Du er ved at slette transportør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-                </div>
-                <div class="modal-footer">
-                    <form asp-page-handler="delete" method="post"> 
-                        <input type="hidden" hidden="hidden" asp-for="@Model.TransporterViewModel.TransporterId"/>
-                        <button type="submit" class="btn btn-primary">Bekræft</button>
-                    </form>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 @section Scripts{

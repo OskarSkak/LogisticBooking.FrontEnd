@@ -28,7 +28,7 @@
                 <div class="md-step-circle">
                     <span></span><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i>
                 </div>
-                <div class="md-step-title">Leveringsdag</div>
+                <div class="md-step-title">@localizer.Get("Delivery day")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="md-step-circle">
                     <span>2</span>
                 </div>
-                <div class="md-step-title">Opret Ordrer</div>
+                <div class="md-step-title">@localizer.Get("Create order")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="md-step-circle">
                     <span>3</span>
                 </div>
-                <div class="md-step-title">Leveringstidspunkt</div>
+                <div class="md-step-title">@localizer.Get("Delivery time")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="md-step-circle">
                     <span>4</span>
                 </div>
-                <div class="md-step-title">Gennemført</div>
+                <div class="md-step-title">@localizer.Get("Completed")</div>
                 <div class="md-step-bar-left"></div>
                 <div class="md-step-bar-right"></div>
             </div>
@@ -69,17 +69,17 @@
                     <div class="input-group mb-3">
                         <input readonly="readonly" type="text"  name="bookingTime"  class="date form-control" placeholder="Leveringsdato">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" data-toggle="popover" title="Leveringsdato" data-content="Angiv venligst leveringsdatoen i dette felt. Format er dd/mm/åååå ">
+                            <span class="input-group-text" data-toggle="popover" title="@localizer.Get("Delivery day")" data-content="@localizer.Get("Select the delivery day")">
                                 <i class="fas fa-question"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="input-group mb-3">
-                        <input asp-for="BookingViewModel.TotalPallets" type="number" class="form-control" placeholder="Bundpaller"/>
+                        <input asp-for="BookingViewModel.TotalPallets" type="number" class="form-control" placeholder="@localizer.Get("Bottom pallets")"/>
 
                         <div class="input-group-prepend">
-                            <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                            <span class="input-group-text" data-toggle="popover" title="@localizer.Get("Bottom pallets")" data-content="@localizer.Get("Select how many pallets there are on this booking. Max is 33 pallets")">
                                 <i class="fas fa-question"></i>
                             </span>
                         </div>
@@ -87,7 +87,7 @@
                     <span asp-validation-for="BookingViewModel.TotalPallets" class="text-danger small"></span>
 
                     <div class="form-group d-flex justify-content-center">
-                        <button type="submit" class="btn btn-lg btn-success">Bekræft</button>
+                        <button type="submit" class="btn btn-lg btn-success">@localizer.Get("Confirm")</button>
 
                     </div>
 

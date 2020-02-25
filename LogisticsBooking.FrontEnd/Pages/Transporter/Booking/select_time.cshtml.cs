@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -48,7 +49,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var currentLoggedInUserId = GetLoggedInUserId();
 
             // Get the current booking View Model from the session created at previous page
-            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
+            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>("booking");
 
             
             // remove the intervals that does not overlap with the suppliers time range. 
@@ -73,7 +74,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var currentLoggedInUserId = GetLoggedInUserId();
 
             // Get the current booking View Model from the session created at previous page
-            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
+            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>("booking");
             
 
             var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);
@@ -84,7 +85,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             if (result.IsSuccesfull)
             {
-                return RedirectToPage("confirm"); 
+                return RedirectToPage("confirm" , new {culture = CultureInfo.CurrentCulture.Name}); 
             }
 
             ErrorMessage = "Der skete en fejl, prøv igen";

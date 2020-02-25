@@ -7,31 +7,31 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto col-lg-6 col-10">
-                <h1>Eksisterende kunde</h1>
-                <p class="mb-3">Opdater informationer ved at udskifte de genererede værdier i felterne under</p>
+                <h1>@localizer.Get("Existing customer")</h1>
+                <p class="mb-3">@localizer.Get("Update informations by changing the values")</p>
                 <form method="post" class="text-left">
                     <div class="form-group">
-                        <label for="form16">Kundenavn</label> <input asp-for="@Model.SupplierViewModel.Name" type="text" class="form-control"  >
+                        <label for="form16">@localizer.Get("Customer name")</label> <input asp-for="@Model.SupplierViewModel.Name" type="text" class="form-control"  >
                         <span asp-validation-for="SupplierViewModel.Name"></span>
                     </div>
                     
                     <div class="form-group">
-                        <label for="form18">Kontakt</label> <input asp-for="@Model.SupplierViewModel.Email" type="email" class="form-control"  >
+                        <label for="form18">@localizer.Get("Contact")</label> <input asp-for="@Model.SupplierViewModel.Email" type="email" class="form-control"  >
                     </div>
 
                     <div class="form-group">
-                        <label for="form19">Leveringstidspunkt start</label> <input asp-for="@Model.SupplierViewModel.DeliveryStart" type="time" class="form-control"  >
+                        <label for="form19">@localizer.Get("Start delivery")</label> <input asp-for="@Model.SupplierViewModel.DeliveryStart" type="time" class="form-control"  >
                     </div>
 
 
                     <div class="form-group">
-                        <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="@Model.SupplierViewModel.DeliveryEnd" type="time" class="form-control">
+                        <label for="form20">@localizer.Get("End delivery")</label> <input asp-for="@Model.SupplierViewModel.DeliveryEnd" type="time" class="form-control">
                     </div>
                         <input type="hidden" asp-for="@Model.SupplierViewModel.SupplierId"/>
 
-                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                    <Button type="submit" asp-page-handler="Update" class="btn btn-primary">@localizer.Get("Update")</Button>
                 </form>
-                <button data-toggle="modal" data-target="#popup" class="btn btn-primary">Slet</button>
+                <button data-toggle="modal" data-target="#popup" class="btn btn-primary">@localizer.Get("Delete")</button>
             </div>
         </div>
     </div>
@@ -43,17 +43,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@localizer.Get("Delete booking")</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+                <p class="spaced-typography">@localizer.Get("You are about to delete this booking. This is a permanently action. Click 'confirm' to continue with this action")</p>
             </div>
             <div class="modal-footer">
                 <form asp-page-handler="delete" method="post">
-                    <button type="submit" class="btn btn-primary">Bekræft</button>
+                    <button type="submit" class="btn btn-primary">@localizer.Get("Confirm")</button>
                 </form>
 
             </div>

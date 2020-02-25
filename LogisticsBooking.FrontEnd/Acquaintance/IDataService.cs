@@ -23,6 +23,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.commands;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Queries;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Validation;
@@ -31,6 +32,7 @@ using OrderViewModel = LogisticsBooking.FrontEnd.DataServices.Models.OrderViewMo
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
 {
+    
     public interface IBookingDataService
     {
         Task<Response> CreateBooking(CreateBookingCommand booking);
@@ -164,7 +166,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
     public interface ITransporterBookingsDataService
     {
-        Task<BookingsListViewModel> GetOldBookingsByTransporter(Guid TransporterId);
+        Task<BookingsListViewModel> GetBookingsByTransporterBetweenDates(
+            GetBookingsByTransporterBetweenDatesQuery query);
         Task<BookingsListViewModel> GetBookingsByTransporter(Guid TransporterId);
     }
 

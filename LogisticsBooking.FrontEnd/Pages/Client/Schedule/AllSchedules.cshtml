@@ -2,7 +2,9 @@
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.AllSchedules
-
+@{
+  var culture = CultureInfo.CurrentCulture.Name;
+}
 <head>
 
 
@@ -38,16 +40,16 @@
     <div class="row">
         <div class="col">
 
-            <h2 class="text-center">Nat planer</h2>
+            <h2 class="text-center">@localizer.Get("Night plans")</h2>
             <table style="background-color: white;" class="table table-hover" >
                 <thead>
                 <tr>
-                      <th>Navn</th>
-                    <th>Aktiv</th>
+                      <th>@localizer.Get("Name")</th>
+                    <th>@localizer.Get("Active")</th>
                     
-                    <th>Delete</th>
-                    <th>Gør Aktiv</th>
-                    <th>Gør Inaktiv</th>
+                    <th>@localizer.Get("Delete")</th>
+                    <th>@localizer.Get("Make active")</th>
+                     <th>@localizer.Get("Make inactive")</th>
                     
                     
                 </tr>
@@ -60,7 +62,7 @@
                     {
                         <tr>
                             <form id="_@schedule.MasterScheduleStandardId" method="post" >
-                                <td><a asp-page="MasterScheduleSingle" asp-route-id="@schedule.MasterScheduleStandardId" >@schedule.Name</a> </td>
+                                <td><a asp-route-culture="@culture"  asp-page="MasterScheduleSingle" asp-route-id="@schedule.MasterScheduleStandardId" >@schedule.Name</a> </td>
                                 <td>
 
                                    
@@ -79,9 +81,9 @@
 
                                 
                                 </td>
-                                <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn btn-xm  btn-secondary">Delete</button></td>
- <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-xm  btn-secondary">Gør Aktiv</button></td>
- <td><button asp-page-handler="MakeInactive" type="submit" class="btn btn-xm  btn-secondary">Gør Inaktiv</button></td>
+                                    <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn  btn-xm  btn-secondary">@localizer.Get("Delete")</button></td>
+ <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-xm  btn-secondary">@localizer.Get("Make active")</button></td>
+ <td><button asp-page-handler="MakeInactive" type="submit" class="btn btn-xm  btn-secondary">@localizer.Get("Make inactive")</button></td>
     
 
                             </form>
@@ -100,15 +102,16 @@
         </div>
         
         <div class="col">
-            <h2 class="text-center">Dag Planer</h2>
+            <h2 class="text-center">@localizer.Get("Day plans")</h2>
                 <table style="background-color: white;" class="table table-hover" width="60%">
                     <thead>
                     <tr>
-                        <th>Navn</th>
-                        <th>Aktiv</th>
-                        <th>Delete</th>
-                        <th>Gør Aktiv</th>
-                        <th>Gør Inaktiv</th>
+                      <th>@localizer.Get("Name")</th>
+                                         <th>@localizer.Get("Active")</th>
+                                         
+                                         <th>@localizer.Get("Delete")</th>
+                                         <th>@localizer.Get("Make active")</th>
+                                          <th>@localizer.Get("Make inactive")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,7 +122,7 @@
                         {
                             <tr>
                                 <form id="_@schedule.MasterScheduleStandardId" method="post">
-                                <td><a asp-page="MasterScheduleSingle" asp-route-id="@schedule.MasterScheduleStandardId" >@schedule.Name</a> </td>
+                                <td><a asp-route-culture="@culture" asp-page="MasterScheduleSingle" asp-route-id="@schedule.MasterScheduleStandardId" >@schedule.Name</a> </td>
                                     <td>
 
                                    
@@ -138,9 +141,9 @@
 
                                 
                                     </td>
-                                    <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn  btn-xm  btn-secondary">Delete</button></td>
-                                    <td><button asp-page-handler="ChangeActive" type="submit" class="btn  btn-xm  btn-secondary">Gør Aktiv</button></td>
- <td><button asp-page-handler="MakeInactive" type="submit" class="btn btn-xm  btn-secondary">Gør Inaktiv</button></td>
+                                    <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn  btn-xm  btn-secondary">@localizer.Get("Delete")</button></td>
+ <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-xm  btn-secondary">@localizer.Get("Make active")</button></td>
+ <td><button asp-page-handler="MakeInactive" type="submit" class="btn btn-xm  btn-secondary">@localizer.Get("Make inactive")</button></td>
                                 </form>
                             
                             </tr>

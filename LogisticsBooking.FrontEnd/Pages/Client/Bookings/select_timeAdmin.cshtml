@@ -2,7 +2,9 @@
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.select_timeAdmin
 
-
+@{
+  var culture = CultureInfo.CurrentCulture;
+}
 
 @if (Model.ShowErrorMessage)
 {
@@ -14,14 +16,14 @@
 <div class="py-5" style="">
     <div class="container">
         <div class="row">
-            <h2 class="text-center display-center col-md font-weight-bolder">Følgende tider er ledige</h2>
+            <h2 class="text-center display-center col-md font-weight-bolder">@localizer.Get("The following times is available")</h2>
         </div>
         <div class="row">
             <div class="mx-auto p-4 col-lg-8">
                
                 @if (!Model.SchedulesListViewModel.Schedules.Any())
                 {
-                    @:ingen
+                    @:
                 }
 
                 @foreach (var schedule in Model.SchedulesListViewModel.Schedules)
@@ -38,7 +40,7 @@
                                                      <input type="hidden"/>
                                                      <input type="hidden" name="interval" value="@interval.IntervalId">
 
-                                                     <div class="">@interval.StartTime.Value.DayOfWeek.ToString("G")   </div>
+                                                     <div class=""> @culture.DateTimeFormat.GetDayName(interval.StartTime.Value.DayOfWeek)  </div>
                                                  </div>
                                                  
                                                  <div class="col">

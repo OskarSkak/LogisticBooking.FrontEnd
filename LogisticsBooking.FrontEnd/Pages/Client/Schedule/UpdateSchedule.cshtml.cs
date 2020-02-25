@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
@@ -172,10 +173,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             if (result.IsSuccesfull)
             {
-                return new RedirectToPageResult("CalendarOverview");
+                return new RedirectToPageResult("CalendarOverview" , new {culture = CultureInfo.CurrentCulture.Name});
             }
 
-            return new RedirectToPageResult("CalendarOverview");
+            return new RedirectToPageResult("CalendarOverview" , new {culture = CultureInfo.CurrentCulture.Name});
         }
 
 
@@ -196,10 +197,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             if (result.IsSuccesfull)
             {
-                return new RedirectToPageResult("CalendarOverview");
+                return new RedirectToPageResult("CalendarOverview" , new {culture = CultureInfo.CurrentCulture.Name});
             }
             
-            return new RedirectToPageResult("CalendarOverview");
+            return new RedirectToPageResult("CalendarOverview" , new  {culture = CultureInfo.CurrentCulture.Name});
         }
         
         private DateTime CreateDate(DateTime datetime, TimeSpan time )
